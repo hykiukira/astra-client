@@ -1,0 +1,1 @@
+/* * ATextFieldComponent.java * Created on 10 mai 2002, 11:41 */package srcastra.astra.gui.components.textfield2;/** * @author Sébastien */public interface ATextFieldComponent {    public void warning(String erreur);    public void setCorrectInput(boolean correct);    public boolean getVerifAuthorization();    public String getText();}

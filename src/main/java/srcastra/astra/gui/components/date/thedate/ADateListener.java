@@ -1,0 +1,1 @@
+/* * ListSelectorListener.java * * Created on 6 septembre 2002, 10:52 */package srcastra.astra.gui.components.date.thedate;import java.util.EventListener;/** * @author Thomas */public interface ADateListener extends EventListener {    public void dateSmallerThenCurrenTime(ADateEvent evt);}

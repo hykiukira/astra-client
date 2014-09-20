@@ -1,0 +1,2301 @@
+/*
+
+
+
+
+
+
+
+ * VoitureLocation_T.java
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * Created on 10 décembre 2002, 9:15
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package srcastra.astra.sys.classetransfert.dossier.voitureLocation;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.utils.*;
+
+
+
+
+
+
+
+import java.util.Hashtable;
+
+
+
+
+
+
+
+import java.util.ArrayList;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Grpdecision_T;
+
+
+
+
+
+
+
+import srcastra.astra.gui.test.*;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.dossier.brochure.DescriptionLogement_T;
+
+
+
+
+
+
+
+import java.sql.Connection;
+
+
+
+
+
+
+
+import java.sql.ResultSet;
+
+
+
+
+
+
+
+import java.sql.PreparedStatement;
+
+
+
+
+
+
+
+import java.sql.SQLException;
+
+
+
+
+
+
+
+import srcastra.astra.sys .classetransfert.Loginusers_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.rmi.astrainterface;
+
+
+
+
+
+
+
+import srcastra.astra.sys.produit.SupplementReduction;
+
+
+
+import srcastra.astra.sys.rmi.groupe_dec.*;
+
+import srcastra.astra.sys.classetransfert.dossier.*;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * @author  Sébastien
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+public class VoitureLocation_T extends srcastra.astra.sys.classetransfert.dossier.produit_T implements java.io.Serializable,
+
+
+
+
+
+
+
+                                    Cloneable,srcastra.astra.sys.rmi.DossierSql,srcastra.astra.sys.classetransfert.dossier.InterfaceIndivProduit,ProduitSynthese {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    private long vl_cleUnik;
+
+
+
+
+
+
+
+    private String vl_pnr;
+
+
+
+
+
+
+
+    private Date vl_dateDepart;
+
+
+
+
+
+
+
+    private Date vl_dateRetour;
+
+
+
+
+
+
+
+    private float vl_montant;
+
+
+
+
+
+
+
+    private String vl_memo;
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+   // public transient srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage;
+
+
+
+
+
+
+
+    private Date datetimemodif;
+
+
+
+
+
+
+
+    private Date datetimecrea;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+  /*  public void prepareAffichage() {
+
+
+
+
+
+
+
+        String tmp=getGroupdec().getGntvainclusvente()==1?"INC":"N.INC";
+
+
+
+
+
+
+
+        produitaffichage=new srcastra.astra.sys.classetransfert.dossier.ProduitAffichage(this, "B", this.getFrnom(), this.getGroupe_produit_nom(), "","",this.getVl_memo(), 
+
+
+
+
+
+
+
+                                                                                         new Float(vl_montant).floatValue(),getQua(),getPax(),getPrct(),"ok",this.getValeur_tot(),
+
+
+
+
+
+
+
+                                                                                         this.getAt_cleunik(),this.getTypeDeProduitCleunik(), 
+
+
+
+
+
+
+
+                                                                                         getGroupdec().getValeurGenFloat1(),tmp,getValeur_tot_tva_inc());   
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long getAt_cleunik() {
+
+
+
+
+
+
+
+        return vl_cleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void setAt_cleunik(long atCleunik) {
+
+
+
+
+
+
+
+        vl_cleUnik = atCleunik;
+
+
+
+
+
+
+
+        super.setAt_cleunik(atCleunik);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public Object clone()throws CloneNotSupportedException{
+
+
+
+
+
+
+
+       return super.clone(); 
+
+
+
+
+
+
+
+    }                                   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+    /** Creates a new instance of VoitureLocation_T */
+
+
+
+
+
+
+
+    public VoitureLocation_T() {
+        setPax(1);
+        setQua(1);
+        setPrct(100);
+        setTypeDeProduitCleunik(super.VO);
+    }
+     public VoitureLocation_T(boolean sw) {
+        setPax(1);
+        setQua(1);
+        setPrct(100);
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void annulMe(Connection con, PreparedStatement pstmt) throws SQLException{
+        pstmt=con.prepareStatement("UPDATE voiture set annuler=1 WHERE vl_cleunik=?;");
+        pstmt.setLong(1,this.getVl_cleUnik());
+        pstmt.execute();
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void chargeMe(Loginusers_T currentuser, astrainterface serveur, Dossier_T dossier, Connection con, double cledossier, PreparedStatement pstmt) throws SQLException, java.rmi.RemoteException {
+
+
+
+
+
+
+
+                String date=null;
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("SELECT v.vl_cleunik,v.vl_pnr,v.vl_date_depart,v.vl_date_retour,v.vl_statut,v.vl_montant,v.vl_memo,v.vl_datetimemodif,v.vl_datetimecrea,v.longtime,v.dr_cleunik,v.frgtcleunik,v.pourcent,v.pax,v.quantite, h.hevaleur, h.hevaleurbase, h.hevaleurtva,h.helibelle FROM  voiture v,historique2 h WHERE h.lignecleunik=v.vl_cleunik AND h.sn_cleunik=0 AND h.ctprocleunik=6 AND v.dr_cleunik=? AND v.annuler=0 AND h.hedossiercourant='O'");
+
+
+
+
+
+
+
+                pstmt.setInt(1,dossier.getDrcleunik());
+
+
+
+
+
+
+
+                ResultSet result=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result.beforeFirst();
+
+
+
+
+
+
+
+                while(result.next()){ 
+                VoitureLocation_T voiture=new VoitureLocation_T();
+                voiture.setVl_cleUnik(result.getLong(1));
+                voiture.setVl_pnr(result.getString(2));
+
+
+
+
+
+
+
+                voiture.setVl_dateDepart(new Date(result.getString(3)));
+
+
+
+
+ 
+
+
+                voiture.setVl_dateRetour(new Date(result.getString(4)));
+
+
+
+
+ 
+
+
+                voiture.setStatut(result.getInt(5));
+
+
+
+
+
+
+
+                voiture.setAt_val_vente(result.getDouble(6));
+
+
+
+
+
+
+
+                voiture.setVl_memo(result.getString(7));
+
+
+
+
+
+
+
+                voiture.setDatetimecrea(new Date(result.getString(8)));
+
+
+
+
+
+
+
+                voiture.setDatetimemodif(new Date(result.getString(9)));
+
+
+
+
+
+
+
+                voiture.setLongtime(result.getLong(10));
+
+
+
+
+
+
+
+                voiture.setFrgtcleunik(result.getInt(12)); 
+
+
+
+
+
+
+
+                voiture.setPrct(result.getFloat(13));
+
+
+
+
+
+
+
+                voiture.setPax(result.getInt(14));
+
+
+
+
+
+
+
+                voiture.setQua(result.getInt(15));
+
+
+
+
+
+
+
+                voiture.setValeur_tot_tva_inc(-result.getDouble(16));                
+
+
+
+
+
+
+
+                voiture.setValeur_tot(-result.getDouble(17));
+
+
+
+
+
+
+
+                voiture.setMontant_tva(-result.getDouble(18));
+
+
+
+
+
+
+
+                voiture.setLibelleCompta(result.getString(19));
+
+
+
+                GrpRetValue retG=GrpProduitGestion.filGrpDecToProd(serveur,voiture,con,currentuser.getUrcleunik());
+
+
+
+                voiture.setGroupdecBase(retG.getBase());
+
+
+
+                voiture.setGroupdec(retG.getOwn());
+
+
+
+             //   pstmt=con.prepareStatement(CHARGE_GRP_PROD);
+
+
+
+
+
+
+
+              /*  Grpdecision_T tmp=(Grpdecision_T)serveur.ChargeObject(currentuser.getUrlmcleunik(),currentuser.getUrcleunik(),new Long(voiture.getVl_cleUnik()).intValue(),voiture.VO,serveur.COMBO_PRODUITGRPDEC);
+
+
+
+
+
+
+
+                Grpdecision_T tmp2=(Grpdecision_T)serveur.ChargeObject(currentuser.getUrlmcleunik(),currentuser.getUrcleunik(),voiture.getFrgtcleunik(),1,serveur.COMBO_FOURGRPDEC);
+
+
+
+
+
+
+
+                voiture.setGroupdecBase(tmp2);
+
+
+
+
+
+
+
+                if(tmp!=null){
+
+
+
+
+
+
+
+                    tmp.setIsfromProduit(true);
+
+
+
+
+
+
+
+                    voiture.setGroupdec(tmp); 
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                else 
+
+
+
+
+
+
+
+                    voiture.setGroupdec(tmp2);*/
+
+
+
+
+
+                ProduitInfoComplementaire.getInfo(ProduitInfoComplementaire.VO,ProduitInfoComplementaire.VO_FULL,produit_T.VO,currentuser.getLangage(),voiture,con);
+
+          /*     pstmt=con.prepareStatement(CHARGE_GRP_PROD);
+
+
+
+
+
+
+
+                pstmt.setInt(1,voiture.getFrgtcleunik());
+
+
+
+
+
+
+
+                ResultSet result2=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result2.beforeFirst();
+
+
+
+
+
+
+
+                while(result2.next()){
+
+
+
+
+
+
+
+                    voiture.setGroupe_produit_nom(result2.getString(1));
+
+
+
+
+
+
+
+                    voiture.setFrcleunik(result2.getInt(2));
+
+
+
+
+
+
+
+                    voiture.setFrnom(result2.getString(3));
+
+
+
+
+
+
+
+                    voiture.setTypeDeProduitCleunik(voiture.VO);
+
+
+
+
+
+
+
+                    voiture.setTypeDeProduitNom("VO");
+
+
+
+
+
+
+
+                }  */
+
+
+
+
+
+
+
+                  voiture.setDoc(pstmt,con);
+
+
+
+
+
+
+
+                 //chargeConjonction(ticket,pstmt,con);
+
+
+
+
+
+
+
+                 SupplementReduction.chargeSupreduc(voiture,con,pstmt,serveur,currentuser.getUrcleunik()); 
+
+
+
+
+
+
+
+                 dossier.addVoitureLocation(voiture);
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long insertOnlyme(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {
+               String date=null;
+               pstmt=con.prepareStatement("INSERT INTO voiture (vl_pnr,vl_date_depart,vl_date_retour,vl_statut,vl_montant,vl_memo,vl_datetimemodif,vl_datetimecrea,longtime,dr_cleunik,frgtcleunik,pourcent,pax,quantite) VALUES (? ,? ,? ,? ,? ,? ,NOW(), NOW(),? ,? ,? ,? ,? ,?  );");
+               pstmt.setString(1,this.getVl_pnr());  
+               if(getVl_dateDepart()==null) date="0000-00-00 00:00:00"; else date=getVl_dateDepart().toString();
+                pstmt.setString(2,date);
+               if(getVl_dateRetour()==null) date="0000-00-00 00:00:00"; else date=getVl_dateRetour().toString();
+                pstmt.setString(3,date);
+                pstmt.setInt(4,this.getStatut());
+                pstmt.setDouble(5,this.getAt_val_vente());
+                pstmt.setString(6,this.getVl_memo());
+                pstmt.setLong(7,getLongtime());
+                pstmt.setLong(8,new Double(cledossier).longValue());
+                pstmt.setInt(9,getFrgtcleunik());
+                pstmt.setFloat(10,this.getPrct()); 
+                pstmt.setInt(11,this.getPax());
+                pstmt.setInt(12,this.getQua());
+                pstmt.execute();
+                this.setVl_cleUnik(getId(con));   
+                return this.getVl_cleUnik();
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void modifyOnlyMe(Connection con, int cledossier, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+                String date=null;
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("UPDATE voiture set vl_pnr=?,vl_date_depart=?,vl_date_retour=?,vl_statut=?,vl_montant=?,vl_memo=?,vl_datetimemodif=NOW(),frgtcleunik=?,pourcent=?,pax=?,quantite=? WHERE vl_cleunik=?;");
+
+
+
+
+
+
+
+                pstmt.setString(1,this.getVl_pnr());  
+                if(getVl_dateDepart()==null) date="0000-00-00 00:00:00"; else date=getVl_dateDepart().toString();
+                pstmt.setString(2,date);
+                if(getVl_dateRetour()==null) date="0000-00-00 00:00:00"; else date=getVl_dateRetour().toString();
+                pstmt.setString(3,date);
+                pstmt.setInt(4,this.getStatut());
+                pstmt.setDouble(5,this.getAt_val_vente());
+                pstmt.setString(6,this.getVl_memo());
+                pstmt.setInt(7,getFrgtcleunik());
+                pstmt.setFloat(8,this.getPrct()); 
+                pstmt.setInt(9,this.getPax());
+                pstmt.setInt(10,this.getQua());
+                pstmt.setLong(11,this.getVl_cleUnik());
+                pstmt.execute();
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property datetimecrea.
+
+
+
+
+
+
+
+     * @return Value of property datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getDatetimecrea() {
+
+
+
+
+
+
+
+        return datetimecrea;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property datetimecrea.
+
+
+
+
+
+
+
+     * @param datetimecrea New value of property datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setDatetimecrea(srcastra.astra.sys.classetransfert.utils.Date datetimecrea) {
+
+
+
+
+
+
+
+        this.datetimecrea = datetimecrea;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property datetimemodif.
+
+
+
+
+
+
+
+     * @return Value of property datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getDatetimemodif() {
+
+
+
+
+
+
+
+        return datetimemodif;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property datetimemodif.
+
+
+
+
+
+
+
+     * @param datetimemodif New value of property datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setDatetimemodif(srcastra.astra.sys.classetransfert.utils.Date datetimemodif) {
+
+
+
+
+
+
+
+        this.datetimemodif = datetimemodif;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property isattached.
+
+
+
+
+
+
+
+     * @return Value of property isattached.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+    /** Getter for property longtime.
+
+
+
+
+
+
+
+     * @return Value of property longtime.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    /** Getter for property produitaffichage.
+
+
+
+
+
+
+
+     * @return Value of property produitaffichage.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+/*   public srcastra.astra.sys.classetransfert.dossier.ProduitAffichage getProduitaffichage() {
+
+
+
+
+
+
+
+        return produitaffichage;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    public void setProduitaffichage(srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage) {
+
+
+
+
+
+
+
+        this.produitaffichage = produitaffichage;
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_cleUnik.
+
+
+
+
+
+
+
+     * @return Value of property vl_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public long getVl_cleUnik() {
+
+
+
+
+
+
+
+        return vl_cleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_cleUnik.
+
+
+
+
+
+
+
+     * @param vl_cleUnik New value of property vl_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_cleUnik(long vl_cleUnik) {
+
+
+
+
+
+
+
+       setAt_cleunik(vl_cleUnik);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_dateDepart.
+
+
+
+
+
+
+
+     * @return Value of property vl_dateDepart.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getVl_dateDepart() {
+
+
+
+
+
+
+
+        return vl_dateDepart;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_dateDepart.
+
+
+
+
+
+
+
+     * @param vl_dateDepart New value of property vl_dateDepart.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_dateDepart(srcastra.astra.sys.classetransfert.utils.Date vl_dateDepart) {
+
+
+
+
+
+
+
+        this.vl_dateDepart = vl_dateDepart;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_dateRetour.
+
+
+
+
+
+
+
+     * @return Value of property vl_dateRetour.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getVl_dateRetour() {
+
+
+
+
+
+
+
+        return vl_dateRetour;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_dateRetour.
+
+
+
+
+
+
+
+     * @param vl_dateRetour New value of property vl_dateRetour.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_dateRetour(srcastra.astra.sys.classetransfert.utils.Date vl_dateRetour) {
+
+
+
+
+
+
+
+        this.vl_dateRetour = vl_dateRetour;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_memo.
+
+
+
+
+
+
+
+     * @return Value of property vl_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getVl_memo() {
+
+
+
+
+
+
+
+        return vl_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_memo.
+
+
+
+
+
+
+
+     * @param vl_memo New value of property vl_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_memo(java.lang.String vl_memo) {
+
+
+
+
+
+
+
+        this.vl_memo = vl_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_montant.
+
+
+
+
+
+
+
+     * @return Value of property vl_montant.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public float getVl_montant() {
+
+
+
+
+
+
+
+        return vl_montant;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_montant.
+
+
+
+
+
+
+
+     * @param vl_montant New value of property vl_montant.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_montant(float vl_montant) {
+
+
+
+
+
+
+
+        this.vl_montant = vl_montant;
+
+
+
+
+
+
+
+        setAt_val_vente(vl_montant);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_pnr.
+
+
+
+
+
+
+
+     * @return Value of property vl_pnr.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getVl_pnr() {
+
+
+
+
+
+
+
+        return vl_pnr;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property vl_pnr.
+
+
+
+
+
+
+
+     * @param vl_pnr New value of property vl_pnr.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setVl_pnr(java.lang.String vl_pnr) {
+
+
+
+
+
+
+
+        this.vl_pnr = vl_pnr;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property vl_statut.
+
+
+
+
+
+
+
+     * @return Value of property vl_statut.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void chargeDescriptif(Connection con, PreparedStatement pstmt, Dossier_T tmpDossier) throws SQLException {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long insertDescriptif(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+        return 0;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void modifyDescriptif(Connection con, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+    }
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getDateDep() {
+
+        return this.vl_dateDepart;
+
+    }    
+
+
+
+    public String getDestination() {
+
+        return "";
+
+    }    
+
+
+
+    public String getLogement() {
+
+        return "";
+
+    }    
+
+    
+
+    public String getPnr() {
+
+        return this.vl_pnr;
+
+    }    
+
+    public java.util.ArrayList getDestinationArray() {
+        return null;
+    }    
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

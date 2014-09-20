@@ -1,0 +1,1 @@
+/* * ConfigurationOptions.java * * Created on 7 novembre 2002, 12:59 */package srcastra.astra.gui.conf;/** * @author Sébastien */public interface ConfigurationOptions {    public void applyChanges();    public java.awt.Component getComponent();    public srcastra.astra.gui.modules.config.ConfigMediator getMediator();}

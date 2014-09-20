@@ -1,0 +1,1340 @@
+REPORT
+NAME    =Untitled
+ACOUNTER=2
+ORIENTAT=HORIZONTAL
+WIDTH   =29.7
+HEIGHT  =21.0
+LEFT    =0.2
+TOP     =2.0
+TTFFONTS=.\fonts\
+BOTTOM  =2.0
+RIGHT   =0.2
+FRAMEMAR=0.0
+FRAMEHMA=0.0
+BCOLOR  =0xffffff
+IMFORMAT=JPG
+EXPORTDI=
+PDFFILE =
+RESOLUTI=28
+PRDIALOG=1
+PADIALOG=0
+PROGRESS=1
+HTML    =0
+DHTML   =1
+DISABLE =0
+DATEF   =dd MMM yyyy
+DB      =
+DBUSER  =
+DBPSW   =
+DBDRIVER=
+DBSOURCE=0
+FRAME   =0
+--- END REPORT HEADER---
+AREA    =HEADER VISIBLE
+NAME    =Header
+HEIGHT  =2.7857142857142856
+TESTING =1
+COLUMNS =1
+WIDTH   =25.5
+NEWPAGE =0
+GROUPBY =
+ATYPE   =32
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =0
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xffffff
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =blla
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =12.607142857142858
+X       =7.857142857142857
+Y       =0.7142857142857143
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =Verdana|BOLD|16
+FORMAT  =
+VALUE   =Listing des operations comptables
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVRectangle
+ROBJECT =com.java4less.rreport.RRectangle
+NAME    =Test
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =15.571428571428571
+X       =6.178571428571429
+Y       =0.8928571428571429
+CONSTANT=1
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0xffffff
+COLOR   =0x0
+STYLE   =1
+SWIDTH  =0.20000000298023224
+FILL    =0
+--- END OBJECT ---
+--- END AREA ---
+AREA    =HPAGE VISIBLE
+NAME    =Page Header
+HEIGHT  =0.75
+TESTING =1
+COLUMNS =1
+WIDTH   =29.285714285714285
+NEWPAGE =0
+GROUPBY =
+ATYPE   =2
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =2
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xc0c0c0
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =1
+FNAME   =
+HEIGHT  =0.7139999999999999
+WIDTH   =0.9642857142857143
+X       =0.0
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =cle
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =2
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.0
+X       =0.8571428571428571
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =periode
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =4
+FNAME   =
+HEIGHT  =0.75
+WIDTH   =0.9642857142857143
+X       =2.8214285714285716
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =transaction
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =13
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.4285714285714286
+X       =15.321428571428571
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =c2
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =8
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.6782857142857144
+X       =7.892857142857143
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =mouvement
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =6
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.4642857142857142
+X       =4.642857142857143
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =num
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =7
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.0357142857142856
+X       =5.964285714285714
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =creation
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =12
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.4285714285714286
+X       =14.25
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =c1
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =14
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3214285714285714
+X       =16.714285714285715
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =valeur
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =9
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3571428571428572
+X       =10.25
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =compte1
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =10
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.5
+X       =11.678571428571429
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =compte2
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =15
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.6785714285714286
+X       =18.107142857142858
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =codeTVA
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =16
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1071428571428572
+X       =19.821428571428573
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =base
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =21
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =0.6428571428571429
+X       =28.607142857142858
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =type
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =17
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3571428571428572
+X       =20.892857142857142
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =valTVA
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =11
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1428571428571428
+X       =13.25
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =TVA
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =18
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.5357142857142858
+X       =22.285714285714285
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =libelle
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =19
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.357142857142857
+X       =24.428571428571427
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =numDossier
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =20
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.8928571428571428
+X       =26.714285714285715
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =nom
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =3
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1785714285714286
+X       =1.6785714285714286
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =note
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =5
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.0357142857142858
+X       =3.7142857142857144
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =libelle
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+--- END AREA ---
+AREA    =BACK HIDDEN
+NAME    =Background
+HEIGHT  =10.0
+TESTING =1
+COLUMNS =1
+WIDTH   =17.0
+NEWPAGE =0
+GROUPBY =
+ATYPE   =256
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =0
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xffffff
+--- END AREA ---
+AREA
+NAME    =Detail
+HEIGHT  =0.75
+TESTING =1
+COLUMNS =1
+WIDTH   =29.285714285714285
+NEWPAGE =0
+GROUPBY =
+ATYPE   =128
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =1
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xffffff
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =1
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =0.8571428571428571
+X       =0.0
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =1
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =2
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =0.8928571428571429
+X       =0.8928571428571429
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =2
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =3
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.0714285714285714
+X       =1.7142857142857142
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =3
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =4
+FNAME   =
+HEIGHT  =0.75
+WIDTH   =1.0
+X       =2.7142857142857144
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =4
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =5
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1785714285714286
+X       =3.6785714285714284
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =5
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =6
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1785714285714286
+X       =4.785714285714286
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =6
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =7
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.0
+X       =5.892857142857143
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =7
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =8
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.4642857142857144
+X       =7.928571428571429
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =8
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =9
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3571428571428572
+X       =10.178571428571429
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =9
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =10
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1785714285714286
+X       =11.821428571428571
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =10
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =11
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1428571428571428
+X       =13.321428571428571
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =11
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =12
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.4285714285714286
+X       =14.25
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =12
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =13
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.4285714285714286
+X       =15.285714285714286
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =13
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =14
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3214285714285714
+X       =16.678571428571427
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =14
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =15
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.5714285714285714
+X       =18.178571428571427
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =15
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =16
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.1071428571428572
+X       =19.821428571428573
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =16
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =17
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.3571428571428572
+X       =20.964285714285715
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =17
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =18
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.5714285714285714
+X       =22.25
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =18
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =19
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =2.107142857142857
+X       =24.642857142857142
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =19
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =20
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =1.8214285714285714
+X       =26.928571428571427
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =20
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =21
+FNAME   =
+HEIGHT  =0.7142857142857143
+WIDTH   =0.6071428571428571
+X       =28.678571428571427
+Y       =0.0
+CONSTANT=0
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|PLAIN|9
+FORMAT  =
+VALUE   =21
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+--- END AREA ---
+AREA    =FPAGE VISIBLE
+NAME    =Page Footer
+HEIGHT  =0.9285714285714286
+TESTING =1
+COLUMNS =1
+WIDTH   =27.652509652509654
+NEWPAGE =0
+GROUPBY =
+ATYPE   =1
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =0
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xffffff
+RVOBJECT=com.java4less.rreportVB.RVField
+ROBJECT =com.java4less.rreport.RField
+NAME    =RVField18
+FNAME   =
+HEIGHT  =0.5405405405405406
+WIDTH   =2.081081081081081
+X       =12.857142857142858
+Y       =0.0
+CONSTANT=1
+VISIBLE =1
+SELECTAB=1
+ACTION  =0
+TOOLTIP =
+HTMLLINK=
+FCOLOR  =0x0
+FONT    =SansSerif|ITALIC|10
+FORMAT  =
+VALUE   =Page [Page]
+ROTATE  =0
+ALIGN   =2
+MAXCHAR =0
+MULTILIN=1
+EXPAND  =0
+COMPRESS=0
+EVAL    =1
+--- END OBJECT ---
+--- END AREA ---
+AREA    =FOOTER VISIBLE
+NAME    =Footer
+HEIGHT  =0.2857142857142857
+TESTING =1
+COLUMNS =1
+WIDTH   =17.0
+NEWPAGE =0
+GROUPBY =
+ATYPE   =16
+TABLE   =
+LINKAREA=
+HDRAREA =
+GROUPHDR=
+GROUPFOO=
+GROUPBY =
+LINKTO  =
+LINKFROM=
+FRTYPE  =0
+FRCOLOR =0x0
+FRSTYLE =1
+FRWIDTH =0.2
+HGRID   =0
+BCOLOR  =0xffffff
+--- END AREA ---

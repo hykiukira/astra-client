@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>  
+<!DOCTYPE toc 
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem target="astra1" text="Astra Aide">
+    <tocitem target="A0-G00" text="Générale">
+           <tocitem target="astra2" text="Astuce d'utilisation"/>
+       	   <tocitem target="A0-G01" text="Concept technique"/>
+           <tocitem target="A0-G02" text="Machine Virtuelle"/>
+           <tocitem target="A0-G03" text="Web Start"/>     
+    </tocitem>
+    <tocitem target="A1-F00" text="Fonctions Fenêtrage">
+    	   <tocitem target="A1-T00" text="Panneau de guidance">
+    	   	<tocitem target="A1-TF2" text="Touche F2"/>
+    	   	<tocitem target="A1-TF3" text="Touche F3"/>
+    	   	<tocitem target="A1-TF4" text="Touche F4"/>
+    	   	<tocitem target="A1-TF5" text="Touche F5"/>
+    	   	<tocitem target="A1-TF8" text="Touche F8"/>
+    	   	<tocitem target="A1-TF9" text="Touche F9"/>
+		<tocitem target="A1-TF10" text="Touche F10"/>
+		<tocitem target="A1-TF11" text="Touche F11"/>
+		<tocitem target="A1-TF12" text="Touche F12"/>
+		<tocitem target="A1-TF12C" text="Touche CTRL+F12"/>
+		<tocitem target="A1-TF12A" text="Touche ALT+F12"/>
+	   </tocitem>	
+    </tocitem>
+    <tocitem target="A2-M00" text="Menu ASTRA">
+       	   <tocitem target="A2-D00" text="Gestion Dossiers">
+    	   	<tocitem target="A2-D01" text="Fenêtre de base"/>
+    	   	<tocitem target="A2-D02" text="Fenêtre de défintion client"/>
+    	   	<tocitem target="A2-D03" text="Fenêtre feuille de prix">
+    	   	       <tocitem target="A2-D04" text="Produit brochure"/>
+    	   	       <tocitem target="A2-D05" text="Produit avion"/>
+    	   	       <tocitem target="A2-D06" text="Produit bateau"/>
+    	   	       <tocitem target="A2-D07" text="Produit train"/>
+    	   	       <tocitem target="A2-D08" text="Produit voiture"/>
+    	   	       <tocitem target="A2-D09" text="Produit assurance"/>
+    	   	       <tocitem target="A2-D010" text="Produit hôtel"/>
+    	   	       <tocitem target="A2-D011" text="Produit taxi"/>
+    	   	</tocitem>
+    	   	<tocitem target="A2-D012" text="Clôture du dossier">
+    	   	       <tocitem target="A2-D013" text="Fenêtre Assurance/solde/frais de dossier"/>
+    	   	       <tocitem target="A2-D014" text="Fenêtre des paiements"/>
+    	   	       <tocitem target="A2-D015" text="Impression du bon de commande"/>
+    	   	       <tocitem target="A2-D016" text="Impression de la facture"/>
+    	   	</tocitem>       
+           </tocitem>
+           <tocitem target="A2-D17" text="Annulation dossier">
+                <tocitem target="A2-D18" text="Fenêtre Frais d'annulation"/>
+           </tocitem>       
+   </tocitem> 	   	
+</tocitem>
+</toc>

@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE JCPAGETEMPLATE SYSTEM "template2.dtd">
+
+<JCPAGETEMPLATE TITLE="8p5x11">
+
+    <PAGE NAME="8p5x11" UNIT="cms">
+
+        <MARGIN TOP="1" RIGHT="1" LEFT="1" BOTTOM="1"/>
+
+        <LOCATION X="0" Y="0"/>
+
+        <SIZE WIDTH="21" HEIGHT="30"/>
+
+        <FRAME NAME="header" UNIT="cms" COLUMN="2">
+
+            <LOCATION X="1" Y="0.25"/>
+
+            <SIZE WIDTH="19" HEIGHT="8"/>
+
+        </FRAME>
+
+        <FRAME NAME="body" UNIT="cm" COLUMN="1">
+
+            <LOCATION X="1" Y="8"/>
+
+            <SIZE WIDTH="19" HEIGHT="9"/>
+
+            <COLUMN COUNT="2"/>
+
+        </FRAME>
+
+        <FRAME NAME="footer" UNIT="inches" COLOR="grey">
+
+            <LOCATION X="1" Y="10.25"/>
+
+            <SIZE WIDTH="6.5" HEIGHT="0.75"/>
+
+        </FRAME>
+
+        <FLOWFRAME NAME="body"/>
+
+        <FLOWPAGE NAME="8p5x11"/>
+
+        <FLOWSECTION NAME="8p5x11"/>
+
+    </PAGE>
+
+</JCPAGETEMPLATE>

@@ -1,0 +1,97 @@
+bug 03-01-03
+
+Lorsque les segments sont vides et que l'on en crée un, la toolbar se reactive pas sans switcher.
+ 
+Empecher de faire un domodify sur les document quand ce n'est pas une base.
+
+Ajouter un messager d'erreur dans les signalétique + refresh au cas ou la ligne est delete d'un autre côté
+
+les logement, transport etc, ne s'affiche plus dans les fees mettre des listes à la place et changer l'insertcombo au niveau des collonnes 
+
+mettre en correspondance les type de payement et les comptes
+
+A ajouter modifier dans les liste pour ajouter signca 3,4,5 dans :
+
+compte
+destination ok
+pays ok
+devise
+embarq ok
+langue ok
+nationalité
+pays ok
+transport ok
+logement ok
+titre ok
+
+Compta pouvoir prendre en compte une facture dont le dossier n'existe pas
+
+F5 dans le client doit s'activer plus tot
+
+liste possibilité d'afficher la collone 2
+
+les valeurs ac / tr  ne sont pas correcte dans les produit
+
+Fournisseur changer toutes les requete plus delete(fait pour le générale)
+
+Ajouter et arranger l'écran d'ajout pour les liste sauf destination
+
+affectuer la recherche combinée sur les dossier
+
+verifier les delete signaletique: faire une classe unique attention destination ne fonctionne pas
+
+fournisseur: les site web disparait après le f5
+
+le numéro de tva disparait quand on est sur le champ
+
+localité disparaît
+
+remettre les fees et les transport dans l'ordre dans les avion
+
+ajouter un champ gsm dans fournisseur contact
+
+erreur lorsque l'on switch des fournisseur pour ajouter un code postal
+
+Probleme avec les date, elle n'apparaissent comme ? quand on valide les modifications
+
+Hotel les descriptions logement disparraissent après validation du dossier
+
+Arranger l'écran de configuration des impressions(paramètre : organisateur de voyage, texte légale).
+
+impossible d'ajouter + de 4 payement
+
+Ajouter la classe de voyage dans le paneaux divers
+
+Verifier la suppresion des parametres type tva, regime tva,documents description log,divers et afficher un message s'il sont lier
+
+erreur dans les adresses secondaires des client
+
+erreur dans les documents des fournisseur
+
+ajouter smtp dans les config
+
+
+arranger les date dans dossier géne plus possibilité de delete + ding chiant
+
+ajouter les statuts dans divers+changer en liste idem pour la classe de passager
+
+voir si possibilité d'imprimer automatiquement la note de crédit sans passer par l'écran d'impression
+voir si possibilité d'imprimer automatiquement la nouvelle facture sans passer par l'écran d'impression
+les payement en modification disparraissent
+garder en mémoire pour les duplicata si la facture est de type détailler ou non ainsi que la date de facturation
+pouvoir entrer les payement en négatif
+garder un double des groupe de décison meme pour les produit
+
+comptablement  modifier lorsque l'on -change un produit,change un supreduc + delete, ajoute un frais de dossier, change le grpdec, change le client,
+arranger l'entete de facture de note de crédit pour les paramètrage de l'impression
+
+
+
+
+
+
+	
+
+
+
+

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem image="astra-aide" target="astra-aide" text="Astra Aide">
+    <tocitem text="Générale">
+       	   < tocitem target="A0-G01" text="Concept technique"/>
+           < tocitem target="A0-G02" text="Machine Virtuelle"/>
+           < tocitem target="A0-G03" text="Web Start"/>     
+    </tocitem>
+    <tocitem text="Fonctions de guidance">
+    	   < tocitem target="A1-F00" text="Fenêtrage">
+    	   </tocitem>
+    	   < tocitem target="A1-T00" text="Panneau de guidance">
+    	   	< tocitem target="A1-TF1" text="Touche F1"/>
+    	   	< tocitem target="A1-TF2" text="Touche F2"/>
+    	   	< tocitem target="A1-TF3" text="Touche F3"/>
+    	   	< tocitem target="A1-TF4" text="Touche F4"/>
+    	   	< tocitem target="A1-TF5" text="Touche F5"/>
+    	   	< tocitem target="A1-TF6" text="Touche F6"/>
+    	   	< tocitem target="A1-TF7" text="Touche F7"/>
+    	   	< tocitem target="A1-TF8" text="Touche F8"/>
+    	   	< tocitem target="A1-TF9" text="Touche F9"/>
+		< tocitem target="A1-TF10" text="Touche F10"/>
+		< tocitem target="A1-TF11" text="Touche F11"/>
+		< tocitem target="A1-TF12" text="Touche F12"/>
+    </tocitem>
+</tocitem>
+</toc>

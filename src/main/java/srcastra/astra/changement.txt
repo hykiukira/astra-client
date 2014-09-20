@@ -1,0 +1,81 @@
+ALTER TABLE `configuration` ADD `factureauto` TINYINT NOT NULL ,
+ADD `facturenumber` TINYINT NOT NULL ,
+ADD `bdcauto` TINYINT NOT NULL ,
+ADD `bdcnumber` TINYINT NOT NULL ,
+ADD `ncauto` TINYINT NOT NULL ,
+ADD `nccnumber` TINYINT NOT NULL ,
+ADD `nombrebloc` TINYINT NOT NULL ,
+ADD `factureresum` TINYINT NOT NULL ,
+ADD `affichebloclegalfacture` TINYINT NOT NULL ,
+ADD `passagerVisibleBDC` TINYINT NOT NULL ,
+ADD `detailProduitVisibleBDC` TINYINT NOT NULL ,
+ADD `detailPrixVisibleBDC` TINYINT NOT NULL ,
+ADD `passagerVisibleFact` TINYINT NOT NULL ,
+ADD `detailProduitVisibleFact` TINYINT NOT NULL ,
+ADD `detailPrixVisibleFact` TINYINT NOT NULL ;
+
+ALTER TABLE `configuration` ADD `bloquegupx` DOUBLE NOT NULL ,
+ADD `bloquegupy` DOUBLE NOT NULL ,
+ADD `bloquedupx` DOUBLE NOT NULL ,
+ADD `bloquedupy` DOUBLE NOT NULL ,
+ADD `corpx` DOUBLE NOT NULL ,
+ADD `corpy` DOUBLE NOT NULL ,
+ADD `topmargin` DOUBLE NOT NULL ,
+ADD `bottomargin` DOUBLE NOT NULL ;
+
+ALTER TABLE `assurance` CHANGE `ase_num_police` `ase_num_police` VARCHAR( 20 ) DEFAULT NULL  
+
+//new change jpi
+ALTER TABLE `configuration` ADD `factfourn` TINYINT NOT NULL ;
+
+dossier index 
+
+ALTER TABLE `dossier` ADD INDEX `drnumdos` ( `dr_numdos` );
+ALTER TABLE `dossier` ADD INDEX `annul` ( `dr_annull` );
+ALTER TABLE `dossier` ADD INDEX `clifact` ( `cscleunik_fact` );
+ALTER TABLE `dossier` ADD INDEX `usercleunik` ( `urcleunik` );
+ALTER TABLE `dossier` ADD INDEX `datedepart` ( `dr_date_depart` );
+ALTER TABLE `dossier` ADD INDEX `datecreation` ( `dr_datetimecrea` );
+ALTER TABLE `dossier` ADD INDEX `facture` ( `dr_facture` );
+ALTER TABLE `dossier` ADD INDEX `bdc` ( `dr_bdc` );
+ALTER TABLE `dossier` ADD INDEX `solde` ( `dr_solde` );
+ALTER TABLE `dossier` ADD INDEX `drnumdos` ( `dr_numdos` );
+
+dossier produit index 
+
+ALTER TABLE `dossierproduit` ADD INDEX `fournisseur` ( `fr_cleunik` );
+ALTER TABLE `dossierproduit` ADD INDEX `type` ( `doit_type` );
+
+historique2 index
+
+ALTER TABLE `historique2` ADD INDEX `libelle` ( `helibelle` );
+ALTER TABLE `historique2` ADD INDEX `libelle2` ( `helibellecompta2` );
+ALTER TABLE `historique2` ADD INDEX `numpie` ( `henumpiece` );
+
+ALTER TABLE `dossiermemo` ADD `specialdossier` TINYINT NOT NULL ;
+
+
+
+
+
+
+
+//new change
+ 
+ALTER TABLE `clients` CHANGE `cstelephonep` `cstelephonep` VARCHAR( 30 ) DEFAULT NULL  
+ALTER TABLE `clients` CHANGE `cstelephones` `cstelephones` VARCHAR( 30 ) DEFAULT NULL  
+ALTER TABLE `clients` CHANGE `csfax` `csfax` VARCHAR( 30 ) DEFAULT NULL  
+ALTER TABLE `clients` CHANGE `csgsm` `csgsm` VARCHAR( 30 ) DEFAULT NULL 
+ALTER TABLE `entite` ADD `eesmtp` VARCHAR( 100 ) NOT NULL ;
+ALTER TABLE `user` ADD `ursignature` TEXT NOT NULL ;
+ //new change oranje
+ALTER TABLE `suplement_reduction` ADD INDEX ( `ctpro_cleunik` ) ;
+ALTER TABLE `suplement_reduction` ADD INDEX ( `snlib_cleunik` ) ; 
+
+
+
+
+
+
+
+

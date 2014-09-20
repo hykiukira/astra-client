@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+  <mapID target="astra1" url="Topics/astra-aide/a/NL_PRINCIPALE.html"/>
+  <mapID target="astra2" url="Topics/astra-aide/a/NL_UTIL.html"/> 
+  <mapID target="A0-G00" url="Topics/astra-aide/A-0/NL_0G00.html"/> 
+  <mapID target="A0-G01" url="Topics/astra-aide/A-0/NL_0G01.html"/>
+  <mapID target="A0-G02" url="Topics/astra-aide/A-0/NL_0G02.html"/>
+  <mapID target="A0-G03" url="Topics/astra-aide/A-0/NL_0G03.html"/>
+  <mapID target="A1-F00" url="Topics/astra-aide/A-1/NL_1F00.html"/>
+  <mapID target="A1-T00" url="Topics/astra-aide/A-1/NL_1F01.html"/>   
+  <mapID target="A1-TF2" url="Topics/astra-aide/A-1/F2_NL.html"/>   
+  <mapID target="A1-TF3" url="Topics/astra-aide/A-1/F3_NL.html"/>   
+  <mapID target="A1-TF4" url="Topics/astra-aide/A-1/F4_NL.html"/>   
+  <mapID target="A1-TF5" url="Topics/astra-aide/A-1/F5_NL.html"/>   
+  <mapID target="A1-TF8" url="Topics/astra-aide/A-1/F8_NL.html"/>   
+  <mapID target="A1-TF9" url="Topics/astra-aide/A-1/F9_NL.html"/>   
+  <mapID target="A1-TF10" url="Topics/astra-aide/A-1/F10_NL.html"/>   
+  <mapID target="A1-TF11" url="Topics/astra-aide/A-1/F11_NL.html"/>   
+  <mapID target="A1-TF12" url="Topics/astra-aide/A-1/F12_NL.html"/>
+  <mapID target="A1-TF12C" url="Topics/astra-aide/A-1/F12_NLC.html"/>
+  <mapID target="A1-TF12A" url="Topics/astra-aide/A-1/F12_NLA.html"/>
+  <mapID target="A2-M00" url="Topics/astra-aide/A-2/NL_2M00.html"/>
+  <mapID target="A2-D00" url="Topics/astra-aide/A-2/NL_2D00.html"/>
+  <mapID target="A2-D01" url="Topics/astra-aide/A-2/NL_2D01.html"/>
+  <mapID target="A2-D02" url="Topics/astra-aide/A-2/NL_2D02.html"/>
+  <mapID target="A2-D03" url="Topics/astra-aide/A-2/NL_2D03.html"/>    
+  <mapID target="A2-D04" url="Topics/astra-aide/A-2/NL_2D04.html"/>    
+  <mapID target="A2-D05" url="Topics/astra-aide/A-2/NL_2D05.html"/>    
+  <mapID target="A2-D06" url="Topics/astra-aide/A-2/NL_2D06.html"/>    
+  <mapID target="A2-D07" url="Topics/astra-aide/A-2/NL_2D07.html"/>    
+  <mapID target="A2-D08" url="Topics/astra-aide/A-2/NL_2D08.html"/>    
+  <mapID target="A2-D09" url="Topics/astra-aide/A-2/NL_2D09.html"/>    
+  <mapID target="A2-D010" url="Topics/astra-aide/A-2/NL_2D010.html"/>    
+  <mapID target="A2-D011" url="Topics/astra-aide/A-2/NL_2D011.html"/>        
+</map>

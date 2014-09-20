@@ -1,0 +1,2131 @@
+
+    public CompressArray renvSignalitiques(int urlmcleunik, int urcleunik, int cas, int typedesignalitique) throws RemoteException{
+        ArrayList returnValue=null;
+        CompressArray returnValue2=null;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        ServeurBuffer buf= tmpool.getBuffer();
+        String signature="renvSignalitique."
+        +" type: "+typedesignalitique
+        +" cas: "+cas;
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"renv signalitique");
+        switch(typedesignalitique) {
+            case COMBO_CODE_POST:
+                returnValue2= renvSignalitiqueCodepostaux(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_PAYS:
+                returnValue2= renvSignalitiquePays(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_DEVISE:
+                returnValue2= renvSignalitiqueDevise(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_LANGUE:
+                returnValue2= renvSignalitiqueLangue(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_TVA_TYPE:
+                returnValue2= renvSignalitiqueTvaType(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_TRANSPORT:
+                returnValue2= renvSignalitiqueTransport(urlmcleunik,tmpool.getConuser(),cas, buf);
+                break;
+            case COMBO_LOGEMENT:
+                returnValue2= renvSignalitiqueLogement(urlmcleunik, tmpool.getConuser(), cas, buf);
+                break;
+            case COMBO_TITREPERSONNES:
+                returnValue2= renvSignalitiqueTitrePers(urlmcleunik, tmpool.getConuser(), cas, buf);
+                break;
+                
+        }
+        return returnValue2;
+    }
+    public java.util.ArrayList renvSignalitiqueTvaRegime(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        ArrayList cp;
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signTvaRegimeCas1"))
+                    cp=buf.getValue("signTvaRegimeCas1");
+                else {
+                    sqlrequete="select d.decleunik,d.decode,t.tretraduction"
+                    +" from devise d,traductiondevise t"
+                    +" where d.decleunik=t.decleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by d.decode;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTvaRegimeCas1",cp);
+                }
+            else if(cas==2)
+                if (buf.isValid("signTvaRegimeCas1"))
+                    cp=buf.getValue("signTvaRegimeCas1");
+                else {
+                    sqlrequete="select d.decleunik,t.tretraduction,d.decode"
+                    +" from devise d,traductiondevise t"
+                    +" where d.decleunik=t.decleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by t.tretraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTvaRegimeCas2",cp);
+                }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+    public CompressArray renvSignalitiqueTransport(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_TRANSPORT);
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signTransportCas1"))
+                    cp=buf.getValue("signTransportCas1");
+                else {
+                    sqlrequete="select t.trtcleunik,tr.tratabrev,tr.trattraduction"
+                    +" from transport t,traductiontransport tr"
+                    +" where t.trtcleunik=tr.trtcleunik  and tr.lmcleunik="+urlmcleunik
+                    +" order by tr.tratabrev;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTransportCas1",cp);
+                    buf.linkNewName(signature,"transportDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else if(cas==2)
+                if (buf.isValid("signTransportCas2"))
+                    cp=buf.getValue("signTransportCas2");
+                else {
+                    sqlrequete="select t.trtcleunik,tr.trattraduction,tr.tratabrev"+
+                    " from transport t,traductiontransport tr"
+                    +" where t.trtcleunik=tr.trtcleunik  and tr.lmcleunik="+urlmcleunik
+                    +" order by tr.trattraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTransportCas2",cp);
+                    buf.linkNewName(signature,"transportDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+    public CompressArray renvSignalitiqueLogement(int urlmcleunik, Connection usercon, int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete = null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_LOGEMENT );
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signLogementCas1"))
+                    cp=buf.getValue("signLogementCas1");
+                else {
+                    sqlrequete = "select l.ltcleunik, lt.ltintitule, lt.ltabrege"
+                    +" from logement l, traductionlogement lt"
+                    +" where l.ltcleunik=lt.ltcleunik and lt.lmcleunik="+urlmcleunik
+                    +" order by lt.ltabrege;";
+                    cp=generecombostest(sqlrequete, usercon);
+                    buf.setValue("signLogementCas1",cp);
+                    buf.linkNewName(signature,"logementDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else if (cas==2)
+                if (buf.isValid("signLogementCas2"))
+                    cp=buf.getValue("signLogementCas2");
+                else {
+                    sqlrequete = "select l.ltcleunik, lt.ltintitule, lt.ltabrege"
+                    +" from logement l, traductionlogement lt"
+                    +" where l.ltcleunik=lt.ltcleunik and lt.lmcleunik="+urlmcleunik
+                    +" order by lt.ltintitule;";
+                    cp=generecombostest(sqlrequete, usercon);
+                    buf.setValue("signLogementCas2",cp);
+                    buf.linkNewName(signature,"logementDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+    
+    public CompressArray renvSignalitiqueTitrePers(int urlmcleunik, Connection usercon, int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete = null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_TITREPERSONNES );
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signTitrePersCas1"))
+                    cp=buf.getValue("signTitrePersCas1");
+                else {
+                    sqlrequete = "select t.tscleunik, ts.tsintitule, ts.tsabrege"
+                    +" from titrepers t, traductiontitrepers ts"
+                    +" where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik
+                    + " order by ts.tsabrege;";
+                    cp=generecombostest(sqlrequete, usercon);
+                    buf.setValue("signTitrePersCas1",cp);
+                    buf.linkNewName(signature,"titrePersDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            
+            else if (cas==2)
+                if (buf.isValid("signTitrePersCas2"))
+                    cp=buf.getValue("signTitrePersCas2");
+                else {
+                    sqlrequete = "select t.tscleunik, ts.tsintitule, ts.tsabrege"
+                    +" from titrepers t, traductiontitrepers ts"
+                    +" where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik
+                    + " order by ts.tsintitule;";
+                    cp=generecombostest(sqlrequete, usercon);
+                    buf.setValue("signTitrePersCas2",cp);
+                    buf.linkNewName(signature,"titrePersDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+
+    public CompressArray renvSignalitiquePays(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        CompressArray pays;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas,COMBO_PAYS );
+        
+        synchronized(buf) {
+            if(cas==1) {
+                if (buf.isValid("signPaysCas1"))
+                    pays=buf.getValue("signPaysCas1");
+                else {
+                    sqlrequete="select p.pyscleunik,t.pystraduction,p.pysabrev"
+                    +" from pays p,traductionpays t"
+                    +" where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik
+                    +" order by t.pystraduction;";
+                    pays= generecombostest2(sqlrequete,usercon);
+                    buf.setValue("signPaysCas1",pays);
+                    buf.linkNewName(signature,"paysDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+            else if(cas==2) {
+                if (buf.isValid("signPaysCas2"))
+                    pays=buf.getValue("signPaysCas2");
+                else {
+                    sqlrequete="select p.pyscleunik,p.pysabrev,t.pystraduction"
+                    +" from pays p,traductionpays t"
+                    +" where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik
+                    +" order by p.pysabrev;";
+                    pays= generecombostest2(sqlrequete,usercon);
+                    buf.setValue("signPaysCas2",pays);
+                    buf.linkNewName(signature,"paysDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+            else
+                pays=null;
+        }
+        return pays;
+    }
+    public CompressArray renvSignalitiqueCodepostaux(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        
+        String tmplangue;
+        String sqlrequete=null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_CODE_POST);
+        synchronized(buf) {
+            Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"renv signalitique code postaux:"+cas);
+            if(cas==1) {
+                Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"Case1");
+                if (buf.isValid("signCodePostalCas1"))
+                    cp=buf.getValue("signCodePostalCas1");
+                else {
+                    sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction"
+                    +" from codepostaux c,traductioncodpostaux tx"
+                    +" where c.cxcleunik=tx.cxcleunik"
+                    +" and tx.lmcleunik="+urlmcleunik
+                    +" order by cxcode;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signCodePostalCas1",cp);
+                    buf.linkNewName(signature,"codePostalDir");
+                    buf.setValue(signature,new Long(System.currentTimeMillis()));
+                }
+            }
+            else if(cas==2) {
+                if (buf.isValid("signCodePostalCas2"))
+                    cp=buf.getValue("signCodePostalCas2");
+                else {
+                    sqlrequete="select c.cxcleunik,tx.txtraduction,c.cxcode"
+                    +" from codepostaux c,traductioncodpostaux tx"
+                    +" where c.cxcleunik=tx.cxcleunik and tx.lmcleunik="+urlmcleunik
+                    +" order by tx.txtraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signCodePostalCas2",cp);
+                    buf.linkNewName(signature,"codePostalDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+    public CompressArray renvSignalitiqueDevise(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_DEVISE );
+        synchronized (buf) {
+            if(cas==1) {
+                if (buf.isValid("signDeviseCas1"))
+                    cp=buf.getValue("signDeviseCas1");
+                else {
+                    sqlrequete="select d.decleunik,d.decode,t.tretraduction"
+                    +" from devise d,traductiondevise t"
+                    +" where d.decleunik=t.decleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by d.decode;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signDeviseCas1",cp);
+                    buf.linkNewName(signature,"deviseDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                    
+                }
+            }
+            else if(cas==2) {
+                if (buf.isValid("signDeviseCas2"))
+                    cp=buf.getValue("signDeviseCas2");
+                else {
+                    sqlrequete="select d.decleunik,t.tretraduction,d.decode"
+                    +" from devise d,traductiondevise t"
+                    +" where d.decleunik=t.decleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by t.tretraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signDeviseCas2",cp);
+                    buf.linkNewName(signature,"deviseDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+    public CompressArray renvSignalitiqueLangue(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_LANGUE );
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signLangueCas1"))
+                    cp=buf.getValue("signLangueCas1");
+                else {
+                    sqlrequete="select l.lecleunik,l.leabreviation,t.letraduction"
+                    +" from langue l,traductionlangues t"
+                    +" where l.lecleunik=t.lecleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by l.leabreviation;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signLangueCas1",cp);
+                    buf.linkNewName(signature,"langueDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else if(cas==2)
+                if (buf.isValid("signLangueCas2"))
+                    cp=buf.getValue("signLangueCas2");
+                else {
+                    sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation"
+                    +" from langue l,traductionlangues t"
+                    +" where l.lecleunik=t.lecleunik  and t.lmcleunik="+urlmcleunik
+                    +" order by t.letraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signLangueCas2",cp);
+                    buf.linkNewName(signature,"langueDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                cp=null;
+        }// End synchronized
+        return cp;
+    }
+    public CompressArray renvSignalitiqueTvaType(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, COMBO_TVA_TYPE );
+        synchronized (buf) {
+            if(cas==1)
+                if (buf.isValid("signTvaTypeCas1"))
+                    cp=buf.getValue("signTvaTypeCas1");
+                else {
+                    sqlrequete="select t.vacleunik,t.vavaleurtva,tr.tratraduction"
+                    +" from valeurtva t,traductiontva tr"
+                    +" where t.vacleunik=tr.vacleunik  and tr.lmcleunik="+urlmcleunik
+                    +" order by t.vavaleurtva;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTvaTypeCas1",cp);
+                    buf.linkNewName(signature,"tvaTypeDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else if(cas==2)
+                if (buf.isValid("signTvaTypeCas2"))
+                    cp=buf.getValue("signTvaTypeCas2");
+                else {
+                    sqlrequete="select t.vacleunik,tr.tratraduction,t.vavaleurtva"
+                    +" from valeurtva t,traductiontva tr"
+                    +" where t.vacleunik=tr.vacleunik  and tr.lmcleunik="+urlmcleunik
+                    +" order by tr.tratraduction;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signTvaTypeCas2",cp);
+                    buf.linkNewName(signature,"tvaTypeDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                cp=null;
+        }
+        return cp;
+    }
+
+
+
+
+
+    public ArrayList renvcombo(char typedecombo,int urcleunik,int urlmcleunik,char plettre,String cxcode,int cas) throws RemoteException {
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        ServeurBuffer buf=tmpool.getBuffer();
+        ArrayList tmp=null;
+        java.util.Date date1;
+        java.util.Date date2;
+        date1=new java.util.Date();
+        try{
+            switch(typedecombo) {
+                case 'p':
+                    tmp=renvcombopays(urlmcleunik,plettre,tmpool.getConuser(), cas, buf) ;
+                    break;
+                case 'd':
+                    tmp=renvcombodevise(urlmcleunik,plettre,tmpool.getConuser(), cas, buf);
+                    break;
+                case 'l':
+                    tmp=renvcombolangue(urlmcleunik,plettre,tmpool.getConuser(),cas, buf);
+                    break;
+                case 'L':
+                    tmp=renvcombolocalite(urlmcleunik,plettre,cxcode,tmpool.getConuser(),cas, buf);
+                    break;
+                case 'c':
+                    tmp=renvcombocodepostaux(urlmcleunik,plettre,tmpool.getConuser(),cas, buf);
+                    break;
+                case 'r':
+                    tmp=renvcombotvaregime(urlmcleunik,plettre,tmpool.getConuser(), cas, buf);
+                    break;
+                case 'f':
+                    tmp=renvComboFournisseur(tmpool.getConuser(),cas, buf);
+                    break;
+                case 'g':
+                    tmp= renvcomFournProd(urlmcleunik,'p',tmpool.getConuser(),cas,cxcode);
+                    break;
+                case 't':
+                    tmp=renvcomValeurTva( urlmcleunik,plettre,tmpool.getConuser(),cas, buf);
+                    break;
+                case 'a':
+                    tmp=renvcomTitrePers(urlmcleunik, plettre, tmpool.getConuser(), cas, buf);
+                    break;
+                case 'b':
+                    tmp=renvcomLogement(urlmcleunik, plettre, tmpool.getConuser(), cas, buf);
+                    break;
+                case 'e':
+                    tmp=renvcomTransport(urlmcleunik, plettre, tmpool.getConuser(), cas, buf);
+                    break;
+                    
+            } //fin switch
+        } //fin try
+        catch(Exception eu) {
+            Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Exception dans renvcombo "+eu);
+        }
+        date2=new java.util.Date();
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"fin de renvcombo");
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"Time used: "+((float)(date2.getTime()-date1.getTime()))/1000+" secs.");
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,tmp.size());
+        return tmp;
+        
+    }
+    public java.util.ArrayList renvcombolocalite(int urlmcleunik,char plettre,String pays,Connection usercon,int cas, ServeurBuffer buf){
+        String tmplangue;
+        String sqlrequete=null;
+        ArrayList cp;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_LOCALITE, 0, urlmcleunik, plettre, pays, cas);
+        switch (urlmcleunik) {
+            case 1:
+                tmplangue="N";
+                break;
+            case 2:
+                tmplangue="F";
+                break;
+            default:
+                tmplangue="N";
+                break;
+        }
+        if(cas==1) {
+            sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction"
+            +" from codepostaux c,traductioncodpostaux tx"
+            +" where c.cxcleunik=tx.cxcleunik"
+            +" and  tx.txtraduction like('"+plettre+"%')"
+            +" and tx.lmcleunik not in('"+tmplangue+"');";
+            cp=generecombostest(sqlrequete, usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"localiteDir");
+                buf.setValue(signature,new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2)
+            synchronized (buf) {
+                if (buf.isValid("localite"))
+                    cp=buf.getValue("localite");
+                else {
+                    sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction"
+                    +" from codepostaux c,traductioncodpostaux tx"
+                    +" where c.cxcleunik=tx.cxcleunik"
+                    +"  and tx.lmcleunik not in('"+tmplangue+"');";
+                    cp=generecombostest(sqlrequete, usercon);
+                    buf.setValue("localite", cp);
+                    buf.linkNewName(signature,"localiteDir");
+                    buf.setValue(signature,new Long(System.currentTimeMillis()));
+                }
+            }
+        else
+            cp=null;
+        return cp;
+    }
+    public srcastra.astra.sys.compress.CompressArray renvcombopays(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        CompressArray pays;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_PAYS, 0, urlmcleunik, plettre, "", cas);
+        if(cas==1) {
+            sqlrequete="select p.pyscleunik,t.pystraduction,p.pysabrev"
+            +" from pays p,traductionpays t"
+            +" where p.pyscleunik=t.pyscleunik"
+            +" and t.lmcleunik="+urlmcleunik
+            +" and t.pystraduction like('"+plettre+"%')"
+            +" order by t.pystraduction;";
+            pays= generecombostest(sqlrequete,usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"paysDir");
+                buf.setValue(signature,new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2) {
+            synchronized(buf) {
+                if (buf.isValid("pays"))
+                    pays=buf.getValue("pays");
+                else {
+                    sqlrequete="select p.pyscleunik,t.pystraduction,p.pysabrev from pays p,traductionpays t where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik+"  order by t.pystraduction;";
+                    pays= generecombostest(sqlrequete,usercon);
+                    buf.setValue("pays",pays);
+                    buf.linkNewName(signature,"paysDir");
+                    buf.setValue(signature,new Long(System.currentTimeMillis()));
+                }
+            }
+        }
+        else
+            pays=null;
+        return pays;
+    }
+    public java.util.ArrayList renvcombocodepostaux(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String tmplangue;
+        String sqlrequete=null;
+        ArrayList cp;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_CODEPOST, 0, urlmcleunik, plettre,"", cas);
+        switch (urlmcleunik) {
+            case 1:
+                tmplangue="N";
+                break;
+            case 2:
+                tmplangue="F";
+                break;
+            default:
+                tmplangue="N";
+                break;
+        }
+        if(cas==1) {
+            sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction from codepostaux c,traductioncodpostaux tx where c.cxcleunik=tx.cxcleunik and  c.cxcode like('"+plettre+"%') and tx.lmcleunik="+urlmcleunik+" order by cxcode;";
+            cp=generecombostest(sqlrequete,usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"codePostalDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2) {
+            synchronized (buf)                   // a buffered request
+            {
+                if (buf.isValid("codePostal"))       // a buffer exist
+                    cp=buf.getValue("codePostal");
+                else                                 // Create the buffer
+                {
+                    sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction from codepostaux c,traductioncodpostaux tx where c.cxcleunik=tx.cxcleunik and tx.lmcleunik="+urlmcleunik+" order by cxcode;";
+                    cp=generecombostest(sqlrequete,usercon);
+                    buf.setValue("codePostal",cp);
+                    buf.linkNewName(signature,"codePostalDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+        }
+        else
+            cp=null;
+        // else if(cas==2)
+        // sqlrequete="select c.cxcleunik,tx.txtraduction,c.cxcode from codepostaux c,traductioncodpostaux tx where c.cxcleunik=tx.cxcleunik and tx.lmcleunik="+urlmcleunik+" order by tx.txtraduction;";
+        return cp;
+    }
+    public java.util.ArrayList renvcombodevise(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList devise;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_DEVISE, 0, urlmcleunik, plettre, "", cas);
+        if(cas==1) {
+            sqlrequete="select d.decleunik,d.decode,d.devtaux,t.tretraduction"
+            +" from devise d,traductiondevise t"
+            +" where d.decleunik=t.decleunik"
+            +" and d.decode like ('"+plettre+"%')"
+            +" order by d.decode ;";
+            devise=generecombostest(sqlrequete,usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"deviseDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2)
+            synchronized(buf) {
+                if (buf.isValid("devise"))
+                    devise=buf.getValue("devise");
+                else {
+                    sqlrequete="select d.decleunik,d.decode,d.devtaux,t.tretraduction"
+                    +" from devise d,traductiondevise t where d.decleunik=t.decleunik"
+                    +" order by d.decode ;";
+                    devise=generecombostest(sqlrequete,usercon);
+                    buf.setValue("devise",devise);
+                    buf.linkNewName(signature,"deviseDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+        else
+            devise= null;
+        return devise;
+    }
+    
+    public java.util.ArrayList renvcomValeurTva(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList tvaregime;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_VALEURTVA, 0, urlmcleunik, plettre, "", cas);
+        if(cas==1) {
+            sqlrequete="select t.vacleunik,t.vavaleurtva,tr.tratraduction"
+            +" from valeurtva t,traductiontva tr"
+            +" where t.vacleunik=tr.vacleunik"
+            +" and tr.lmcleunik="+urlmcleunik
+            +" and t.vavaleurtva like ('"+plettre+"%')"
+            +" order by t.vavaleurtva;";
+            tvaregime=generecombostest(sqlrequete,usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"tvaTypeDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2)
+            synchronized (buf) {
+                if (buf.isValid("tvaRegime"))
+                    tvaregime=buf.getValue("tvaRegime");
+                else
+                    sqlrequete="select t.vacleunik,t.vavaleurtva,tr.tratraduction"
+                    +" from valeurtva t,traductiontva tr"
+                    +" where t.vacleunik=tr.vacleunik  and tr.lmcleunik="+urlmcleunik
+                    +" order by t.vavaleurtva;";
+                tvaregime=generecombostest(sqlrequete,usercon);
+                buf.setValue("tvaRegime",tvaregime);
+                if (!buf.isValid(signature)) {
+                    buf.linkNewName(signature,"paysDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            }
+        else
+            tvaregime=null;
+        return tvaregime;
+    }
+    
+    public java.util.ArrayList renvcomTitrePers(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList tvaregime;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_TITREPERS, 0, urlmcleunik, plettre, "", cas);
+        synchronized (buf) // In this case, values 1 and 2 of cas can be cached together :)
+        {
+            if (buf.isValid("titrePers"))
+                tvaregime=buf.getValue("titrePers");
+            else {
+                if(cas==1)
+                    // sqlrequete="select t.vacleunik,t.vavaleurtva,tr.tratraduction from valeurtva t,traductiontva tr where t.vacleunik=tr.vacleunik  and tr.lmcleunik="+urlmcleunik+"  t.vavaleurtva like ('"+plettre+"%') order by t.vavaleurtva;";
+                    sqlrequete = "select t.tscleunik, ts.tsintitule, ts.tsabrege"
+                    +" from titrepers t, traductiontitrepers ts"
+                    +" where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik
+                    +" order by ts.tsintitule;";
+                else if(cas==2)
+                    // sqlrequete="select t.vacleunik,t.vavaleurtva,tr.tratraduction from valeurtva t,traductiontva tr where t.vacleunik=tr.vacleunik  and tr.lmcleunik="+urlmcleunik+" order by t.vavaleurtva;";
+                    sqlrequete = "select t.tscleunik, ts.tsintitule, ts.tsabrege"
+                    +" from titrepers t, traductiontitrepers ts"
+                    +" where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik
+                    +" order by ts.tsintitule;";
+                tvaregime=generecombostest(sqlrequete,usercon);
+                buf.setValue("titrePers",tvaregime);
+                buf.linkNewName(signature,"titrePersDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        return tvaregime;
+    }
+    
+    public java.util.ArrayList renvcomFournProd(int urlmcleunik,char plettre,Connection usercon,int cas,String objectCleunik) {
+        ArrayList tmp;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_FOURNPROD, 0, urlmcleunik, plettre, objectCleunik, cas);
+        int frcleunik=Integer.parseInt(objectCleunik);
+        String sqlrequete=null;
+        if(cas==1)
+            sqlrequete="select frgtcleunik,frgtitrecatalog,frgtreference1 from fournisseur_grproduit where frcleunik="+frcleunik+" order by frgtitrecatalog;";
+        else if(cas==2)
+            sqlrequete="select frgtcleunik,frgtreference1,frgtitrecatalog from fournisseur_grproduit where frcleunik="+frcleunik+" order by frgtreference1;";
+        tmp=generecombostest(sqlrequete,usercon);
+        return tmp;
+    }
+    public java.util.ArrayList renvComboFournisseur(Connection usercon,int cas, ServeurBuffer buf) {
+        ArrayList tmpfourn;
+        String sqlrequete=null;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_FOURN, 0, 0, ' ', "", cas);
+        synchronized(buf) {
+            if(cas==1)
+                if (buf.isValid("signFournisseurCas1"))
+                    tmpfourn=buf.getValue("signFournisseurCas1");
+                else {
+                    sqlrequete= "select frcleunik,frreference1,frnom1"
+                    +" from fournisseur order by frreference1;";
+                    tmpfourn=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signFournisseurCas1",tmpfourn);
+                    buf.linkNewName(signature,"fournisseurDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else if(cas==2)
+                if (buf.isValid("signFournisseurCas2"))
+                    tmpfourn=buf.getValue("signFournisseurCas2");
+                else {
+                    sqlrequete= "select frcleunik,frnom1,frreference1"
+                    +" from fournisseur order by frnom1;";
+                    tmpfourn=generecombostest(sqlrequete,usercon);
+                    buf.setValue("signFournisseurCas2",tmpfourn);
+                    buf.linkNewName(signature,"paysDir");
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+                }
+            else
+                tmpfourn=null;
+        }
+        return  tmpfourn;
+    }
+    
+    public java.util.ArrayList renvcombotvaregime(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList devise;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_TVAREGIME, 0, urlmcleunik, plettre, "", cas);
+        synchronized (buf) {
+            if (buf.isValid("tvaRegime"))
+                devise=buf.getValue("tvaRegime");
+            else {
+                if(cas==1)
+                    sqlrequete="select t.tecleunik,t.tetraduction from traductionintitule t where t.lmcleunik="+urlmcleunik+" and t.caecleunik=1;";
+                else if(cas==2)
+                    sqlrequete="select t.tecleunik,t.tetraduction from traductionintitule t where t.lmcleunik="+urlmcleunik+" and t.caecleunik=1;";
+                devise=generecombostest(sqlrequete,usercon);
+                buf.setValue("tvaRegime",devise);
+                buf.linkNewName(signature,"tvaRegimeDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        return devise;
+    }
+    public java.util.ArrayList renvcombolangue(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList langue;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_LANGUE, 0, urlmcleunik, plettre, "", cas);
+        if(cas==1) {
+            sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and t.letraduction like ('"+plettre+"%') order by t.letraduction;";
+            langue=generecombostest(sqlrequete,usercon);
+            if (!buf.isValid(signature)) {
+                buf.linkNewName(signature,"langueDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        else if(cas==2)
+            synchronized (buf) {
+                if (buf.isValid("langue"))
+                    langue=buf.getValue("Langue");
+                else
+                    sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation"
+                    +" from langue l,traductionlangues t"
+                    +" where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik
+                    +" order by  t.letraduction;";
+                langue=generecombostest(sqlrequete,usercon);
+                buf.setValue("langue",langue);
+                buf.linkNewName(signature,"langueDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        else
+            langue=null;
+        return langue;
+    }
+    
+    public java.util.ArrayList renvcomLogement(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList tvaregime;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_LOGEMENT, 0, urlmcleunik, plettre, "", cas);
+        synchronized (buf) {
+            if (buf.isValid("logement"))
+                tvaregime=buf.getValue("logement");
+            else {
+                if(cas==1)
+                    sqlrequete = "select l.ltcleunik, lt.ltintitule, lt.ltabrege"
+                    +" from logement l, traductionlogement lt"
+                    +" where l.ltcleunik=lt.ltcleunik and lt.lmcleunik=" + urlmcleunik
+                    +" order by lt.ltintitule;";
+                else if(cas==2)
+                    sqlrequete = "select l.ltcleunik, lt.ltintitule, lt.ltabrege"
+                    +" from logement l, traductionlogement lt"
+                    +" where l.ltcleunik=lt.ltcleunik and lt.lmcleunik=" + urlmcleunik
+                    +" order by lt.ltintitule;";
+                tvaregime=generecombostest(sqlrequete,usercon);
+                buf.setValue("logement",tvaregime);
+                buf.linkNewName(signature,"langueDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+            return tvaregime;
+        }
+    }
+    
+    public java.util.ArrayList renvcomTransport(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+        String sqlrequete=null;
+        ArrayList tvaregime;
+        String signature=QueryKeyGen.renvcombo(COMBOTYPE_TRANSPORT, 0, urlmcleunik, plettre, "", cas);
+        synchronized (buf) {
+            if (buf.isValid("transport"))
+                tvaregime=buf.getValue("transport");
+            else {
+                if(cas==1)
+                    sqlrequete = "select t.trtcleunik, tt.trattraduction, tt.tratabrev"
+                    +" from transport t, traductiontransport tt"
+                    +" where t.trtcleunik=tt.trtcleunik and tt.lmcleunik=" + urlmcleunik
+                    +" order by tt.trattraduction;";
+                else if(cas==2)
+                    sqlrequete = "select t.trtcleunik, tt.trattraduction, tt.tratabrev"
+                    +" from transport t, traductiontransport tt"
+                    +" where t.trtcleunik=tt.trtcleunik and tt.lmcleunik=" + urlmcleunik
+                    +" order by tt.trattraduction;";
+                tvaregime=generecombostest(sqlrequete,usercon);
+                buf.setValue("transport",tvaregime);
+                buf.linkNewName(signature,"transportDir");
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        return tvaregime;
+    }    
+
+    public Object chargeObjetCombo(int objectCleunik,int urcleunik,int urlmcleunik,int comboConstante) throws RemoteException {
+        String sqlrequete=null;
+        ResultSet tmpresult=null;
+        ResultSet tmpresult2=null;
+        String tmpcrea=null;
+        String tmpmodif=null;
+        int tmpNbrLigne;
+        Object returnValue=null;
+        Statement select;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        switch(comboConstante) {
+            case COMBO_PAYS:
+                sqlrequete="select p.pyscleunik,t.pystraduction from pays p,traductionpays t where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik+" and p.pyscleunik="+ objectCleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        returnValue=(String)tmpresult.getString(2);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectCombopays: "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dansChargeCObjectCombopays: :"+e1);
+                }
+                break;
+            case COMBO_DEVISE:
+                sqlrequete="select decode from devise where decleunik="+ objectCleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        returnValue=(String)tmpresult.getString(1);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectComboDevise: "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans ChargeCObjectComboDevise:"+e1);
+                }
+                break;
+            case COMBO_CODE_POST:
+                sqlrequete="select cxcode from codepostaux where cxcleunik="+ objectCleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        returnValue=(String)tmpresult.getString(1);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectComboCp : "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans ChargeCObjectComboCp :"+e1);
+                }
+                break;
+            case COMBO_LANGUE:
+                sqlrequete="select letraduction from traductionlangues where lecleunik="+ objectCleunik+" and lmcleunik="+urlmcleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        returnValue=(String)tmpresult.getString(1);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectComboCp : "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans ChargeCObjectComboCp :"+e1);
+                }
+                break;
+            case COMBO_TVAREGIME:
+                sqlrequete="select t.tetraduction from traductionintitule t where t.lmcleunik="+urlmcleunik+" and t.tecleunik="+objectCleunik+" and t.caecleunik=1;";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        returnValue=(String)tmpresult.getString(1);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectComboCp : "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans ChargeCObjectComboCp :"+e1);
+                }
+                break;
+        }
+        
+        
+        return returnValue;
+    }
+    public Object ChargeObjectPopup(int urlmcleunik,int urcleunik,int objcleunik,int cas,int comboConstante)throws RemoteException{
+        String sqlrequete=null;
+        ResultSet tmpresult=null;
+        ResultSet tmpresult2=null;
+        String tmpcrea=null;
+        String tmpmodif=null;
+        ArrayList tmpArray=null;
+        int tmpNbrLigne;
+        Object returnValue=null;
+        boolean isOk=false;       /*mis à true si la requete est ok*/
+        Statement select;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        ServeurBuffer buf=tmpool.getBuffer();
+        String signature=QueryKeyGen.ChargeObjectPopup(urlmcleunik,urcleunik,objcleunik,cas,comboConstante);
+        Gestionerreur_T tmperreur=new Gestionerreur_T();
+        switch(comboConstante) {
+            case COMBO_FOURNCONTACT:
+                if(cas==1)
+                    sqlrequete="select  frctcleunik,frctgrpadminist,frctnom,frctprenom,frctmail,frcttelephone, frcleunik,frctdatetimecrea,frctdatetimemodif,snumerosessioncrea,snumerosessionmodif from fournisseur_contact where frctcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select  frctcleunik,frctgrpadminist,frctnom,frctprenom,frctmail,frcttelephone, frcleunik,frctdatetimecrea,frctdatetimemodif,snumerosessioncrea,snumerosessionmodif from fournisseur_contact where frctcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(10),tmpresult.getString(11));
+                            FournContact_T tmpFourContact=(FournContact_T)new FournContact_T(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5), tmpresult.getString(6),tmpresult.getInt(7),tmpresult.getDate(8),tmpresult.getDate(9),tmpresult.getString(10),tmpresult.getString(11),numSession[0],numSession[1]);
+                            tmpFourContact.setErreurcode(tmperreur.getErreurcode());
+                            tmpFourContact.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpFourContact;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }
+                else {
+                    FournContact_T tmpFourContact=(FournContact_T)new FournContact_T();
+                    tmpFourContact.setErreurcode(tmperreur.getErreurcode());
+                    tmpFourContact.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpFourContact;
+                }
+                break;
+            case COMBO_CODE_POST:
+                if(cas==1)
+                    sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction,tx.lmcleunik from codepostaux c,traductioncodpostaux tx where c.cxcleunik=tx.cxcleunik and tx.lmcleunik="+urlmcleunik+" and c.cxcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select c.cxcleunik,c.cxcode,tx.txtraduction,tx.lmcleunik from codepostaux c,traductioncodpostaux tx where c.cxcleunik=tx.cxcleunik and tx.lmcleunik="+urlmcleunik+" and c.cxcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3),tmpresult.getInt(4));
+                            tmpArray=ChargePopupTraduction(COMBO_CODE_POST,tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            isOk=true;
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCodePostaux: "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans chargecodepostaux :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+            case COMBO_TVA_TYPE:
+                if(cas==1)
+                    sqlrequete="select  t.vacleunik,t.vavaleurtva,t.vadatetimecrea,t.vadatetimemodif,t.snumerosessioncrea,t.snumerosessionmodif,tr.tratraduction from valeurtva t,traductiontva tr where t.vacleunik=tr.vacleunik and tr.lmcleunik="+urlmcleunik+" and t.vacleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select  t.vacleunik,t.vavaleurtva,t.vadatetimecrea,t.vadatetimemodif,t.snumerosessioncrea,t.snumerosessionmodif,tr.tratraduction from valeurtva t,traductiontva tr where t.vacleunik=tr.vacleunik and tr.lmcleunik="+urlmcleunik+" and t.vacleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.TvaType_T tmpTvaType=new srcastra.astra.sys.classetransfert.signaletique.TvaType_T(tmpresult.getInt(1),tmpresult.getFloat(2),tmpresult.getDate(3),tmpresult.getDate(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getString(7));
+                            tmpArray=ChargePopupTraduction(COMBO_TVA_TYPE,tmpool.getConuser(),cas,objcleunik);
+                            tmpTvaType.setdata(tmpArray);
+                            isOk=true;
+                            tmpTvaType.setErreurcode(tmperreur.getErreurcode());
+                            tmpTvaType.setErreurmessage(tmperreur.getErreurmessage());
+                            returnValue=(Object)tmpTvaType;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+            case COMBO_TRANSPORT:
+                if(cas==1)
+                    sqlrequete="select  t.trtcleunik,t.trtlintitule,t.trtdatetimecrea,t.trtdatetimemodi,t.snumerosessioncrea,t.snumerosessionmodif,tr.tratabrev,tr.trattraduction from transport t,traductiontransport tr where t.trtcleunik=tr.trtcleunik and tr.lmcleunik="+urlmcleunik+" and t.trtcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select  t.trtcleunik,t.trtlintitule,t.trtdatetimecrea,t.trtdatetimemodi,t.snumerosessioncrea,t.snumerosessionmodif,tr.tratabrev,tr.trattraduction from transport t,traductiontransport tr where t.trtcleunik=tr.trtcleunik and tr.lmcleunik="+urlmcleunik+" and t.trtcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.Transport_T tmpTransport=new srcastra.astra.sys.classetransfert.signaletique.Transport_T(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getDate(3),tmpresult.getDate(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getString(7),tmpresult.getString(8));
+                            tmpArray=ChargePopupTraduction(COMBO_TRANSPORT,tmpool.getConuser(),cas,objcleunik);
+                            tmpTransport.setdata(tmpArray);
+                            isOk=true;
+                            tmpTransport.setErreurcode(tmperreur.getErreurcode());
+                            tmpTransport.setErreurmessage(tmperreur.getErreurmessage());
+                            returnValue=(Object)tmpTransport;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+            case COMBO_FOURNISSEUR:
+                sqlrequete="SELECT f.frcleunik,f.frreference1,f.frnom1,f.frtelephone1,f.frfax,f.frmail,f.frdatetimecrea,f.frdatetimemodif,f.snumerosessioncrea,f.snumerosessionmodif from fournisseur f where frcleunik="+objcleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(9),tmpresult.getString(10));
+                        returnValue=(Sous_fournisseur_T)new Sous_fournisseur_T(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getDate(7),tmpresult.getDate(8),numSession[0],numSession[1]);
+                        isOk=true;
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeObject: "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                }
+                break;
+            case COMBO_FOURNPROD://normalement peut etre virée, a été recopiée dans chargeobectpopup
+                if(cas==1)
+                    sqlrequete="Select frgtcleunik,frcleunik,frgtitrecatalog,frgtreference1,frgtreference2,aecleunik,frgtdatetimecrea,frgtdatetimemodi,snumerosessioncrea,snumerosessionmodif from fournisseur_grproduit where frgtcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="Select frgtcleunik,frcleunik,frgtitrecatalog,frgtreference1,frgtreference2,aecleunik,frgtdatetimecrea,frgtdatetimemodi,snumerosessioncrea,snumerosessionmodif from fournisseur_grproduit where frgtcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(9),tmpresult.getString(10));
+                            FournGrpProduits_T tmpFournProd=(FournGrpProduits_T)new FournGrpProduits_T(tmpresult.getInt(1),tmpresult.getInt(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5),tmpresult.getInt(6),tmpresult.getDate(7),tmpresult.getDate(8),tmpresult.getString(9),tmpresult.getString(10),numSession[0],numSession[1]);
+                            tmpFournProd.setErreurcode(tmperreur.getErreurcode());
+                            tmpFournProd.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpFournProd;
+                            
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }
+                else {
+                    FournGrpProduits_T tmpFournProd=(FournGrpProduits_T)new FournGrpProduits_T();
+                    tmpFournProd.setErreurcode(tmperreur.getErreurcode());
+                    tmpFournProd.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpFournProd;
+                }
+                break;
+            case COMBO_PAYS:
+                if(cas==1)
+                    sqlrequete="select p.pyscleunik,p.pysabrev,t.pystraduction  from pays p,traductionpays t where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik+" and t.pyscleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select p.pyscleunik,p.pysabrev,t.pystraduction  from pays p,traductionpays t where p.pyscleunik=t.pyscleunik and t.lmcleunik="+urlmcleunik+" and t.pyscleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.Pays_Tb tmpCod=new  srcastra.astra.sys.classetransfert.signaletique.Pays_Tb(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3));
+                            tmpArray=ChargePopupTraduction(COMBO_PAYS,tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }
+                else {
+                    srcastra.astra.sys.classetransfert.signaletique.Pays_Tb tmpCod=new  srcastra.astra.sys.classetransfert.signaletique.Pays_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                
+                break;
+            case COMBO_DEVISE:
+                if(cas==1)
+                    sqlrequete="select d.decleunik,d.decode,d.devtaux,t.tretraduction,d.dedatetimecrea,d.dedatetimemodi,d.snumerosessioncrea,d.snumerosessionmodif,t.lmcleunik from devise d,traductiondevise t where d.decleunik=t.decleunik and t.lmcleunik="+urlmcleunik+" and d.decleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select d.decleunik,d.decode,d.devtaux,t.tretraduction,d.dedatetimecrea,d.dedatetimemodi,d.snumerosessioncrea,d.snumerosessionmodif,t.lmcleunik from devise d,traductiondevise t where d.decleunik=t.decleunik and t.lmcleunik="+urlmcleunik+" and d.decleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.Devise_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Devise_Tb(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getDouble(3),tmpresult.getString(4),tmpresult.getDate(5),tmpresult.getDate(6),tmpresult.getString(7),tmpresult.getString(8));
+                            tmpArray=ChargePopupTraduction(COMBO_DEVISE,tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.Devise_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Devise_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+            case COMBO_LANGUE:
+                if(cas==1)
+                    sqlrequete="select l.lecleunik,l.leabreviation,l.ledatetimecrea,l.ledatetimemodif,l.snumerosessioncrea,l.snumerosessionmodif,t.letraduction,t.lmcleunik from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and l.lecleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select l.lecleunik,l.leabreviation,l.ledatetimecrea,l.ledatetimemodif,l.snumerosessioncrea,l.snumerosessionmodif,t.letraduction, t.lmcleunik from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and l.lecleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getDate(3),tmpresult.getDate(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getString(7),tmpresult.getInt(8));
+                            tmpArray=ChargePopupTraduction(COMBO_LANGUE,tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+            case COMBO_LOGEMENT:
+                if(cas==1)
+                    sqlrequete="select l.ltcleunik, l.ltdatetimecrea, l.ltdatetimemodi, l.snumerosessioncrea, l.snumerosessionmodif, lt.lmcleunik, lt.ltintitule, lt.ltabrege from logement l, traductionlogement lt where l.ltcleunik=lt.ltcleunik and lt.lmcleunik="+urlmcleunik+" and l.ltcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select l.ltcleunik, l.ltdatetimecrea, l.ltdatetimemodi, l.snumerosessioncrea, l.snumerosessionmodif, lt.lmcleunik, lt.ltintitule, lt.ltabrege from logement l, traductionlogement lt where l.ltcleunik=lt.ltcleunik and lt.lmcleunik="+urlmcleunik+" and l.ltcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0){
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.Logement_T tmpCod = new srcastra.astra.sys.classetransfert.signaletique.Logement_T(tmpresult.getInt(1), 0, tmpresult.getInt(6), tmpresult.getString(7), tmpresult.getString(8), tmpresult.getDate(2), tmpresult.getDate(3), tmpresult.getString(4), tmpresult.getString(5));
+                            
+                            tmpArray=ChargePopupTraduction(COMBO_LOGEMENT, tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  dans chargeObjectPopup -> case : logement  "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  dans chargeObjectPopup -> case : logement :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.Logement_T tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Logement_T();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+                
+                
+            case COMBO_TITREPERSONNES:
+                if(cas==1)
+                    sqlrequete="select t.tscleunik, t.tsdatetimecrea, t.tsdatetimemodif, t.snumerosessioncrea, t.snumerosessionmodif, ts.lmcleunik, ts.tsintitule, ts.tsabrege from titrepers t, traductiontitrepers ts where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik + " and t.tscleunik =" + objcleunik + ";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="select t.tscleunik, t.tsdatetimecrea, t.tsdatetimemodif, t.snumerosessioncrea, t.snumerosessionmodif, ts.lmcleunik, ts.tsintitule, ts.tsabrege from titrepers t, traductiontitrepers ts where t.tscleunik=ts.tscleunik and ts.lmcleunik=" + urlmcleunik + " and t.tscleunik =" + objcleunik + " FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000)
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0){
+                            tmpresult.first();
+                            srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T tmpCod = new srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T(tmpresult.getInt(1), tmpresult.getInt(6), tmpresult.getString(7), tmpresult.getString(8), tmpresult.getDate(2), tmpresult.getDate(3), tmpresult.getString(4), tmpresult.getString(5));
+                            tmpArray=ChargePopupTraduction(COMBO_TITREPERSONNES, tmpool.getConuser(),cas,objcleunik);
+                            tmpCod.setdata(tmpArray);
+                            tmpCod.setErreurcode(tmperreur.getErreurcode());
+                            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                            isOk=true;
+                            returnValue=(Object)tmpCod;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  dans chargeObjectPopup -> case : titrePersonnes "+e.getErrorCode()+"  "+e.getMessage());
+                    }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  dans chargeObjectPopup -> case : titrePersonnes :"+e1);
+                }
+                else{
+                    srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T tmpCod=new srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T();
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Object)tmpCod;
+                }
+                break;
+                
+                
+        }
+        synchronized (buf) {
+            if ((cas==1)                   /* returnValue contient l'object*/
+            &&isOk                       /* valide pour autchose qu'un update*/
+            &&(!buf.isValid(signature))) /* Et le timestamp n'a pas encore ete placé */ {
+                switch(comboConstante) {
+                    case COMBO_FOURNCONTACT:
+                        buf.linkNewName(signature,"fournisseurDir");
+                        break;
+                    case COMBO_CODE_POST:
+                        buf.linkNewName(signature,"codePostalDir");
+                        break;
+                    case COMBO_TVA_TYPE:
+                        buf.linkNewName(signature,"tvaTypeDir");
+                    case COMBO_TRANSPORT:
+                        buf.linkNewName(signature,"transportDir");
+                    case COMBO_FOURNISSEUR:
+                        buf.linkNewName(signature,"fournisseurDir");
+                    case COMBO_FOURNPROD:
+                        buf.linkNewName(signature,"fournisseurDir");
+                    case COMBO_PAYS:
+                        buf.linkNewName(signature,"paysDir");
+                    case COMBO_DEVISE:
+                        buf.linkNewName(signature,"deviseDir");
+                    case COMBO_LANGUE:
+                        buf.linkNewName(signature,"langueDir");
+                    case COMBO_LOGEMENT:
+                        buf.linkNewName(signature,"logementDir");
+                    case COMBO_TITREPERSONNES:
+                        buf.linkNewName(signature,"titrePersDir");
+                    default:
+                        return returnValue;
+                }
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+            }
+        }
+        return returnValue;
+    }
+
+
+    public Object ChargeObject(int urlmcleunik,int urcleunik,int objcleunik,int cas,int comboConstante)throws RemoteException{
+        String sqlrequete=null;
+        ResultSet tmpresult=null;
+        ResultSet tmpresult2=null;
+        String tmpcrea=null;
+        String tmpmodif=null;
+        int tmpNbrLigne;
+        Object returnValue=null;
+        Statement select;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        Gestionerreur_T tmperreur=new Gestionerreur_T();
+        switch(comboConstante) {//a virer
+            case COMBO_FOURNISSEUR:
+                sqlrequete="SELECT f.frcleunik,f.frreference1,f.frnom1,f.frtelephone1,f.frfax,f.frmail,f.frdatetimecrea,f.frdatetimemodif,f.snumerosessioncrea,f.snumerosessionmodif from fournisseur f where frcleunik="+objcleunik+";";
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(9),tmpresult.getString(10));
+                        returnValue=(Sous_fournisseur_T)new Sous_fournisseur_T(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getDate(7),tmpresult.getDate(8),numSession[0],numSession[1]);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeObject: "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                }
+                break;
+            case COMBO_FOURNISSEURCOMP:
+                if(cas==1)
+                    sqlrequete="SELECT f.frcleunik,f.frreference1,f.frreference2,f.frnom1,f.frnom2,f.fradresse,f.frtvanum,f.frtvatype,f.frtvaregime,f.frnumbanque1,f.frnumbanque2,f.frnumbanque3,f.frtelephone1,f.frfax,f.frmail,f.frmodecccf,f.frdelaipaienbrjour,f.frdomiciliation,f.frmemo,f.frdatetimecrea,f.frdatetimemodif,f.snumerosessioncrea,f.snumerosessionmodif,f.decleunik,f.cxcleunik,f.aecleunik,f.lecleunik,f.pyscleunik from fournisseur f where frcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="SELECT f.frcleunik,f.frreference1,f.frreference2,f.frnom1,f.frnom2,f.fradresse,f.frtvanum,f.frtvatype,f.frtvaregime,f.frnumbanque1,f.frnumbanque2,f.frnumbanque3,f.frtelephone1,f.frfax,f.frmail,f.frmodecccf,f.frdelaipaienbrjour,f.frdomiciliation,f.frmemo,f.frdatetimecrea,f.frdatetimemodif,f.snumerosessioncrea,f.snumerosessionmodif,f.decleunik,f.cxcleunik,f.aecleunik,f.lecleunik,f.pyscleunik from fournisseur f where frcleunik="+objcleunik+" FOR UPDATE";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(22),tmpresult.getString(23));
+                            Fournisseur_T tmpfour=new Fournisseur_T(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getString(7),tmpresult.getString(8),tmpresult.getInt(9),tmpresult.getString(10),tmpresult.getString(11),tmpresult.getString(12),tmpresult.getString(13),tmpresult.getString(14),tmpresult.getString(15),tmpresult.getInt(16),tmpresult.getInt(17),tmpresult.getString(18),tmpresult.getString(19),tmpresult.getDate(20),tmpresult.getDate(21),tmpresult.getString(22),tmpresult.getString(23),tmpresult.getInt(24),tmpresult.getInt(25),tmpresult.getInt(26),tmpresult.getInt(27),tmpresult.getInt(28),numSession[0],numSession[1]);
+                            tmpfour.setErreurcode(tmperreur.getErreurcode());
+                            tmpfour.setErreurmessage(tmperreur.getErreurmessage());
+                            int langue=urlmcleunik;
+                          //  sqlrequete="select c.cxcleunik,c.cxcode,t.txtraduction,tp.pystraduction, l.letraduction,ti.tetraduction,de.decode FROM codepostaux c, traductioncodpostaux t,traductionpays tp,traductionlangues l,traductionintitule ti ,devise de where c.cxcleunik="+tmpfour.getCxcleunik()+" and t.lmcleunik="+langue+" and c.cxcleunik="+tmpfour.getCxcleunik()+" and tp.pyscleunik="+tmpfour.getPyscleunik()+" and tp.lmcleunik="+langue+" and "+
+                           //"l.lecleunik="+tmpfour.getLecleunik()+" and l.lmcleunik="+langue+" and ti.caecleunik=1 and ti.lmcleunik="+langue+" and ti.tecleunik="+tmpfour.getFrtvaregime()+" and de.decleunik="+tmpfour.getDecleunik()+";";
+                            //sqlrequete="select t.txtraduction FROM  traductioncodpostaux t WHERE t.cxcleunik="+tmpfour.getCxcleunik()+" and t.lmcleunik="+langue;
+                            //Logger.getDefaultLogger().log(Logger.LOG_DEBUG,sqlrequete);
+                            //tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                            //tmpresult.first();
+                            //tmpfour.setCp(tmpresult.getString(2));
+                           // tmpfour.setLocalite(tmpresult.getString(1));
+                           // tmpfour.setPays(tmpresult.getString(4));
+                           // tmpfour.setLangue(tmpresult.getString(5));
+                            //tmpfour.setRegimeTva(tmpresult.getString(6));
+                            //tmpfour.setDevise(tmpresult.getString(7));
+                            returnValue=(Fournisseur_T)tmpfour;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }else {
+                    Fournisseur_T fournvide=new Fournisseur_T();
+                    fournvide.setErreurcode(tmperreur.getErreurcode());
+                    fournvide.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Fournisseur_T)fournvide;
+                }
+                break;
+            case COMBO_FOURNDOC:
+                if(cas==1)
+                    sqlrequete="SELECT frdtcleunik,frcleunik,frdtdatetimecrea,frdtdatetimemodif,frdtnbrdocprev,frdtnbrconfprev,frdtnbrfactprev,frdtnbrncprev,frdtnbrfactsprev,snumerosessioncrea,snumerosessionmodif from fournisseur_document where frcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="SELECT frdtcleunik,frcleunik,frdtdatetimecrea,frdtdatetimemodif,frdtnbrdocprev,frdtnbrconfprev,frdtnbrfactprev,frdtnbrncprev,frdtnbrfactsprev,snumerosessioncrea,snumerosessionmodif from fournisseur_document where frcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(10),tmpresult.getString(11));
+                            Document_T tmpdoc=new Document_T(tmpresult.getInt(1),tmpresult.getInt(2),tmpresult.getDate(3),tmpresult.getDate(4),tmpresult.getInt(5),tmpresult.getInt(6),tmpresult.getInt(7),tmpresult.getInt(8),tmpresult.getInt(9),tmpresult.getString(10),tmpresult.getString(11),numSession[0],numSession[1]);
+                            tmpdoc.setErreurcode(tmperreur.getErreurcode());
+                            tmpdoc.setErreurmessage(tmperreur.getErreurmessage());
+                            returnValue=(Document_T)tmpdoc;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }
+                else {
+                    Document_T docvide=new Document_T();
+                    docvide.setErreurcode(tmperreur.getErreurcode());
+                    docvide.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Document_T)docvide;
+                }
+                break;
+            case COMBO_FOURGRPDEC:
+                if(cas==1)
+                    sqlrequete="SELECT g.gncleunik,g.frcleunik,g.ttcleunik,g.itcleunik,g.aecleunik,g.gndatetimecrea,g.gndatetimemodif,g.gncodetvavente,g.gntvainclusvente,g.gncodetvaachat,g.gntvainclusachat,g.gnnbravanteche,g.gnacompteminpp,g.gnprodstockiata,g.gnprodstockautre,g.gnpccomvente,g.gncominclpvent,g.gnpcacompte,g.gnpccomachat,g.gnpcclerepvend,g.gnpcclerepconcept,g.gnpcclerepmmere,g.snumerosessioncrea,g.snumerosessionmodif,g.frgtcleunik,g.gncomptevente,g.gncompteachat,g.gnfracomptepc,g.gnfrnbda,g.gnfrsoldepc,g.gnfrnbds,g.gnfranchise,g.caecleunik,g.tecleunik,v.vavaleurtva,v1.vavaleurtva from groupedecision g,valeurtva v,valeurtva v1 where frgtcleunik="+objcleunik+" and g.gncodetvavente=v.vacleunik and g.gncodetvaachat=v1.vacleunik;";
+                //sqlrequete="SELECT * from groupedecision where frgtcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    // sqlrequete="SELECT gncleunik,frcleunik,ttcleunik,itcleunik,gnanalytique,gndatetimecrea,gndatetimemodif,gncodetvavente,gntvainclusvente,gncodetvaachat,gntvainclusachat,gnnbravanteche,gnacomptefix,gnacompteminpp,gnprodstockiata,gnprodstockautre,gnpccomvente,gncominclpvent,gnpcacompte,gnpccomachat,gnpcclerepvend,gnpcclerepconcept,gnpcclerepmmere,snumerosessioncrea,snumerosessionmodif from groupedecision where frcleunik="+objcleunik+" FOR UPDATE;";
+                    sqlrequete="SELECT g.gncleunik,g.frcleunik,g.ttcleunik,g.itcleunik,g.aecleunik,g.gndatetimecrea,g.gndatetimemodif,g.gncodetvavente,g.gntvainclusvente,g.gncodetvaachat,g.gntvainclusachat,g.gnnbravanteche,g.gnacompteminpp,g.gnprodstockiata,g.gnprodstockautre,g.gnpccomvente,g.gncominclpvent,g.gnpcacompte,g.gnpccomachat,g.gnpcclerepvend,g.gnpcclerepconcept,g.gnpcclerepmmere,g.snumerosessioncrea,g.snumerosessionmodif,g.frgtcleunik,g.gncomptevente,g.gncompteachat,g.gnfracomptepc,g.gnfrnbda,g.gnfrsoldepc,g.gnfrnbds,g.gnfranchise,g.caecleunik,g.tecleunik,v.vavaleurtva,v1.vavaleurtva from groupedecision g,valeurtva v,valeurtva v1 where frgtcleunik="+objcleunik+" and g.gncodetvavente=v.vacleunik and g.gncodetvaachat=v1.vacleunik FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete3(sqlrequete,tmpool.getConuser(),tmperreur);
+                if(tmperreur.getErreurcode()==10000) {
+                    try{
+                        tmpresult.last();
+                        tmpNbrLigne=tmpresult.getRow();
+                        if(tmpNbrLigne!=0) {
+                            tmpresult.first();
+                            String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(22),tmpresult.getString(23));
+                            Grpdecision_T tmpGrpDec=new Grpdecision_T(tmpresult.getInt(1),tmpresult.getInt(2),tmpresult.getInt(3),tmpresult.getInt(4),tmpresult.getInt(5), tmpresult.getDate(6),tmpresult.getDate(7),tmpresult.getInt(8),tmpresult.getInt(9),tmpresult.getInt(10),tmpresult.getInt(11),tmpresult.getInt(12),tmpresult.getFloat(13),tmpresult.getInt(14),tmpresult.getInt(15),tmpresult.getFloat(16),tmpresult.getInt(17),tmpresult.getFloat(18),tmpresult.getFloat(19),tmpresult.getFloat(20),tmpresult.getFloat(21),tmpresult.getFloat(22),tmpresult.getString(23),tmpresult.getString(24),tmpresult.getInt(25),tmpresult.getString(26),tmpresult.getString(27),tmpresult.getFloat(28),tmpresult.getInt(29),tmpresult.getInt(30),tmpresult.getInt(31),tmpresult.getInt(32),tmpresult.getInt(33),tmpresult.getInt(34),numSession[0],numSession[1]);
+                            tmpGrpDec.setValeurGenFloat1(tmpresult.getFloat(35));
+                            tmpGrpDec.setValeurGenFloat2(tmpresult.getFloat(36));
+                            tmpGrpDec.setErreurcode(tmperreur.getErreurcode());
+                            tmpGrpDec.setErreurmessage(tmperreur.getErreurmessage());
+                            returnValue=(Grpdecision_T) tmpGrpDec;
+                        }
+                        tmpresult.close();
+                    }
+                    catch(SQLException e){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                    }
+                    catch(Exception e1){
+                        Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                    }
+                }
+                else{
+                    Grpdecision_T GrpDecVide=new Grpdecision_T();
+                    GrpDecVide.setErreurcode(tmperreur.getErreurcode());
+                    GrpDecVide.setErreurmessage(tmperreur.getErreurmessage());
+                    returnValue=(Grpdecision_T) GrpDecVide;
+                }
+                break;
+            case COMBO_FOURNPROD://normalement peut etre virée, a été recopiée dans chargeobectpopup
+                if(cas==1)
+                    sqlrequete="Select frgtcleunik,frcleunik,frgtitrecatalog,frgtreference1,frgtreference2,frgtanalytique,frgtdatetimecrea,frgtdatetimemodi,snumerosessioncrea,snumerosessionmodif from fournisseur_grproduit where frgtcleunik="+objcleunik+";";
+                else if(cas==2) {
+                    Transaction.begin(tmpool.getConuser());
+                    sqlrequete="Select frgtcleunik,frcleunik,frgtitrecatalog,frgtreference1,frgtreference2,frgtanalytique,frgtdatetimecrea,frgtdatetimemodi,snumerosessioncrea,snumerosessionmodif from fournisseur_grproduit where frgtcleunik="+objcleunik+" FOR UPDATE;";
+                }
+                tmpresult=Transaction.execrequete(sqlrequete,tmpool.getConuser());
+                try{
+                    tmpresult.last();
+                    tmpNbrLigne=tmpresult.getRow();
+                    if(tmpNbrLigne!=0) {
+                        tmpresult.first();
+                        String[] numSession=renvNomUserPourSession(tmpool.getConuser(),tmpresult.getString(9),tmpresult.getString(10));
+                        returnValue=(FournGrpProduits_T)new FournGrpProduits_T(tmpresult.getInt(1),tmpresult.getInt(2),tmpresult.getString(3),tmpresult.getString(4),tmpresult.getString(5),tmpresult.getInt(6),tmpresult.getDate(7),tmpresult.getDate(8),tmpresult.getString(9),tmpresult.getString(10),numSession[0],numSession[1]);
+                    }
+                    tmpresult.close();
+                }
+                catch(SQLException e){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeCodePostaux: "+e);
+                }
+                catch(Exception e1){
+                    Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans chargecodepostaux :"+e1);
+                }
+                break;
+            case GRP_PROD_DEF:
+                if(cas==1) {
+                    returnValue=(Grpdecision_T)ChargeDefaultGrpFourn(tmpool.getConuser(),objcleunik);
+                }
+        }
+        return returnValue;
+    }
+    
+
+
+
+
+public Gestionerreur_T modifyObjectPopup(Object objdp,int urcleunik,int TypObject,int cas) throws RemoteException {
+        boolean x=false;
+        String[] sqlrequete;
+        String sqlrequete2=null;
+        Gestionerreur_T tmpret=null;
+        Gestionerreur_T tmpret2=null;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,false);
+        ServeurBuffer buf = tmpool.getBuffer();
+        ArrayList tmplist=null;
+        try{
+            switch(TypObject) {
+                case COMBO_CODE_POST:
+                    srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb tmpCdpt=(srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb)objdp;
+                    if(cas==1) {
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update codepostaux set cxcode='"+tmpCdpt.getCxcode()+"' where cxcleunik="+tmpCdpt.getCxcleunik()+";";
+                        if(tmpCdpt.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductioncodpostaux values("+tmpCdpt.getCxcleunik()+",'"+tmpCdpt.getCxlocalite()+"',"+tmpCdpt.getCxlangue()+");";
+                        else
+                            sqlrequete[1]="update traductioncodpostaux set txtraduction='"+tmpCdpt.getCxlocalite()+"' where cxcleunik="+tmpCdpt.getCxcleunik()+" and lmcleunik="+tmpCdpt.getCxlangue()+";";
+                        synchronized (buf) // Ensure buffer is thread safe
+                        {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                    buf.invalidateBuffer("codePostalDir");
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case COMBO_TRANSPORT:
+                    srcastra.astra.sys.classetransfert.signaletique.Transport_T tmpTransport=(srcastra.astra.sys.classetransfert.signaletique.Transport_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update transport set trtdatetimemodi="+tmpTransport.getTrtdatetimemodif()+",snumerosessionmodif='"+tmpool.getUrnumerosession()+"' where trtcleunik="+tmpTransport.getTrtcleunik()+";";
+                        if(tmpTransport.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductiontransport values("+tmpTransport.getTrtcleunik()+","+tmpTransport.getTransportLangue()+",'"+tmpTransport.getTrattraduction()+"','"+tmpTransport.getTratabrev()+"');";
+                        else
+                            sqlrequete[1]="update traductiontransport set trattraduction='"+tmpTransport.getTrattraduction()+"',tratabrev='"+tmpTransport.getTratabrev()+"' where trtcleunik="+tmpTransport.getTrtcleunik()+" and lmcleunik="+tmpTransport.getTransportLangue()+";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("transportDir");
+                        }
+                    }
+                    break;
+                case COMBO_TVA_TYPE:
+                    srcastra.astra.sys.classetransfert.signaletique.TvaType_T tmpTvaType=(srcastra.astra.sys.classetransfert.signaletique.TvaType_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update valeurtva set vavaleurtva='"+tmpTvaType.getVavaleurtva()+"',vadatetimemodif=NOW(),snumerosessionmodif='"+tmpool.getUrnumerosession()+"' where vacleunik="+tmpTvaType.getVacleunik()+";";
+                        if(tmpTvaType.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductiontva values("+tmpTvaType.getVacleunik()+",'"+tmpTvaType.getTratraduction()+"',"+tmpTvaType.getTvalangue()+");";
+                        else
+                            sqlrequete[1]="update traductiontva set tratraduction='"+tmpTvaType.getTratraduction()+"' where vacleunik="+tmpTvaType.getVacleunik()+" and lmcleunik="+tmpTvaType.getTvalangue()+";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("tvaTypeDir");
+                        }
+                    }
+                    break;
+                case COMBO_LANGUE:
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpLangue=(srcastra.astra.sys.classetransfert.signaletique.Langue_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update langue set leabreviation='"+tmpLangue.getLeabreviation()+"',ledatetimemodif=NOW(),snumerosessionmodif='"+tmpool.getUrnumerosession()+"' where lecleunik="+tmpLangue.getLecleunik()+";";
+                        if(tmpLangue.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductionlangues values("+tmpLangue.getLecleunik()+","+tmpLangue.getLelacleunik()+",'"+tmpLangue.getLetraduction()+"');";
+                        else
+                            sqlrequete[1]="update traductionlangues set letraduction='"+tmpLangue.getLetraduction()+"' where lecleunik="+tmpLangue.getLecleunik()+" and lmcleunik="+tmpLangue.getLelacleunik()+";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("langueDir");
+                        }
+                    }
+                    break;
+                case COMBO_DEVISE:
+                    srcastra.astra.sys.classetransfert.signaletique.Devise_Tb tmpDev=(srcastra.astra.sys.classetransfert.signaletique.Devise_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update devise set decode='"+tmpDev.getDecode()+"',devtaux="+tmpDev.getDevtaux()+",dedatetimemodi=NOW(),snumerosessionmodif='"+tmpool.getUrnumerosession()+"'  where decleunik="+tmpDev.getDecleunik()+";";
+                        if(tmpDev.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductiondevise values("+tmpDev.getDecleunik()+","+tmpDev.getDevlangue()+",'"+tmpDev.getDevtraduction()+"');";
+                        else
+                            sqlrequete[1]="update traductiondevise set tretraduction='"+tmpDev.getDevtraduction()+"' where decleunik="+tmpDev.getDecleunik()+" and lmcleunik="+tmpDev.getDevlangue()+";";
+                        
+                        Transaction.begin(tmpool.getConuser());
+                        tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                        if(tmpret.getErreurcode()==10000) {
+                            tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                            if(tmpret2.getErreurcode()==10000) {
+                                String req="INSERT INTO historiquedevise(decleunik,hedate,hetaux) values("+tmpDev.getDecleunik()+",NOW(),"+tmpDev.getDevtaux()+")";
+                                tmpret2=Transaction.execrequeteinsert(req,tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                    synchronized (buf) {
+                                        buf.invalidateBuffer("deviseDir");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case COMBO_PAYS:
+                    srcastra.astra.sys.classetransfert.signaletique.Pays_Tb tmpPays=(srcastra.astra.sys.classetransfert.signaletique.Pays_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="update pays set pysabrev='"+tmpPays.getPysabrev()+"' where pyscleunik="+tmpPays.getPyscleunik()+";";
+                        if(tmpPays.getTmpString().compareTo("none")==0)
+                            sqlrequete[1]="insert into traductionpays(pyscleunik,lmcleunik,pystraduction) values("+tmpPays.getPyscleunik()+","+tmpPays.getPysLangue()+",'"+tmpPays.getPystraduction()+"');";
+                        else
+                            sqlrequete[1]="update traductionpays set pystraduction='"+tmpPays.getPystraduction()+"' where pyscleunik="+tmpPays.getPyscleunik()+" and lmcleunik="+tmpPays.getPysLangue()+";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("paysDir");
+                        }
+                    }
+                    break;
+                case COMBO_FOURNPROD:
+                    FournGrpProduits_T tmpFourn=(FournGrpProduits_T)objdp;
+                    if(cas==1){
+                        sqlrequete2="update fournisseur_grproduit set frgtitrecatalog='"+tmpFourn.getFrgtitrecatalog()+"',frgtreference1='"+tmpFourn.getFrgtreference1() +"',frgtreference2='"+tmpFourn.getFrgtreference2() +"',snumerosessionmodif='"+ tmpool.getUrnumerosession()+"',frgtdatetimemodi=NOW() where frgtcleunik="+tmpFourn.getFrgtcleunik()+";";
+                        Transaction.begin(tmpool.getConuser());
+                        tmpret=Transaction.execrequeteModif(sqlrequete2,tmpool.getConuser());
+                        if(tmpret.getErreurcode()==10000) {
+                            Transaction.commit(tmpool.getConuser());
+                        }
+                        else {
+                            Logger.getDefaultLogger().log(Logger.LOG_WARNING,"erreur dans modifypopup:combo_fournprod"+tmpret.getErreurcode()+" "+tmpret.getErreurmessage());
+                        }
+                    }
+                    break;
+                case COMBO_LOGEMENT:
+                    srcastra.astra.sys.classetransfert.signaletique.Logement_T tmpLogement=(srcastra.astra.sys.classetransfert.signaletique.Logement_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0] = "update logement set ltdatetimemodi="+tmpLogement.getLtdatetimemodif()+", snumerosessionmodif='"+tmpool.getUrnumerosession()+"' where ltcleunik="+tmpLogement.getLtcleunik()+";";
+                        if(tmpLogement.getTmpString().compareTo("none")==0)
+                            sqlrequete[1] = "insert into traductionlogement values (" + tmpLogement.getLtcleunik() + "," + tmpLogement.getLmcleunik() + ",'" + tmpLogement.getLtintitule() + "','" + tmpLogement.getLtabrege() + "');";
+                        else
+                            sqlrequete[1] = "update traductionlogement set ltintitule='" + tmpLogement.getLtintitule() + "', ltabrege='" + tmpLogement.getLtabrege() + "' where ltcleunik=" + tmpLogement.getLtcleunik() + " and lmcleunik=" + tmpLogement.getLmcleunik() + ";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("logementDir");
+                        }
+                    }
+                    break;
+                case COMBO_TITREPERSONNES:
+                    srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T tmpTitrePers=(srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0] = "update titrepers set tsdatetimemodif=" + tmpTitrePers.getTsdatetimemodif() + ", snumerosessionmodif='" + tmpool.getUrnumerosession() + "' where tscleunik=" + tmpTitrePers.getTscleunik() + ";";
+                        if(tmpTitrePers.getTmpString().compareTo("none")==0)
+                            sqlrequete[1] = "insert into traductiontitrepers values (" + tmpTitrePers.getTscleunik() + "," + tmpTitrePers.getLmcleunik() + ",'" + tmpTitrePers.getTsintitule() + "','" + tmpTitrePers.getTsabrege() + "')";
+                        else
+                            sqlrequete[1] = "update traductiontitrepers set tsintitule='" + tmpTitrePers.getTsintitule() + "', tsabrege='" + tmpTitrePers.getTsabrege() + "' where tscleunik=" + tmpTitrePers.getTscleunik() + " and lmcleunik=" + tmpTitrePers.getLmcleunik() + ";";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                tmpret2=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                if(tmpret2.getErreurcode()==10000) {
+                                    Transaction.commit(tmpool.getConuser());
+                                }
+                            }
+                            buf.invalidateBuffer("titrePersDir");
+                        }
+                    }
+                    break;
+                    
+            }
+        }
+        catch(Exception i) {
+            System.err.println("Exception :"+i);
+            i.printStackTrace();
+        }
+        return tmpret;
+        
+    }
+    
+    public Gestionerreur_T __insertObjectPopup(Object objdp,int urcleunik,int TypObject,int cas) throws RemoteException{
+        boolean x=false;
+        String[] sqlrequete;
+        String sqlrequete2;
+        Gestionerreur_T tmpret=null;
+        Poolconnection tmpool =getConnectionAndCheck(urcleunik,true);
+        ServeurBuffer buf=tmpool.getBuffer();
+        ArrayList tmplist=null;
+        try{
+            switch(TypObject) {
+                case COMBO_CODE_POST:
+                    srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb tmpCdpt=(srcastra.astra.sys.classetransfert.signaletique.CodePost_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into codepostaux(cxcode,cxintitulegen) values('"+tmpCdpt.getCxcode()+"','"+tmpCdpt.getCxlocalite()+"');";
+                        synchronized (buf)   // Ensure buffer is thread safe
+                        {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpCdpt.getNbrLangue();j++) {
+                                    //Object[] tmpobj=(Object[])tmplist.get(j);
+                                    sqlrequete[1]="insert into traductioncodpostaux(cxcleunik,txtraduction,lmcleunik) values("+tmpret.getTmpint()+",'"+tmpCdpt.getCxlocalite()+"',"+(j+1)+");";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                                buf.invalidateBuffer("codePostalDir");
+                            }
+                        }
+                    }
+                    break;
+                case COMBO_TVA_TYPE:
+                    srcastra.astra.sys.classetransfert.signaletique.TvaType_T tmpTypTva=(srcastra.astra.sys.classetransfert.signaletique.TvaType_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into valeurtva(vavaleurtva,vadatetimecrea,vadatetimemodif,snumerosessioncrea,snumerosessionmodif) values("+tmpTypTva.getVavaleurtva()+",NOW(),NOW(),'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpTypTva.getNbrLangue();j++) {
+                                    sqlrequete[1]="insert into traductiontva(vacleunik,tratraduction,lmcleunik) values("+tmpret.getTmpint()+",'"+tmpTypTva.getTratraduction()+"',"+(j+1)+");";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                                buf.invalidateBuffer("tvaTypeDir");
+                            }
+                        }
+                    }
+                    break;
+                case COMBO_TRANSPORT:
+                    srcastra.astra.sys.classetransfert.signaletique.Transport_T tmpTransport=(srcastra.astra.sys.classetransfert.signaletique.Transport_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into transport(trtlintitule,trtdatetimecrea,trtdatetimemodi,snumerosessioncrea,snumerosessionmodif) values('"+tmpTransport.getTrattraduction()+"',NOW(),NOW(),'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpTransport.getNbrLangue();j++) {
+                                    //Object[] tmpobj=(Object[])tmplist.get(j);
+                                    sqlrequete[1]="insert into traductiontransport(trtcleunik,trattraduction,tratabrev,lmcleunik) values("+tmpret.getTmpint()+",'"+tmpTransport.getTrattraduction()+"','"+tmpTransport.getTratabrev()+"',"+(j+1)+");";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("transportDir");
+                        }
+                    }
+                    
+                    break;
+                case COMBO_LANGUE:
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpLangue=(srcastra.astra.sys.classetransfert.signaletique.Langue_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into langue(leabreviation,ledatetimecrea,ledatetimemodif,snumerosessioncrea,snumerosessionmodif) values('"+tmpLangue.getLeabreviation()+"',NOW(),NOW(),'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpLangue.getNbrLangue();j++) {
+                                    //Object[] tmpobj=(Object[])tmplist.get(j);
+                                    sqlrequete[1]="insert into traductionlangues(lecleunik,lmcleunik,letraduction) values("+tmpret.getTmpint()+","+(j+1)+",'"+tmpLangue.getLetraduction()+"');";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("langueDir");
+                        }
+                    }
+                    break;
+                case COMBO_PAYS:
+                    srcastra.astra.sys.classetransfert.signaletique.Pays_Tb tmpPays=(srcastra.astra.sys.classetransfert.signaletique.Pays_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into pays(pysabrev) values('"+tmpPays.getPysabrev()+"');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpPays.getNbrLangue();j++) {
+                                    sqlrequete[1]="insert into traductionpays(pyscleunik,pystraduction,lmcleunik) values("+ tmpret.getTmpint()+",'"+tmpPays.getPystraduction()+"',"+(j+1)+");";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("paysDir");
+                        }
+                    }
+                    break;
+                case COMBO_DEVISE:
+                    srcastra.astra.sys.classetransfert.signaletique.Devise_Tb devise=(srcastra.astra.sys.classetransfert.signaletique.Devise_Tb)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into devise(decode,devtaux,dedatetimecrea,dedatetimemodi,snumerosessioncrea,snumerosessionmodif) values('"+devise.getDecode()+"',"+devise.getDevtaux()+",NOW(),NOW(),'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=devise.getNbrLangue();j++) {
+                                    sqlrequete[1]="insert into traductiondevise(decleunik,tretraduction,lmcleunik) values("+ tmpret.getTmpint()+",'"+devise.getDevtraduction()+"',"+(j+1)+");";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("deviseDir");
+                        }
+                    }
+                    break;
+                case COMBO_FOURNPROD:
+                    FournGrpProduits_T tmpGrpProd=(FournGrpProduits_T)objdp;
+                    Grpdecision_T  grpd;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0]="insert into fournisseur_grproduit(frcleunik,frgtitrecatalog,frgtreference1,frgtreference2,aecleunik,frgtdatetimecrea,frgtdatetimemodi,snumerosessioncrea,snumerosessionmodif) values("+tmpGrpProd.getFrcleunik()+",'"+tmpGrpProd.getFrgtitrecatalog()+"','"+tmpGrpProd.getFrgtreference1()+"','"+tmpGrpProd.getFrgtreference2()+"','"+tmpGrpProd.getFrgtanalytique()+"',NOW(),NOW(),'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"');";
+                        System.out.println(sqlrequete[0]);
+                        grpd=ChargeDefaultGrpFourn(tmpool.getConuser(),1);
+                        Transaction.begin(tmpool.getConuser());
+                        tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                        if(tmpret.getErreurcode()==10000) {
+                            sqlrequete[1]= "insert into groupedecision(frcleunik,ttcleunik,itcleunik,aecleunik,gndatetimecrea,gndatetimemodif,gncodetvavente,"+
+                            "gntvainclusvente,gncodetvaachat,gntvainclusachat,gnnbravanteche,gnacompteminpp,gnprodstockiata,gnprodstockautre,gnpccomvente,gncominclpvent,gnpcacompte,gnpccomachat,gnpcclerepvend,gnpcclerepconcept,gnpcclerepmmere,snumerosessioncrea,snumerosessionmodif,frgtcleunik,gncomptevente,gncompteachat,gnfracomptepc,gnfrnbda,gnfrsoldepc,gnfrnbds,gnfranchise,caecleunik,tecleunik) values("+tmpGrpProd.getFrcleunik()+
+                            ","+grpd.getTtcleunik()+","+grpd.getItcleunik()+","+
+                            grpd.getAecleunik()+",NOW(),NOW(),"+grpd.getGncodetvavente()+","+grpd.getGntvainclusvente()+","+grpd.getGncodetvaachat()+","+grpd.getGntvainclusachat()+","+grpd.getGnnbravanteche()+","+grpd.getGnacompteminpp()+","+grpd.getGnprodstockiata()+","+grpd.getGnprodstockautre()+","+grpd.getGnpccomvente()+","+grpd.getGncominclpvent()+","+grpd.getGnpcacompte()+","+grpd.getGnpccomachat()+","+grpd.getGnpcclerepvend()+","+grpd.getGnpcclerepconcept()+","+grpd.getGnpcclerepmmere()+",'"+tmpool.getUrnumerosession()+"','"+tmpool.getUrnumerosession()+"',"+tmpret.getTmpint()+",'"+grpd.getGncomptevente()+"','"+grpd.getGncompteachat()+"',"+grpd.getGnfracomptepc()+","+grpd.getGnfrnbda()+","+grpd.getGnfrsoldepc()+","+grpd.getGnfrnbds()+","+grpd.getGnfranchise()+","+grpd.getCaecleunik()+","+grpd.getTecleunik()+");";
+                            System.out.println(sqlrequete[1]);
+                            Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"requete "+ sqlrequete[1]);
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                        }
+                    }
+                    break;
+                case COMBO_SIGNALITIQUE:
+                    Signalitique_T tmpSign=(Signalitique_T)objdp;
+                    if(cas==1){
+                        Transaction.begin(tmpool.getConuser());
+                        int id=genereId("insert into test(test) values(2);",tmpool.getConuser());
+                        for(int j=0;j<=tmpSign.getNbrLangue();j++) {
+                            Object[] tmpobj=(Object[])tmplist.get(j);
+                            sqlrequete2="insert into traductionintitule(caecleunik,lmcleunik,tecleunik,teabrev,tetraduction) values("+ tmpSign.getCaecleunik()+","+tmpobj[0]+","+id+",'"+tmpobj[1]+"','"+tmpobj[2]+"');";
+                            Transaction.execrequeteinsert(sqlrequete2,tmpool.getConuser());
+                        }
+                        Transaction.commit(tmpool.getConuser());
+                    }
+                    break;
+                    
+                case COMBO_LOGEMENT:
+                    srcastra.astra.sys.classetransfert.signaletique.Logement_T tmpLogement=(srcastra.astra.sys.classetransfert.signaletique.Logement_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0] = "insert into logement(ltdatetimecrea, ltdatetimemodi, snumerosessioncrea, snumerosessionmodif) values (NOW(), NOW(), '" + tmpool.getUrnumerosession() + "','" + tmpool.getUrnumerosession() + "');";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpLogement.getNbrLangue();j++) {
+                                    //Object[] tmpobj=(Object[])tmplist.get(j);
+                                    sqlrequete[1] = "insert into traductionlogement (ltcleunik, lmcleunik, ltintitule, ltabrege) values(" + tmpret.getTmpint() + "," + (j+1) + ",'" + tmpLogement.getLtintitule() + "','" + tmpLogement.getLtabrege() + "');";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("logementDir");
+                        }
+                    }
+                    break;
+                    
+                case COMBO_TITREPERSONNES:
+                    srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T tmpTitrePers=(srcastra.astra.sys.classetransfert.signaletique.TitrePersonne_T)objdp;
+                    if(cas==1){
+                        sqlrequete=new String[2];
+                        sqlrequete[0] = "insert into titrepers(tsdatetimecrea, tsdatetimemodif, snumerosessioncrea, snumerosessionmodif) values (NOW(), NOW(), '" + tmpool.getUrnumerosession() + "','" + tmpool.getUrnumerosession() + "')";
+                        synchronized (buf) {
+                            Transaction.begin(tmpool.getConuser());
+                            tmpret=Transaction.execrequeteinsert(sqlrequete[0],tmpool.getConuser());
+                            if(tmpret.getErreurcode()==10000) {
+                                for(int j=0;j<=tmpTitrePers.getNbrLangue();j++) {
+                                    //Object[] tmpobj=(Object[])tmplist.get(j);
+                                    sqlrequete[1] = "insert into traductiontitrepers (tscleunik, lmcleunik, tsintitule, tsabrege) values(" + tmpret.getTmpint() + "," + (j+1) + ",'" + tmpTitrePers.getTsintitule() + "','" + tmpTitrePers.getTsabrege() + "');";
+                                    Transaction.execrequeteinsert(sqlrequete[1],tmpool.getConuser());
+                                }
+                                Transaction.commit(tmpool.getConuser());
+                            }
+                            buf.invalidateBuffer("titrePersDir");
+                        }
+                    }
+                    break;
+            }
+        }
+        catch(Exception i) {
+            Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Exception :"+i);
+        }
+        return tmpret;
+    }
+
+
+    public java.util.ArrayList renvIntitule(int  urlmcleunik,int urcleunik,int cas,int typedesignalitique,int caecleunik) throws RemoteException{
+        ArrayList returnValue=null;
+        Poolconnection tmpool=getConnectionAndCheck(urcleunik,true);
+        switch(typedesignalitique) {
+            case COMBO_FOURGRPDEC:
+                returnValue= renvIntituleGrpdecision(urlmcleunik,tmpool.getConuser(),cas,caecleunik);
+                break;
+            case COMBO_PAYS:
+                break;
+        }
+        return returnValue;
+    }
+
+
+    
+    private ArrayList ChargePopupTraduction(int  typeDePopup,Connection usercon,int cas,int objectCleunik) {
+        ArrayList returnvalue=null;
+        String sqlrequete=null;
+        String sqlrequete2=null;
+        int  nbrLigne=0;
+        sqlrequete ="select  lmcleunik,lmintitule from languesystem order by lmcleunik";
+        switch(typeDePopup) {
+            case COMBO_CODE_POST:
+                sqlrequete2="select lmcleunik,txtraduction from traductioncodpostaux where cxcleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+                break;
+            case COMBO_PAYS:
+                sqlrequete2="select lmcleunik,pystraduction from traductionpays where pyscleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+                break;
+            case COMBO_DEVISE:
+                sqlrequete2="select lmcleunik,tretraduction from traductiondevise where decleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+                break;
+            case COMBO_LANGUE:
+                sqlrequete2="select lmcleunik,letraduction from traductionlangues where lecleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+                break;
+            case COMBO_TVA_TYPE:
+                sqlrequete2="select lmcleunik,tratraduction from traductiontva where vacleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+                break;
+            case COMBO_TRANSPORT:
+                sqlrequete2="select lmcleunik,tratabrev,trattraduction from traductiontransport where trtcleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,2);
+                break;
+            case COMBO_LOGEMENT:
+                sqlrequete2="select lmcleunik,ltintitule, ltabrege from traductionlogement where ltcleunik="+objectCleunik+" order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,2);
+                break;
+            case COMBO_TITREPERSONNES:
+                sqlrequete2 = "select lmcleunik, tsintitule, tsabrege from traductiontitrepers where tscleunik=" + objectCleunik + " order by lmcleunik;";
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,2);
+                break;
+                
+        }
+        return returnvalue;
+    }
+
+    
+    public java.util.ArrayList renvIntituleGrpdecision(int urlmcleunik,Connection usercon,int cas,int caecleunik) {
+        String tmplangue;
+        String sqlrequete=null;
+        ArrayList tmpList;
+        if(cas==1)
+            sqlrequete="select t.tecleunik,t.tetraduction from traductionintitule t where  t.lmcleunik="+ urlmcleunik+" and t.caecleunik="+caecleunik+" order by t.tetraduction;";
+        else if(cas==2)
+            sqlrequete="select t.tecleunik,t.tetraduction from traductionintitule t where  t.lmcleunik="+ urlmcleunik+" and t.caecleunik="+caecleunik+" order by t.tetraduction;";
+        tmpList=generecombostest(sqlrequete,usercon);
+        return tmpList;
+    }
+    //*******************************************************************************************
+    // ! ! ! ! !
+    // Cette fonction est define dans l'interface et ne semble plus être utilisée
+    // Il pourrait être judicieux de la supprimer de celle ci.
+    // De plus, elle a du être modifiée pour supprimer les champs globaux de l'objet!!!
+    //
+    public ArrayList renvComboTest(char typedecombo,int urcleunik,int urlmcleunik,char plettre,String cxcode,int cas) throws RemoteException {
+        //managepool.poolgetsize();
+        //Poolconnection tmpool=(Poolconnection) managepool.renvObjectprurcleunik(urcleunik);
+        ArrayList tmp=null;
+        //System.out.println("char :"+typedecombo);
+        try{
+            switch(typedecombo) {
+                case 'p':
+                    tmp=renvcombopays(urlmcleunik,plettre,null,cas,null) ;
+                    break;
+                case 'd':
+                    tmp=renvcombodevise(urlmcleunik,plettre,null,cas,null);
+                    break;
+                case 'l':
+                    tmp=renvcombolangue(urlmcleunik,plettre,null,cas, null);
+                    break;
+                case 'L':
+                    tmp=renvcombolocalite(urlmcleunik,plettre,cxcode,null,cas, null);
+                    break;
+                case 'c':
+                    tmp=renvcombocodepostaux(urlmcleunik,plettre,null,cas, null);
+                    break;
+                case 'r':
+                    tmp=renvcombotvaregime(urlmcleunik,plettre,null,cas, null);
+                    break;
+            }
+        }
+        catch(Exception eu) {
+            Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Exception dans renvcombo "+eu);
+        }
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,"fin de renvcombo");
+        Logger.getDefaultLogger().log(Logger.LOG_DEBUG,tmp.size());
+        return tmp;
+        
+    }

@@ -1,0 +1,2323 @@
+/*
+
+
+
+
+
+
+
+ * Bateau_T.java
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * Created on 3 décembre 2002, 9:26
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package srcastra.astra.sys.classetransfert.dossier.bateau;
+
+
+
+
+
+
+
+import java.sql.*;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Grpdecision_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Loginusers_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.rmi.astrainterface;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.utils.Date;
+
+
+
+
+
+
+
+import srcastra.astra.sys.produit.*;
+
+import srcastra.astra.sys.classetransfert.dossier.*;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * @author  Sébastien
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+public class Bateau_T extends srcastra.astra.sys.classetransfert.dossier.produit_T implements java.io.Serializable,
+
+
+
+
+
+
+
+                                    Cloneable,srcastra.astra.sys.rmi.DossierSql,srcastra.astra.sys.classetransfert.dossier.InterfaceIndivProduit,ProduitSynthese {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+    private long bat_cleUnik;
+
+
+
+
+
+
+
+    private String bat_pnr;
+
+
+
+
+
+
+
+    private Date bat_dateDepart;
+
+
+
+
+
+
+
+    private Date bat_dateRetour;
+
+
+
+
+
+
+
+    private String bat_memo;
+
+
+
+
+
+
+
+    private double bat_montant;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ //   public transient srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        
+
+
+
+
+
+
+
+    /** Creates a new instance of Bateau_T */
+
+
+
+
+
+
+
+    public Bateau_T() {
+
+
+
+
+
+
+
+        setPax(1);
+
+
+
+
+
+
+
+        setQua(1);
+
+
+
+
+
+
+
+        setPrct(100);
+
+
+
+
+
+
+
+       setTypeDeProduitCleunik(super.BA);                                            
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+  /*  public void prepareAffichage() {
+
+
+
+
+
+
+
+        String tmp=getGroupdec().getGntvainclusvente()==1?"INC":"N.INC";
+
+
+
+
+
+
+
+        produitaffichage=new srcastra.astra.sys.classetransfert.dossier.ProduitAffichage(this, "B", this.getFrnom(), this.getGroupe_produit_nom(), "","",this.getBat_memo(), 
+
+
+
+
+
+
+
+                                                                                         new Float(bat_montant).floatValue(),getQua(),getPax(),getPrct(),"ok",this.getValeur_tot(),
+
+
+
+
+
+
+
+                                                                                         this.getAt_cleunik(),this.getTypeDeProduitCleunik(), 
+
+
+
+
+
+
+
+                                                                                         getGroupdec().getValeurGenFloat1(),tmp,getValeur_tot_tva_inc());   
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long getAt_cleunik() {
+
+
+
+
+
+
+
+        return bat_cleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void setAt_cleunik(long atCleunik) {
+
+
+
+
+
+
+
+        bat_cleUnik = atCleunik;
+
+
+
+
+
+
+
+        super.setAt_cleunik(atCleunik);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public Object clone()throws CloneNotSupportedException{
+
+
+
+
+
+
+
+       return super.clone(); 
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void annulMe(Connection con, PreparedStatement pstmt) throws SQLException{
+
+           pstmt=con.prepareStatement("UPDATE  bateau  set annuler=1 WHERE bat_cleunik=?;");
+
+           pstmt.setLong(1,this.getBat_cleUnik());
+
+           pstmt.execute();    
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void chargeMe(Loginusers_T currentuser, astrainterface serveur, Dossier_T dossier, Connection con, double cledossier, PreparedStatement pstmt) throws SQLException, java.rmi.RemoteException {
+
+
+
+
+
+
+
+     //"SELECT  b.bat_cleunik, b.bat_pnr , b.bat_datedepart , b.bat_dateretour , b.bat_statut , b.bat_memo, 
+
+
+
+
+
+
+
+     //b.bat_montant , b.dr_cleunik , b.frgtcleunik  , b.pourcent , b.pax , b.quantite, b.longtime,b.datetimecrea,
+
+
+
+
+
+
+
+     //b.datetimemodif, h.hevaleur, h.hevaleurbase, h.hevaleurtva FROM bateau a,historique2 h WHERE h.lignecleunik=b.bat_cleunik 
+
+
+
+
+
+
+
+     //AND h.sn_cleunik=0 AND h.ctprocleunik=5 AND b.dr_cleunik=? AND b.annuler=0 AND h.hedossiercourant='O';";
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("SELECT  b.bat_cleunik, b.bat_pnr , b.bat_datedepart , b.bat_dateretour , b.bat_statut , b.bat_memo, b.bat_montant , b.dr_cleunik , b.frgtcleunik  , b.pourcent , b.pax , b.quantite, b.longtime,b.datetimecrea,b.datetimemodif, h.hevaleur, h.hevaleurbase, h.hevaleurtva,h.helibelle FROM bateau b,historique2 h WHERE h.lignecleunik=b.bat_cleunik AND h.sn_cleunik=0 AND h.ctprocleunik=5 AND b.dr_cleunik=? AND b.annuler=0 AND h.hedossiercourant='O'");
+
+
+
+
+
+
+
+                pstmt.setInt(1,dossier.getDrcleunik());
+
+
+
+
+
+
+
+                ResultSet result=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result.beforeFirst();
+
+
+
+
+
+
+
+                while(result.next()){ 
+
+
+
+
+
+
+
+                Bateau_T bateau=new Bateau_T();
+
+
+
+
+
+
+
+                bateau.setBat_cleUnik(result.getLong(1));
+
+
+
+
+
+
+
+                bateau.setBat_pnr(result.getString(2));
+
+
+
+
+
+
+
+                bateau.setBat_dateDepart(new Date(result.getString(3)));
+
+
+
+
+
+
+
+                bateau.setBat_dateRetour(new Date(result.getString(4)));
+
+
+
+
+
+
+
+                bateau.setStatut(result.getInt(5));
+
+
+
+
+
+
+
+                bateau.setBat_memo(result.getString(6));
+
+
+
+
+
+
+
+                bateau.setAt_val_vente(result.getDouble(7));
+
+
+
+
+
+
+
+                bateau.setFrgtcleunik(result.getInt(9));
+
+
+
+
+
+
+
+                bateau.setPrct(result.getFloat(10));
+
+
+
+
+
+
+
+                bateau.setPax(result.getInt(11));
+
+
+
+
+
+
+
+                bateau.setQua(result.getInt(12));
+
+
+
+
+
+
+
+                bateau.setLongtime(result.getLong(13));
+
+
+
+
+
+
+
+                bateau.setDatetimecrea(new Date(result.getString(14)));
+
+
+
+
+
+
+
+                bateau.setDatetimemodif(new Date(result.getString(15)));
+
+
+
+
+
+
+
+                bateau.setValeur_tot_tva_inc(-result.getDouble(16));                
+
+
+
+
+
+
+
+                bateau.setValeur_tot(-result.getDouble(17));
+
+
+
+
+
+
+
+                bateau.setMontant_tva(-result.getDouble(18));  
+
+
+
+
+
+
+
+                bateau.setLibelleCompta(result.getString(19));
+
+
+
+
+
+
+
+                Grpdecision_T tmp=(Grpdecision_T)serveur.ChargeObject(currentuser.getUrlmcleunik(),currentuser.getUrcleunik(),new Long(bateau.getBat_cleUnik()).intValue(),bateau.BA,serveur.COMBO_PRODUITGRPDEC);
+
+
+
+
+
+
+
+                Grpdecision_T tmp2=(Grpdecision_T)serveur.ChargeObject(currentuser.getUrlmcleunik(),currentuser.getUrcleunik(),bateau.getFrgtcleunik(),1,serveur.COMBO_FOURGRPDEC);
+
+
+
+
+
+
+
+                bateau.setGroupdecBase(tmp2);
+
+
+
+
+
+
+
+                if(tmp!=null){
+
+
+
+
+
+
+
+                    tmp.setIsfromProduit(true);
+
+
+
+
+
+
+
+                    bateau.setGroupdec(tmp); 
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                else 
+
+
+
+
+
+
+
+                 bateau.setGroupdec(tmp2);
+
+
+
+
+
+              ProduitInfoComplementaire.getInfo(ProduitInfoComplementaire.BA,ProduitInfoComplementaire.BA_FULL,produit_T.BA,currentuser.getLangage(),bateau,con);
+
+              /*  pstmt=con.prepareStatement(CHARGE_GRP_PROD);
+
+
+
+
+
+
+
+                pstmt.setInt(1,bateau.getFrgtcleunik());
+
+
+
+
+
+
+
+                ResultSet result2=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result2.beforeFirst();
+
+
+
+
+
+
+
+                while(result2.next()){
+
+
+
+
+
+
+
+                    bateau.setGroupe_produit_nom(result2.getString(1));
+
+
+
+
+
+
+
+                    bateau.setFrcleunik(result2.getInt(2));
+
+
+
+
+
+
+
+                    bateau.setFrnom(result2.getString(3));
+
+
+
+
+
+
+
+                    bateau.setTypeDeProduitCleunik(bateau.BA);
+
+
+
+
+
+
+
+                    bateau.setTypeDeProduitNom("BA");
+
+
+
+
+
+
+
+                } */
+
+
+
+
+
+
+
+                 bateau.setDoc(pstmt,con);
+
+
+
+
+
+
+
+                 //chargeConjonction(ticket,pstmt,con);
+
+
+
+
+
+
+
+                 SupplementReduction.chargeSupreduc(bateau,con,pstmt,serveur,currentuser.getUrcleunik()); 
+
+
+
+
+
+
+
+                 dossier.addBateau(bateau);
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long insertOnlyme(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException{
+
+
+
+
+
+
+
+                String date;
+
+
+
+
+
+
+
+                // "INSERT INTO bateau ( bat_pnr , bat_datedepart , bat_dateretour , 
+
+
+
+
+
+
+
+       //bat_statut , bat_memo, bat_montant , dr_cleunik , frgtcleunik  , pourcent , 
+
+
+
+
+
+
+
+       //pax , quantite, longtime , datetimecrea , datetimemodif) VALUES (? , ? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?, NOW(),NOW())";
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("INSERT INTO bateau ( bat_pnr , bat_datedepart , bat_dateretour , bat_statut , bat_memo, bat_montant , dr_cleunik , frgtcleunik  , pourcent , pax , quantite, longtime , datetimecrea , datetimemodif) VALUES (? , ? ,? ,? ,? ,? ,? ,? ,? ,? ,? ,?, NOW(),NOW());");
+
+
+
+
+
+
+
+                pstmt.setString(1,this.getBat_pnr());   
+
+
+
+
+
+
+
+                if(this.getBat_dateDepart()==null) date="0000-00-00 00:00:00"; else date=getBat_dateDepart().toString();
+
+
+
+
+
+
+
+                    pstmt.setString(2,date);
+
+
+
+
+
+
+
+                if(this.getBat_dateRetour()==null) date="0000-00-00 00:00:00"; else date=this.getBat_dateRetour().toString();
+
+
+
+
+
+
+
+                    pstmt.setString(3,date);
+
+
+
+
+
+
+
+                pstmt.setInt(4,this.getStatut());
+
+
+
+
+
+
+
+                pstmt.setString(5,this.getBat_memo());
+
+
+
+
+
+
+
+                pstmt.setDouble(6,this.getAt_val_vente());
+
+
+
+
+
+
+
+                pstmt.setLong(7,new Double(cledossier).intValue());
+
+
+
+
+
+
+
+                pstmt.setInt(8,this.getFrgtcleunik());
+
+
+
+
+
+
+
+                pstmt.setFloat(9,this.getPrct()); 
+
+
+
+
+
+
+
+                pstmt.setInt(10,this.getPax());
+
+
+
+
+
+
+
+                pstmt.setInt(11,this.getQua());
+
+
+
+
+
+
+
+                pstmt.setLong(12,this.getLongtime());
+
+
+
+
+
+
+
+                pstmt.execute();
+
+
+
+
+
+
+
+                this.setBat_cleUnik(getId(con));   
+
+
+
+
+
+
+
+                return this.getBat_cleUnik();
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void modifyOnlyMe(Connection con, int cledossier, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("UPDATE  bateau  set bat_pnr=? , bat_datedepart=? , bat_dateretour=? , bat_statut=? , bat_memo=?, bat_montant=? , frgtcleunik=?  , pourcent=? , pax=? , quantite=?, datetimemodif=NOW() WHERE bat_cleunik=?;");
+
+
+
+
+
+
+
+                pstmt.setString(1,this.getBat_pnr());   
+
+
+
+
+
+
+
+                pstmt.setString(2,this.getBat_dateDepart().toString());
+
+
+
+
+
+
+
+                pstmt.setString(3,this.getBat_dateRetour().toString());
+
+
+
+
+
+
+
+                pstmt.setInt(4,this.getStatut());
+
+
+
+
+
+
+
+                pstmt.setString(5,this.getBat_memo());
+
+
+
+
+
+
+
+                pstmt.setDouble(6,this.getAt_val_vente());
+
+
+
+
+
+
+
+                pstmt.setInt(7,this.getFrgtcleunik());
+
+
+
+
+
+
+
+                pstmt.setFloat(8,this.getPrct()); 
+
+
+
+
+
+
+
+                pstmt.setInt(9,this.getPax());
+
+
+
+
+
+
+
+                pstmt.setInt(10,this.getQua());
+
+
+
+
+
+
+
+                pstmt.setLong(11,this.getBat_cleUnik());
+
+
+
+
+
+
+
+                pstmt.execute();    
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_cleUnik.
+
+
+
+
+
+
+
+     * @return Value of property bat_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public long getBat_cleUnik() {
+
+
+
+
+
+
+
+        return bat_cleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_cleUnik.
+
+
+
+
+
+
+
+     * @param bat_cleUnik New value of property bat_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_cleUnik(long bat_cleUnik) {
+
+
+
+
+
+
+
+       setAt_cleunik(bat_cleUnik);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_dateDepart.
+
+
+
+
+
+
+
+     * @return Value of property bat_dateDepart.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getBat_dateDepart() {
+
+
+
+
+
+
+
+        return bat_dateDepart;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_dateDepart.
+
+
+
+
+
+
+
+     * @param bat_dateDepart New value of property bat_dateDepart.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_dateDepart(srcastra.astra.sys.classetransfert.utils.Date bat_dateDepart) {
+
+
+
+
+
+
+
+        this.bat_dateDepart = bat_dateDepart;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_dateRetour.
+
+
+
+
+
+
+
+     * @return Value of property bat_dateRetour.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getBat_dateRetour() {
+
+
+
+
+
+
+
+        return bat_dateRetour;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_dateRetour.
+
+
+
+
+
+
+
+     * @param bat_dateRetour New value of property bat_dateRetour.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_dateRetour(srcastra.astra.sys.classetransfert.utils.Date bat_dateRetour) {
+
+
+
+
+
+
+
+        this.bat_dateRetour = bat_dateRetour;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_memo.
+
+
+
+
+
+
+
+     * @return Value of property bat_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getBat_memo() {
+
+
+
+
+
+
+
+        return bat_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_memo.
+
+
+
+
+
+
+
+     * @param bat_memo New value of property bat_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_memo(java.lang.String bat_memo) {
+
+
+
+
+
+
+
+        this.bat_memo = bat_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_pnr.
+
+
+
+
+
+
+
+     * @return Value of property bat_pnr.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getBat_pnr() {
+
+
+
+
+
+
+
+        return bat_pnr;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_pnr.
+
+
+
+
+
+
+
+     * @param bat_pnr New value of property bat_pnr.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_pnr(java.lang.String bat_pnr) {
+
+
+
+
+
+
+
+        this.bat_pnr = bat_pnr;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_statut.
+
+
+
+
+
+
+
+     * @return Value of property bat_statut.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property isattached.
+
+
+
+
+
+
+
+     * @return Value of property isattached.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property produitaffichage.
+
+
+
+
+
+
+
+     * @return Value of property produitaffichage.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   /* public srcastra.astra.sys.classetransfert.dossier.ProduitAffichage getProduitaffichage() {
+
+
+
+
+
+
+
+        return produitaffichage;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void setProduitaffichage(srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage) {
+
+
+
+
+
+
+
+        this.produitaffichage = produitaffichage;
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property bat_montant.
+
+
+
+
+
+
+
+     * @return Value of property bat_montant.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public double getBat_montant() {
+
+
+
+
+
+
+
+        return bat_montant;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property bat_montant.
+
+
+
+
+
+
+
+     * @param bat_montant New value of property bat_montant.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setBat_montant(double bat_montant) {
+
+
+
+
+
+
+
+        this.bat_montant = bat_montant;
+
+
+
+
+
+
+
+        setAt_val_vente(new Double(bat_montant).floatValue());
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void chargeDescriptif(Connection con, PreparedStatement pstmt, Dossier_T tmpDossier) throws SQLException {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long insertDescriptif(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+        return 0;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void modifyDescriptif(Connection con, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+    }
+
+
+
+    public srcastra.astra.sys.classetransfert.utils.Date getDateDep() {
+
+        return this.bat_dateDepart;
+
+    }    
+
+
+
+    public String getDestination() {
+
+        return "";
+
+    }    
+
+
+
+    public String getLogement() {
+
+        return "";
+
+    }    
+
+    
+
+    public String getPnr() {
+
+        return this.bat_pnr;
+
+    }    
+
+    public java.util.ArrayList getDestinationArray() {
+        return null;
+    }    
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

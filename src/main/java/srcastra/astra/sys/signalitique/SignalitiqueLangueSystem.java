@@ -1,0 +1,1161 @@
+/*
+
+
+
+ * SignalitiqueLangue.java
+
+
+
+ *
+
+
+
+ * Created on 22 août 2002, 9:25
+
+
+
+ */
+
+
+
+
+
+
+
+package srcastra.astra.sys.signalitique;
+
+
+
+import srcastra.astra.sys.Transaction;
+
+
+
+import srcastra.astra.sys.Logger;
+
+
+
+import srcastra.astra.sys.rmi.utils.Poolconnection;
+
+
+
+import java.rmi.RemoteException;
+
+
+
+import srcastra.astra.sys.classetransfert.*;
+
+
+
+import srcastra.astra.sys.compress.CompressArray;
+
+
+
+import java.util.ArrayList;
+
+
+
+import java.sql.*;
+
+
+
+import srcastra.astra.sys.rmi.utils.ServeurBuffer;
+
+
+
+import srcastra.astra.sys.rmi.astrainterface;
+
+
+
+import srcastra.astra.sys.rmi.utils.QueryKeyGen;
+
+
+
+import srcastra.astra.sys.rmi.Exception.*;
+
+
+
+
+
+
+
+/**
+
+
+
+ *
+
+
+
+ * @author  rene
+
+
+
+ */
+
+
+
+public class SignalitiqueLangueSystem implements srcastra.astra.sys.signalitique.Signalitique {
+
+
+
+    
+
+
+
+    /** Creates a new instance of SignalitiqueLangue */
+
+
+
+    public SignalitiqueLangueSystem() {
+
+
+
+    }
+
+
+
+    
+
+
+
+    public Object ChargeObject(int urlmcleunik, int urcleunik, int objcleunik, int cas, Poolconnection connect) throws RemoteException {
+
+
+
+        throw new srcastra.astra.sys.rmi.Exception.InvalidSignalitiqueOperation("operation not supported for Langue");
+
+
+
+        
+
+
+
+    }
+
+
+
+    
+
+
+
+    public Object ChargeObjectPopup(int urlmcleunik, int urcleunik, int objcleunik, int cas, Poolconnection connect) throws RemoteException {
+
+
+
+        String sqlrequete=null;
+
+
+
+        ResultSet tmpresult=null;
+
+
+
+        ResultSet tmpresult2=null;
+
+
+
+        String tmpcrea=null;
+
+
+
+        String tmpmodif=null;
+
+
+
+        ArrayList tmpArray=null;
+
+
+
+        int tmpNbrLigne;
+
+
+
+        Object returnValue=null;
+
+
+
+        Gestionerreur_T tmperreur = new Gestionerreur_T();
+
+
+
+        ServeurBuffer buf=connect.getBuffer();
+
+
+
+        String signature=QueryKeyGen.ChargeObjectPopup(urlmcleunik,urcleunik,objcleunik,cas,astrainterface.COMBO_LANGUE);
+
+
+
+        buf.linkNewName(signature,"langueDir");
+
+
+
+        if(cas==1)
+
+
+
+            sqlrequete="select l.lecleunik,l.leabreviation,l.ledatetimecrea,l.ledatetimemodif,l.snumerosessioncrea,l.snumerosessionmodif,t.letraduction,t.lmcleunik from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and l.lecleunik="+objcleunik+";";
+
+
+
+        else if(cas==2) {
+
+
+
+            Transaction.begin(connect.getConuser());
+
+
+
+            sqlrequete="select l.lecleunik,l.leabreviation,l.ledatetimecrea,l.ledatetimemodif,l.snumerosessioncrea,l.snumerosessionmodif,t.letraduction, t.lmcleunik from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and l.lecleunik="+objcleunik+" FOR UPDATE;";
+
+
+
+        }
+
+
+
+        tmpresult=Transaction.execrequete3(sqlrequete,connect.getConuser(),tmperreur);
+
+
+
+        if(tmperreur.getErreurcode()==10000)
+
+
+
+            try{
+
+
+
+                tmpresult.last();
+
+
+
+                tmpNbrLigne=tmpresult.getRow();
+
+
+
+                if(tmpNbrLigne!=0) {
+
+
+
+                    tmpresult.first();
+
+
+
+                    srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb(tmpresult.getInt(1),tmpresult.getString(2),tmpresult.getDate(3),tmpresult.getDate(4),tmpresult.getString(5),tmpresult.getString(6),tmpresult.getString(7),tmpresult.getInt(8));
+
+
+
+                    tmpArray=ChargePopupTraduction(connect.getConuser(),cas,objcleunik);
+
+
+
+                    tmpCod.setdata(tmpArray);
+
+
+
+                    tmpCod.setErreurcode(tmperreur.getErreurcode());
+
+
+
+                    tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+
+
+
+                    returnValue=(Object)tmpCod;
+
+
+
+                }
+
+
+
+                tmpresult.close();
+
+
+
+            }
+
+
+
+            catch(SQLException e){
+
+
+
+                Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: "+e.getErrorCode()+"  "+e.getMessage());
+
+
+
+            }
+
+
+
+        catch(Exception e1){
+
+
+
+            Logger.getDefaultLogger().log(Logger.LOG_WARNING,"Erreur dans  ChargeDevise dans chargepopupcodepostaux: :"+e1);
+
+
+
+        }
+
+
+
+        else{
+
+
+
+            srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpCod=new srcastra.astra.sys.classetransfert.signaletique.Langue_Tb();
+
+
+
+            tmpCod.setErreurcode(tmperreur.getErreurcode());
+
+
+
+            tmpCod.setErreurmessage(tmperreur.getErreurmessage());
+
+
+
+            returnValue=(Object)tmpCod;
+
+
+
+        }
+
+
+
+        return returnValue;
+
+
+
+    }
+
+
+
+    
+
+
+
+    public Object chargeObjetCombo(int objectCleunik, int urcleunik, int urlmcleunik, Poolconnection connect) throws RemoteException {
+
+
+
+        String sqlrequete="select letraduction from traductionlangues where lecleunik="+ objectCleunik+" and lmcleunik="+urlmcleunik+";";
+
+
+
+        ResultSet tmpresult=Transaction.execrequete(sqlrequete,connect.getConuser());
+
+
+
+        Object returnValue=null;
+
+
+
+        try{
+
+
+
+            tmpresult.last();
+
+
+
+            int tmpNbrLigne=tmpresult.getRow();
+
+
+
+            if(tmpNbrLigne!=0) {
+
+
+
+                tmpresult.first();
+
+
+
+                returnValue=(String)tmpresult.getString(1);
+
+
+
+            }
+
+
+
+            tmpresult.close();
+
+
+
+        }
+
+
+
+        catch(SQLException e){
+
+
+
+            Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"Erreur dans  ChargeCObjectComboCp : "+e);
+
+
+
+        }
+
+
+
+        catch(Exception e1){
+
+
+
+            Logger.getDefaultLogger().log(Logger.LOG_SECURITY,"erreur dans ChargeCObjectComboCp :"+e1);
+
+
+
+        }
+
+
+
+        return returnValue;
+
+
+
+    }
+
+
+
+    
+
+
+
+    public Gestionerreur_T insertObjectPopup(Object objdp, int urcleunik, int cas, Poolconnection connect) throws RemoteException {
+
+        srcastra.astra.sys.rmi.utils.ServeurBuffer buf = connect.getBuffer();
+
+        srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpLangue=(srcastra.astra.sys.classetransfert.signaletique.Langue_Tb)objdp;
+
+        Gestionerreur_T tmpret = new Gestionerreur_T();
+
+       
+
+            String [] sqlrequete=new String[2];
+
+            sqlrequete[0]="insert into langue(leabreviation,ledatetimecrea,ledatetimemodif,snumerosessioncrea,snumerosessionmodif) values('"+tmpLangue.getLeabreviation()+"',NOW(),NOW(),'"+connect.getUrnumerosession()+"','"+connect.getUrnumerosession()+"');";
+
+            synchronized (buf) {
+
+                Transaction.begin(connect.getConuser());
+
+                tmpret=Transaction.execrequeteinsert(sqlrequete[0],connect.getConuser());
+
+                if(tmpret.getErreurcode()==10000) {
+
+                    for(int j=0;j<=tmpLangue.getNbrLangue();j++) {                       
+
+                        sqlrequete[1]="insert into traductionlangues(lecleunik,lmcleunik,letraduction) values("+tmpret.getTmpint()+","+(j+1)+",'"+tmpLangue.getLetraduction()+"');";
+
+                        Transaction.execrequeteinsert(sqlrequete[1],connect.getConuser());
+
+                    }
+
+
+
+                    Transaction.commit(connect.getConuser());
+
+
+
+                }
+
+                buf.invalidateBuffer("langueDir");
+
+            }
+
+        
+
+
+
+        return tmpret;
+
+
+
+    }
+
+
+
+    
+
+
+
+    public Gestionerreur_T modifyObjectPopup(Object objdp, int urcleunik, int cas, Poolconnection connect) throws RemoteException {
+
+
+
+        srcastra.astra.sys.classetransfert.signaletique.Langue_Tb tmpLangue=(srcastra.astra.sys.classetransfert.signaletique.Langue_Tb)objdp;
+
+
+
+        ServeurBuffer buf=connect.getBuffer();
+
+
+
+        Gestionerreur_T tmpret = new Gestionerreur_T();
+
+
+
+      
+
+
+
+            String[] sqlrequete=new String[2];
+
+
+
+            sqlrequete[0]="update langue set leabreviation='"+tmpLangue.getLeabreviation()+"',ledatetimemodif=NOW(),snumerosessionmodif='"+connect.getUrnumerosession()+"' where lecleunik="+tmpLangue.getLecleunik()+";";
+
+
+
+            if(tmpLangue.getTmpString().compareTo("none")==0)
+
+
+
+                sqlrequete[1]="insert into traductionlangues values("+tmpLangue.getLecleunik()+","+tmpLangue.getLelacleunik()+",'"+tmpLangue.getLetraduction()+"');";
+
+
+
+            else
+
+
+
+                sqlrequete[1]="update traductionlangues set letraduction='"+tmpLangue.getLetraduction()+"' where lecleunik="+tmpLangue.getLecleunik()+" and lmcleunik="+tmpLangue.getLelacleunik()+";";
+
+
+
+            synchronized (buf) {
+
+
+
+                Transaction.begin(connect.getConuser());
+
+
+
+                tmpret=Transaction.execrequeteinsert(sqlrequete[0],connect.getConuser());
+
+
+
+                if(tmpret.getErreurcode()==10000) {
+
+
+
+                    Gestionerreur_T tmpret2=Transaction.execrequeteinsert(sqlrequete[1],connect.getConuser());
+
+
+
+                    if(tmpret2.getErreurcode()==10000) {
+
+
+
+                        Transaction.commit(connect.getConuser());
+
+
+
+                    }
+
+
+
+                }
+
+
+
+                buf.invalidateBuffer("langueDir");
+
+
+
+            }
+
+
+
+        
+
+
+
+        return tmpret;
+
+
+
+    }
+
+
+
+    
+
+
+
+    public java.util.ArrayList renvIntitule(int urlmcleunik, int urcleunik, int cas, int caecleunik, Poolconnection connect) throws RemoteException {
+
+
+
+        throw new srcastra.astra.sys.rmi.Exception.InvalidSignalitiqueOperation("operation not supported for Langue");
+
+
+
+    }
+
+
+
+    
+
+
+
+    public CompressArray renvSignalitiques(int urlmcleunik, int urcleunik, int cas, Poolconnection connect) throws RemoteException {
+
+
+
+        return renvSignalitiqueLangue(urlmcleunik,connect.getConuser(),cas, connect.getBuffer());
+
+
+
+    }
+
+
+
+    
+
+
+
+    public ArrayList renvcombo(int urcleunik, int urlmcleunik, char plettre, String cxcode, int cas, Poolconnection connect) throws RemoteException {
+
+
+
+        return renvcombolangue(urlmcleunik, plettre, connect.getConuser(), cas, connect.getBuffer());
+
+
+
+    }
+
+
+
+    
+
+
+
+    private CompressArray renvSignalitiqueLangue(int urlmcleunik,Connection usercon,int cas, ServeurBuffer buf) {
+
+        String tmplangue;
+        String sqlrequete = null;
+        CompressArray cp;
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, astrainterface.COMBO_LANGUE );
+        synchronized (buf) {
+            sqlrequete ="select l.lmcleunik ,l.lmabrev,l.lmintitule "
+                    +" from languesystem l"
+                    +" where l.lmcleunik "+urlmcleunik
+                    +" order by l.lmabrev;";
+             return GestionnaireSignaletique.renvsignaletique(sqlrequete,urlmcleunik,buf,astrainterface.COMBO_LANGUE,usercon,astrainterface.COMBO_LANGUECAS+urlmcleunik,"langueDir");
+        }
+    }
+
+      /*  String tmplangue;
+
+
+
+        String sqlrequete=null;
+
+
+
+        CompressArray cp;
+
+
+
+        String signature=QueryKeyGen.renvSignalitiques(urlmcleunik, 0, cas, astrainterface.COMBO_LANGUE );
+
+
+
+        synchronized (buf) {
+
+
+
+            if(cas==1)
+
+
+
+                if (buf.isValid("signLangueCas1"))
+
+
+
+                    cp=buf.getValue("signLangueCas1");
+
+
+
+                else {
+
+
+
+                    sqlrequete="select l.lecleunik,l.leabreviation,t.letraduction"
+
+
+
+                    +" from langue l,traductionlangues t"
+
+
+
+                    +" where l.lecleunik=t.lecleunik  and t.lmcleunik="+urlmcleunik
+
+
+
+                    +" order by l.leabreviation;";
+
+
+
+                    cp=Transaction.generecombostest3(sqlrequete,usercon);
+
+
+
+                    buf.setValue("signLangueCas1",cp);
+
+
+
+                    buf.linkNewName(signature,"langueDir");
+
+
+
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+
+
+
+                }
+
+
+
+            else if(cas==2)
+
+
+
+                if (buf.isValid("signLangueCas2"))
+
+
+
+                    cp=buf.getValue("signLangueCas2");
+
+
+
+                else {
+
+
+
+                    sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation"
+
+
+
+                    +" from langue l,traductionlangues t"
+
+
+
+                    +" where l.lecleunik=t.lecleunik  and t.lmcleunik="+urlmcleunik
+
+
+
+                    +" order by t.letraduction;";
+
+
+
+                    cp=Transaction.generecombostest(sqlrequete,usercon);
+
+
+
+                    buf.setValue("signLangueCas2",cp);
+
+
+
+                    buf.linkNewName(signature,"langueDir");
+
+
+
+                    buf.setValue(signature, new Long(System.currentTimeMillis()));
+
+
+
+                }
+
+
+
+            else
+
+
+
+                cp=null;
+
+
+
+        }// End synchronized
+
+
+
+        return cp;*/
+
+
+
+   // }
+
+
+
+    
+
+
+
+    
+
+
+
+    public java.util.ArrayList renvcombolangue(int urlmcleunik,char plettre,Connection usercon,int cas, ServeurBuffer buf) {
+
+
+
+        String sqlrequete=null;
+
+
+
+        ArrayList langue;
+
+
+
+        String signature=QueryKeyGen.renvcombo(astrainterface.COMBOTYPE_LANGUE, 0, urlmcleunik, plettre, "", cas);
+
+
+
+        if(cas==1) {
+
+
+
+            sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation from langue l,traductionlangues t where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik+" and t.letraduction like ('"+plettre+"%') order by t.letraduction;";
+
+
+
+            langue=Transaction.generecombostest(sqlrequete,usercon);
+
+
+
+            if (!buf.isValid(signature)) {
+
+
+
+                buf.linkNewName(signature,"langueDir");
+
+
+
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+
+
+
+            }
+
+
+
+        }
+
+
+
+        else if(cas==2)
+
+
+
+            synchronized (buf) {
+
+
+
+                if (buf.isValid("langue"))
+
+
+
+                    langue=buf.getValue("Langue");
+
+
+
+                else
+
+
+
+                    sqlrequete="select l.lecleunik,t.letraduction,l.leabreviation"
+
+
+
+                    +" from langue l,traductionlangues t"
+
+
+
+                    +" where l.lecleunik=t.lecleunik and t.lmcleunik="+urlmcleunik
+
+
+
+                    +" order by  t.letraduction;";
+
+
+
+                langue=Transaction.generecombostest(sqlrequete,usercon);
+
+
+
+                buf.setValue("langue",langue);
+
+
+
+                buf.linkNewName(signature,"langueDir");
+
+
+
+                buf.setValue(signature, new Long(System.currentTimeMillis()));
+
+
+
+            }
+
+
+
+        else
+
+
+
+            langue=null;
+
+
+
+        return langue;
+
+
+
+    }
+
+
+
+    private ArrayList ChargePopupTraduction(Connection usercon,int cas,int objectCleunik) {
+
+
+
+        ArrayList returnvalue=null;
+
+
+
+        String sqlrequete=null;
+
+
+
+        String sqlrequete2=null;
+
+
+
+        int  nbrLigne=0;
+
+
+
+        sqlrequete ="select  lmcleunik,lmintitule from languesystem order by lmcleunik";
+
+
+
+       
+
+
+
+                sqlrequete2="select lmcleunik,letraduction from traductionlangues where lecleunik="+objectCleunik+" order by lmcleunik;";
+
+
+
+                returnvalue=Transaction.selecttraduction(sqlrequete,sqlrequete2,usercon,1);
+
+
+
+       
+
+
+
+        return returnvalue;
+
+
+
+    }
+
+
+
+    
+
+
+
+    public void deleteSignaletique(long objectCleunik, int typeObjec, Poolconnection connect) throws ServeurSqlFailure {
+
+
+
+        boolean sw=false;
+
+
+
+        ServeurSqlFailure sqe;
+
+
+
+        String requetepassager="SELECT lecleunik   FROM passager WHERE lecleunik =? ";
+
+
+
+        String requetehotel="SELECT lecleunik  FROM hotel WHERE lecleunik =?";
+
+
+
+        String deletepays="DELETE from langue WHERE lecleunik=?";
+
+
+
+        try{
+
+
+
+        PreparedStatement pstmt=connect.getConuser().prepareStatement(requetepassager);
+
+
+
+        pstmt.setInt(1,new Long(objectCleunik).intValue());        
+
+
+
+        ResultSet result=pstmt.executeQuery();
+
+
+
+        result.beforeFirst();
+
+
+
+        while(result.next()){
+
+
+
+            sw=true;           
+
+
+
+        }
+
+
+
+        pstmt=connect.getConuser().prepareStatement(requetehotel);
+
+
+
+        pstmt.setInt(1,new Long(objectCleunik).intValue());        
+
+
+
+        result=pstmt.executeQuery();
+
+
+
+        result.beforeFirst();
+
+
+
+        while(result.next()){
+
+
+
+            sw=true;           
+
+
+
+        }
+
+
+
+        if(sw){ 
+
+
+
+               sqe=new ServeurSqlFailure("Enregistrement lié, impossible de l'effacer");
+
+
+
+               sqe.setErrorcode(120);
+
+
+
+               throw sqe; 
+
+
+
+        }
+
+
+
+        else {
+
+
+
+            synchronized (connect.getBuffer()) {
+
+
+
+            Transaction.begin(connect.getConuser());
+
+
+
+            pstmt=connect.getConuser().prepareStatement(deletepays);
+
+
+
+            pstmt.setInt(1,new Long(objectCleunik).intValue());
+
+
+
+            pstmt.execute();     
+
+
+
+            Transaction.commit(connect.getConuser());
+
+
+
+            connect.getBuffer().invalidateBuffer("langueDir");
+
+
+
+            }
+
+
+
+        }       
+
+
+
+    }catch(SQLException se){
+
+
+
+        Transaction.rollback(connect.getConuser());
+
+
+
+        sqe=new ServeurSqlFailure("Erreur lors de la requete à la base de donnée");
+
+
+
+        sqe.setErrorcode(se.getErrorCode());
+
+
+
+        throw sqe;         
+
+
+
+    }
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+}
+
+
+

@@ -1,0 +1,479 @@
+/*
+ * Atf.java
+ *
+ * Created on 29 juillet 2002, 15:27
+ */
+
+package srcastra.astra.gui.components.textFields;
+
+// For swing component
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.Icon;
+import javax.swing.border.LineBorder;
+
+// Awt Component
+import java.awt.Font;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Color;
+
+// Astra Component
+import srcastra.astra.gui.components.AstraComponent;
+import srcastra.astra.gui.components.ParentComponent;
+
+// Listeners
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import javax.swing.event.SwingPropertyChangeSupport;
+import javax.swing.event.EventListenerList;
+
+
+// For correction
+import srcastra.astra.gui.sys.formVerification.*;
+
+// For Serialization
+import java.io.Serializable;
+
+/**
+ *
+ * @author  Sébastien
+ */
+public class ATextField extends JPanel implements Serializable, AstraComponent {
+ 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+// CONSTRUCTOR
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+    
+    /** Creates a new instance of ATextField */
+    public ATextField() {
+        preInit();
+        initComponents();
+        postInit();
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+// INITIALISATION
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     
+    
+    protected void preInit() {
+        m_supporter = new SwingPropertyChangeSupport(this);
+        m_listenerList = new EventListenerList();
+    }
+        
+    /** Initialisation des composants au
+     *  sein du beans */
+    protected void initComponents() {
+        grp_JText_encode = new javax.swing.JTextField();
+        grp_Label_warning = new javax.swing.JLabel();
+        
+        // particularité du JText
+        grp_JText_encode.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        grp_JText_encode.setDisabledTextColor(java.awt.Color.black);
+        grp_JText_encode.setVerifyInputWhenFocusTarget(false);
+        grp_JText_encode.setBorder(new LineBorder(Color.black));
+        
+        // particularité du JLabel
+        grp_Label_warning.setPreferredSize(new java.awt.Dimension(18,18));
+        
+        // particularité du panneau (this)
+        this.setPreferredSize(new java.awt.Dimension(100, 18));
+        this.setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.X_AXIS));
+        this.setRequestFocusEnabled(false);
+        this.add(grp_JText_encode);
+        this.add(grp_Label_warning);
+    }
+    
+    protected void postInit() {
+        new srcastra.astra.gui.components.fx.JComponentBorderFx (grp_JText_encode);
+        grp_JText_encode.addActionListener(actionListener);
+        grp_JText_encode.addFocusListener(focusListener);
+    }
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+// => METHODE APPARENTE AU BEANS
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+    private void setStateIcon(Icon icone) {
+        if (grp_JText_encode.isEnabled()) grp_Label_warning.setIcon(icone);
+    }
+    
+    private void setTextMsg(String txt) {
+        grp_Label_warning.setToolTipText(txt);
+    }
+    
+    private void confirmCorrectInput(boolean correct) {
+        boolean oldValue = correctInput;
+        boolean newValue = correct;
+        correctInput = correct;
+        m_supporter.firePropertyChange(BEANS_PROPERTY_CORRECT_INPUT, oldValue, newValue);   
+    }
+    
+    private void adaptBackgroundColor(boolean enabled) {
+        Color background = enabled ? Color.white : Color.lightGray;
+        grp_JText_encode.setBackground(background);
+    }
+    
+    protected void fireStateChanged() {
+        Object[] listeners = m_listenerList.getListenerList();
+        for (int i=0; i < listeners.length; i++) {
+            System.out.println("[FIRESTATECHANGED] listeners : " + listeners[i].getClass());
+            if (ActionListener.class.isAssignableFrom(listeners[i].getClass())) {
+                System.out.println("[FIRESTATECHANGED] passé");
+                if (m_actionEvent == null) {
+                    m_actionEvent = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "validate");
+                }
+                ((ActionListener) listeners[i]).actionPerformed(m_actionEvent);
+            }
+        }   
+    }
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+// => Beans Properties
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+    /* propriété : le composant précédent à prendre le focus */
+    protected Component grp_Comp_nextComponent;
+    /* propriété : le prochain composant à prendre le focus */
+    protected Component grp_Comp_previousComponent;
+    /* propriétés : icône de warning */    
+    protected Icon warningIcon;
+    /* propriétés : icône d'état */    
+    protected Icon workingIcon; 
+    /* propriété : mis à true => le composant doit lancer la fct verifAllFields() de son parent (parentComp) */
+    protected boolean lastFocusedComponent;
+    /* propriété : définit le parent, un objet parent component dans lequel se trouve le beans */    
+    protected ParentComponent parentComp;
+    
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+// => Champs de la classe
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+    /* défini si la valeur dans le champs de texte est correcte (en rapport avec l'objet Document associé au champs de texte) */
+    protected boolean correctInput = true;
+    /* pour la gestion du changement de propiétés */
+    protected SwingPropertyChangeSupport m_supporter;
+    protected EventListenerList m_listenerList;
+    protected ActionEvent m_actionEvent;
+    
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+// STATIC VARIABLES
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+    public static final String BEANS_PROPERTY_CORRECT_INPUT = "CorrectInput";
+    public static final String BEANS_PROPERTY_VALIDATE = "Validate";
+    
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+// => Graphic Component
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+    protected JTextField grp_JText_encode;
+    protected JLabel grp_Label_warning;
+   
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+// => Listeners
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+    /* Action Listener pour le TextField */
+    protected ActionListener actionListener = new ActionListener() {
+        public void actionPerformed(ActionEvent evt) {
+            DefaultMask mask = null;
+            boolean insert = true;
+            try { 
+                mask = (DefaultMask) grp_JText_encode.getDocument(); 
+            }
+            catch (ClassCastException e) {
+                insert = false;
+            }
+                
+            try {
+                if (insert) mask.insertString(0, DefaultMask.VALIDATE, null);
+            }
+            catch (javax.swing.text.BadLocationException e) {
+                
+            }
+            
+            // avertir les actionsListeners registeré que un évênement validate s'est produit !
+            fireStateChanged();
+            
+            if (correctInput) {
+                try {
+                    if (!grp_Comp_nextComponent.isEnabled()) grp_Comp_nextComponent.setEnabled(true);
+                    grp_Comp_nextComponent.requestFocus();
+                }
+                catch (NullPointerException e) { }
+            }
+            else {
+                setStateIcon(warningIcon);
+                setTextMsg(mask.getGuiErrorCode());
+            }
+        }
+    };
+    
+    /* Focus Listener pour le Textfield */
+    protected FocusListener focusListener = new FocusListener() {
+        public void focusGained(FocusEvent evt) {
+            if (grp_Comp_previousComponent == null || grp_Comp_previousComponent.isEnabled()) {
+                grp_JText_encode.selectAll();
+                if (correctInput) setStateIcon(workingIcon);
+                else setStateIcon(warningIcon);
+            }
+        }
+        public void focusLost(FocusEvent evt) {
+            DefaultMask mask = null;
+            boolean insert = true;
+            try { 
+                mask = (DefaultMask) grp_JText_encode.getDocument(); 
+            }
+            catch (ClassCastException e) {
+                insert = false;
+            }
+                
+            try {
+                if (insert) mask.insertString(0, DefaultMask.VALIDATE, null);
+            }
+            catch (javax.swing.text.BadLocationException e) {
+                
+            }
+            
+            // avertir les actionsListeners registeré que un évênement validate s'est produit !
+            fireStateChanged();
+           
+            
+            if (correctInput) setStateIcon(null);
+            else setStateIcon(warningIcon);
+        }
+    };
+    
+    protected PropertyChangeListener documentChangeListener = new PropertyChangeListener() {
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals(DefaultMask.BEAN_CORRECTINPUT)) {
+                confirmCorrectInput(Boolean.valueOf(evt.getNewValue().toString()).booleanValue());
+                fireStateChanged();
+                if (correctInput && isEnabled()) { 
+                    setStateIcon(workingIcon);
+                    setTextMsg("");
+                }
+                           
+                System.out.println("[PROP CHANGES] " + evt.getNewValue() + "boolean : " + correctInput);
+            }
+        }
+    };
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+// BEANS PROPERTIES GET/SET SUPPORT
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+   /** Getter for property grp_Comp_nextComponent.
+     * @return Value of property grp_Comp_nextComponent.
+     */
+    public java.awt.Component getGrp_Comp_nextComponent() {
+        return grp_Comp_nextComponent;
+    }    
+       
+    /** Setter for property grp_Comp_nextComponent.
+     * @param grp_Comp_nextComponent New value of property grp_Comp_nextComponent.
+     */
+    public void setGrp_Comp_nextComponent(java.awt.Component grp_Comp_nextComponent) {
+        this.grp_Comp_nextComponent = grp_Comp_nextComponent;
+    }
+    
+    /** Getter for property grp_Comp_previousComponent.
+     * @return Value of property grp_Comp_previousComponent.
+     */
+    public java.awt.Component getGrp_Comp_previousComponent() {
+        return grp_Comp_previousComponent;
+    }    
+    
+    /** Setter for property grp_Comp_previousComponent.
+     * @param grp_Comp_previousComponent New value of property grp_Comp_previousComponent.
+     */
+    public void setGrp_Comp_previousComponent(java.awt.Component grp_Comp_previousComponent) {
+        this.grp_Comp_previousComponent = grp_Comp_previousComponent;
+    }    
+
+    /** Getter for property warningIcon.
+     * @return Value of property warningIcon.
+     */
+    public javax.swing.Icon getWarningIcon() {
+        return warningIcon;
+    }
+    
+    /** Setter for property warningIcon.
+     * @param warningIcon New value of property warningIcon.
+     */
+    public void setWarningIcon(javax.swing.Icon warningIcon) {
+        this.warningIcon = warningIcon;
+    }
+    
+    /** Getter for property workingIcon.
+     * @return Value of property workingIcon.
+     */
+    public javax.swing.Icon getWorkingIcon() {
+        return workingIcon;
+    }
+    
+    /** Setter for property workingIcon.
+     * @param workingIcon New value of property workingIcon.
+     */
+    public void setWorkingIcon(javax.swing.Icon workingIcon) {
+        this.workingIcon = workingIcon;
+    }
+    
+    /** Getter for property lastFocusedComponent.
+     * @return Value of property lastFocusedComponent.
+     */
+    public boolean isLastFocusedComponent() {
+        return lastFocusedComponent;
+    }
+    
+    /** Setter for property lastFocusedComponent.
+     * @param lastFocusedComponent New value of property lastFocusedComponent.
+     */
+    public void setLastFocusedComponent(boolean lastFocusedComponent) {
+        this.lastFocusedComponent = lastFocusedComponent;
+    }
+    
+    /** Getter for property parentComp.
+     * @return Value of property parentComp.
+     */
+    /*public srcastra.astra.gui.components.ParentComponent getParentComp() {
+        return parentComp;
+    }
+    */
+    /** Setter for property parentComp.
+     * @param parentComp New value of property parentComp.
+     */
+    /* public void setParentComp(srcastra.astra.gui.components.ParentComponent parentComp) {
+        this.parentComp = parentComp;
+    }
+    */
+     /** Setter for property parentComp.
+     * @param parentComp New value of property parentComp.
+     */
+    public void setDocument(DefaultMask doc) {
+        doc.addPropertyChangeListener(documentChangeListener);
+        grp_JText_encode.setDocument(doc);
+    }
+    
+    /** Getter for property parentComp.
+     * @return Value of property parentComp.
+     */
+    public DefaultMask getDocument() {
+        DefaultMask doc =  (DefaultMask) grp_JText_encode.getDocument();
+        return doc;        
+    }
+    
+    /** Retourne la valeur de CorrectInput pour le cas ou 
+     *  on n'utiliserais pas de propertyChangeListener 
+     *  @return 0 si true et 1 si false 
+     */
+    public boolean getverif() {
+        /*boolean oldCorrectInput = this.correctInput;
+        try { 
+            getDocument().insertString(0, "", null);
+        }
+        catch (Exception e) { }
+        boolean newCorrectInput = this.correctInput;
+        this.correctInput = oldCorrectInput; */
+        return correctInput;
+    }    
+     
+    /** Setter Method for the text Component
+     *  @param new Value of the text field 
+     */
+    public void setText(String text) {
+        if (text.equals("")) {
+            if (DefaultMask.class.isAssignableFrom(grp_JText_encode.getDocument().getClass())) {
+                DefaultMask mask = (DefaultMask) grp_JText_encode.getDocument();
+                try {
+                    mask.removeAll();
+                }
+                catch (javax.swing.text.BadLocationException e) {
+                    //e.printStackTrace();
+                }
+            catch (ClassCastException e) {
+           // System.out.println("[***********ATTENTION:EXCEPTION");
+           // e.printStackTrace();
+            }
+        }
+        else grp_JText_encode.setText(text);
+    }
+    }
+    
+    public String getText() {
+        return grp_JText_encode.getText();
+    }
+    
+    /** Setter Method for the enabled Properties 
+     *  @param new value of enabled
+     */
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        grp_JText_encode.setEnabled(enabled);
+        grp_Label_warning.setEnabled(enabled);
+        // -> couleur de fond
+        adaptBackgroundColor(enabled);
+        if (!enabled) {
+            grp_Label_warning.setIcon(null);
+        }
+    }
+    
+    public void setPreferedSize(Dimension dim) {
+        super.setPreferredSize(dim);
+        int w = dim.width;
+        int h = dim.height;
+        
+        grp_JText_encode.setPreferredSize(new Dimension(w - h, h));
+        grp_Label_warning.setPreferredSize(new Dimension(h, h));
+    }
+    
+    public void setMinimumSize(Dimension dim) {
+        super.setMinimumSize(dim);
+        int w = dim.width;
+        int h = dim.height;
+        
+        grp_JText_encode.setMinimumSize(new Dimension(w - h, h));
+        grp_Label_warning.setMinimumSize(new Dimension(h, h));
+    }
+    
+    public void setMaximumSize(Dimension dim) {
+        super.setMaximumSize(dim);
+        int w = dim.width;
+        int h = dim.height;
+        
+        grp_JText_encode.setMaximumSize(new Dimension(w - h, h));
+        grp_Label_warning.setMaximumSize(new Dimension(h, h));
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        m_supporter.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        m_supporter.removePropertyChangeListener(listener);
+    }
+    
+    public void requestFocus() {
+        if (grp_Comp_previousComponent == null || grp_Comp_previousComponent.isEnabled()) {
+            grp_JText_encode.requestFocus();        
+        }
+    }
+    
+    public void setVerifyInputWhenFocusTarget(boolean flag) {
+        grp_JText_encode.setVerifyInputWhenFocusTarget(flag);
+    }
+    
+    public boolean getVerifyInputWhenFocusTarget() {
+        return grp_JText_encode.getVerifyInputWhenFocusTarget();
+    }
+    
+    public void addActionListener(ActionListener listener) {
+        m_listenerList.add(ActionListener.class, listener);
+    }
+    
+    public void removeActionListener(ActionListener listener) {
+        m_listenerList.remove(ActionListener.class, listener);
+    }
+    
+   
+}

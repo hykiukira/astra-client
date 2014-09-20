@@ -1,0 +1,1493 @@
+/*
+
+
+
+
+
+
+
+ * ProduitAffichage.java
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * Created on 13 octobre 2002, 12:27
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package srcastra.astra.sys.classetransfert.dossier;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * @author  Administrateur
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+public class ProduitAffichage {
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Creates a new instance of ProduitAffichage */
+
+
+
+
+
+
+
+    public ProduitAffichage(
+
+
+
+
+
+
+
+        InterfaceProduit parent,
+
+
+
+
+
+
+
+        String tp,
+
+
+
+
+
+
+
+        String fr,
+
+
+
+
+
+
+
+        String grp_prod,
+
+
+
+
+
+
+
+        String tr,
+
+
+
+
+
+
+
+        String ac,
+
+
+
+
+
+
+
+        String lib,
+
+
+
+
+
+
+
+        double prixu,
+
+
+
+
+
+
+
+        int qua,
+
+
+
+
+
+
+
+        int nbrpa,
+
+
+
+
+
+
+
+        float prct,
+
+
+
+
+
+
+
+        String status, 
+
+
+
+
+
+
+
+        double prixtot,
+
+
+
+
+
+
+
+        long parentKey,
+
+
+
+
+
+
+
+        int parentType,
+
+
+
+
+
+
+
+        float tva,
+
+
+
+
+
+
+
+        String tvainc,
+
+
+
+
+
+
+
+        double total_tva_Inc) {
+
+
+
+
+
+
+
+            this.parent=parent;
+
+
+
+
+
+
+
+            this.tp=tp;
+
+
+
+
+
+
+
+            this.fr=fr;
+
+
+
+
+
+
+
+            this.grp_prod=grp_prod;
+
+
+
+
+
+
+
+            this.tr=tr;
+
+
+
+
+
+
+
+            this.ac=ac;
+
+
+
+
+
+
+
+            this.lib=lib;
+
+
+
+
+
+
+
+            this.prixu2=new ColorData(new Double(prixu));
+
+
+
+
+
+
+
+            this.qua=new Integer(qua);
+
+
+
+
+
+
+
+            this.nbrpa=new Integer(nbrpa);
+
+
+
+
+
+
+
+            this.prct=new Float(prct);
+
+
+
+
+
+
+
+            this.status=status;
+
+
+
+
+
+
+
+            this.prixtot=new ColorData(new Double(prixtot));
+
+
+
+
+
+
+
+            this.parentType=parentType;
+
+
+
+
+
+
+
+            this.parentkey=parentKey;
+
+
+
+
+
+
+
+            this.m_tva=new ColorData(new Float(tva),true);
+
+
+
+
+
+
+
+            this.m_tvaInc=tvainc;
+
+
+
+
+
+
+
+            this.m_total_tva_Inc=new ColorData(new Double(total_tva_Inc));
+
+
+
+
+
+
+
+            m_delete=new Boolean(false);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property parentkey.
+
+
+
+
+
+
+
+     * @return Value of property parentkey.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public long getParentkey() {
+
+
+
+
+
+
+
+        return parentkey;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property parentkey.
+
+
+
+
+
+
+
+     * @param parentkey New value of property parentkey.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setParentkey(long parentkey) {
+
+
+
+
+
+
+
+        this.parentkey = parentkey;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property parentType.
+
+
+
+
+
+
+
+     * @return Value of property parentType.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public int getParentType() {
+
+
+
+
+
+
+
+        return parentType;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property reducsup.
+
+
+
+
+
+
+
+     * @return Value of property reducsup.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public boolean isReducsup() {
+
+
+
+
+
+
+
+        return reducsup;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property reducsup.
+
+
+
+
+
+
+
+     * @param reducsup New value of property reducsup.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setReducsup(boolean reducsup) {
+
+
+
+
+
+
+
+        this.reducsup = reducsup;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property parent.
+
+
+
+
+
+
+
+     * @return Value of property parent.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public srcastra.astra.sys.classetransfert.dossier.InterfaceProduit getParent() {
+
+
+
+
+
+
+
+        return parent;
+
+
+
+
+
+
+
+    } 
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void setTr(String tr) {
+
+
+
+
+
+
+
+        this.tr = tr;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property parent.
+
+
+
+
+
+
+
+     * @param parent New value of property parent.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public Object calculValeurTot(){
+
+
+
+
+
+
+
+        int qual=qua.intValue();
+
+
+
+
+
+
+
+        int paxl=nbrpa.intValue();
+
+
+
+
+
+
+
+        float prctl=prct.floatValue();
+
+
+
+
+
+
+
+        float prixu=Float.parseFloat(prixu2.m_data.toString());
+
+
+
+
+
+
+
+        float total=((qual*paxl*prixu)/100)*prctl;
+
+
+
+
+
+
+
+        prixtot.m_data=(Float)new Float(total);        
+
+
+
+
+
+
+
+        return  prixtot.m_data;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property parent.
+
+
+
+
+
+
+
+     * @param parent New value of property parent.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setParent(srcastra.astra.sys.classetransfert.dossier.InterfaceProduit parent) {
+
+
+
+
+
+
+
+        this.parent = parent;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public String tp;
+
+
+
+
+
+
+
+    public String fr;
+
+
+
+
+
+
+
+    public String grp_prod;
+
+
+
+
+
+
+
+    public String tr;
+
+
+
+
+
+
+
+    public String ac;
+
+
+
+
+
+
+
+    public String lib;
+
+
+
+
+
+
+
+    public ColorData prixu2;
+
+
+
+
+
+
+
+    public Integer qua;
+
+
+
+
+
+
+
+    public Integer nbrpa;
+
+
+
+
+
+
+
+    public Float prct;
+
+
+
+
+
+
+
+    public String status;
+
+
+
+
+
+
+
+    public ColorData prixtot;
+
+
+
+
+
+
+
+    private long parentkey;
+
+
+
+
+
+
+
+    private int parentType;
+
+
+
+
+
+
+
+    private boolean reducsup;
+
+
+
+
+
+
+
+    private InterfaceProduit parent;
+
+
+
+
+
+
+
+    public ColorData m_tva;
+
+
+
+
+
+
+
+    public String m_tvaInc;
+
+
+
+
+
+
+
+    public ColorData m_total_tva_Inc;
+
+
+
+
+
+
+
+    public Boolean m_delete;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public static final String NAME_ASSURANCE = "as";
+
+
+
+
+
+
+
+    public static final String NAME_AVIATION = "av";
+
+
+
+
+
+
+
+    public static final String NAME_BATEAU = "ba";
+
+
+
+
+
+
+
+    public static final String NAME_BROCHURE = "bro";
+
+
+
+
+
+
+
+    public static final String NAME_HOTEL = "ho";
+
+
+
+
+
+
+
+    public static final String NAME_TAXI = "tax";
+
+
+
+
+
+
+
+    public static final String NAME_TRAIN = "tr";
+
+
+
+
+
+
+
+    public static final String NAME_VOITURE = "vo";
+
+    public static final String NAME_CAR = "ca";
+    public static final String NAME_DIV = "div";
+
+    public static String getProductTypeName(String nameId, java.util.Locale locale) {
+
+
+
+
+
+
+
+        String retVal = "";
+
+
+
+
+
+
+
+        try {
+
+
+
+
+
+
+
+            retVal = java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleDossier/ProduitAffichage", locale).getString(nameId);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (java.util.MissingResourceException e) {
+
+
+
+
+
+
+
+           
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        finally {
+
+
+
+
+
+
+
+            return retVal;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property status.
+
+
+
+
+
+
+
+     * @return Value of property status.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getStatus() {
+
+
+
+
+
+
+
+        return status;
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property status.
+
+
+
+
+
+
+
+     * @param status New value of property status.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setStatus(java.lang.String status) {
+
+
+
+
+
+
+
+        this.status = status;
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    /** Getter for property m_tva.
+
+
+
+     * @return Value of property m_tva.
+
+
+
+     */
+
+
+
+    public srcastra.astra.sys.classetransfert.dossier.ColorData getM_tva() {
+
+
+
+        return m_tva;
+
+
+
+    }    
+
+
+
+    
+
+
+
+    /** Setter for property m_tva.
+
+
+
+     * @param m_tva New value of property m_tva.
+
+
+
+     */
+
+
+
+    public void setM_tva(srcastra.astra.sys.classetransfert.dossier.ColorData m_tva) {
+
+
+
+        this.m_tva = m_tva;
+
+
+
+    }    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

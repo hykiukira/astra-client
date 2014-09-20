@@ -1,0 +1,2514 @@
+/*
+
+
+
+
+
+
+
+ * Assurance_T.java
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * Created on 7 novembre 2002, 15:17
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+package srcastra.astra.sys.classetransfert.dossier.assurance;
+
+
+
+
+
+
+
+import java.sql.*;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Grpdecision_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Loginusers_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.rmi.astrainterface;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.utils.Date;
+
+
+
+
+
+
+
+import srcastra.astra.sys.produit.*;
+
+
+
+import srcastra.astra.sys.rmi.groupe_dec.*;
+
+import srcastra.astra.sys.classetransfert.dossier.*;
+
+
+
+
+
+
+
+/**
+
+
+
+
+
+
+
+import                                                         *
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * @author  Sébastien
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+public class Assurance_T extends srcastra.astra.sys.classetransfert.dossier.produit_T implements java.io.Serializable,
+
+
+
+
+
+
+
+                                    Cloneable,srcastra.astra.sys.rmi.DossierSql,srcastra.astra.sys.classetransfert.dossier.InterfaceIndivProduit,ProduitSynthese {
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    private long ace_cleUnik;
+
+    private float ace_montantAssurance; 
+
+    private float ace_pourcent;
+
+    private float ace_taxe;
+
+    private String ace_memo; 
+
+    private String ace_numPolice;
+
+
+
+
+
+
+
+   // private srcastra.astra.sys.classetransfert.utils.Date ace_datetimecrea;
+
+
+
+
+
+
+
+    //private srcastra.astra.sys.classetransfert.utils.Date ace_datetimemodif;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+  //  public transient srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+  //  private srcastra.astra.sys.classetransfert.utils.Date at_datetimecrea;
+
+
+
+
+
+
+
+    //private srcastra.astra.sys.classetransfert.utils.Date at_datetimemodif;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public Assurance_T() {
+
+
+
+
+
+
+
+        setPax(1);
+
+
+
+
+
+
+
+        setQua(1);
+
+
+
+
+
+
+
+        setPrct(100);
+
+
+
+
+
+
+
+        setTypeDeProduitCleunik(super.AS);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+   /* public void prepareAffichage() {
+
+
+
+
+
+
+
+        String tmp=getGroupdec().getGntvainclusvente()==1?"INC":"N.INC";
+
+
+
+
+
+
+
+        produitaffichage=new srcastra.astra.sys.classetransfert.dossier.ProduitAffichage(this, "B", this.getFrnom(), this.getGroupe_produit_nom(), "","",this.getAce_memo(),
+
+
+
+
+
+
+
+                                                                                         this.getAce_montantAssurance(),this.getQua(),this.getPax(),this.getPrct(),"ok",this.getValeur_tot(),
+
+
+
+
+
+
+
+                                                                                         this.getAt_cleunik(),this.getTypeDeProduitCleunik(), 
+
+
+
+
+
+
+
+                                                                                         getGroupdec().getValeurGenFloat1(),tmp,getValeur_tot_tva_inc());   
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public long getAt_cleunik() {
+
+
+
+
+
+
+
+        return ace_cleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void setAt_cleunik(long atCleunik) {
+
+
+
+
+
+
+
+        ace_cleUnik = atCleunik;
+
+
+
+
+
+
+
+        super.setAt_cleunik(atCleunik);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public Object clone()throws CloneNotSupportedException{
+
+
+
+
+
+
+
+       return super.clone(); 
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /** Getter for property ace_cleUnik.
+
+
+
+
+
+
+
+     * @return Value of property ace_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public long getAce_cleUnik() {
+
+
+
+
+
+
+
+        return ace_cleUnik;
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    /** Setter for property ace_cleUnik.
+
+
+
+
+
+
+
+     * @param ace_cleUnik New value of property ace_cleUnik.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_cleUnik(long ace_cleUnik) {
+
+
+
+
+
+
+
+        this.ace_cleUnik = ace_cleUnik;
+
+
+
+
+
+
+
+        setAt_cleunik(ace_cleUnik);
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_memo.
+
+
+
+
+
+
+
+     * @return Value of property ace_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getAce_memo() {
+
+
+
+
+
+
+
+        return ace_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_memo.
+
+
+
+
+
+
+
+     * @param ace_memo New value of property ace_memo.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_memo(java.lang.String ace_memo) {
+
+
+
+
+
+
+
+        this.ace_memo = ace_memo;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_montantAssurance.
+
+
+
+
+
+
+
+     * @return Value of property ace_montantAssurance.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public float getAce_montantAssurance() {
+
+
+
+
+
+
+
+        return ace_montantAssurance;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_montantAssurance.
+
+
+
+
+
+
+
+     * @param ace_montantAssurance New value of property ace_montantAssurance.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_montantAssurance(float ace_montantAssurance) {
+
+
+
+
+
+
+
+        this.ace_montantAssurance = ace_montantAssurance;
+
+
+
+
+
+
+
+        setAt_val_vente(ace_montantAssurance);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_numPolice.
+
+
+
+
+
+
+
+     * @return Value of property ace_numPolice.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public java.lang.String getAce_numPolice() {
+
+
+
+
+
+
+
+        return ace_numPolice;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_numPolice.
+
+
+
+
+
+
+
+     * @param ace_numPolice New value of property ace_numPolice.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_numPolice(java.lang.String ace_numPolice) {
+
+
+
+
+
+
+
+        this.ace_numPolice = ace_numPolice;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_pourcent.
+
+
+
+
+
+
+
+     * @return Value of property ace_pourcent.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public float getAce_pourcent() {
+
+
+
+
+
+
+
+        return ace_pourcent;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_pourcent.
+
+
+
+
+
+
+
+     * @param ace_pourcent New value of property ace_pourcent.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_pourcent(float ace_pourcent) {
+
+
+
+
+
+
+
+        this.ace_pourcent = ace_pourcent;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_taxe.
+
+
+
+
+
+
+
+     * @return Value of property ace_taxe.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public float getAce_taxe() {
+
+
+
+
+
+
+
+        return ace_taxe;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_taxe.
+
+
+
+
+
+
+
+     * @param ace_taxe New value of property ace_taxe.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAce_taxe(float ace_taxe) {
+
+
+
+
+
+
+
+        this.ace_taxe = ace_taxe;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property at_datetimecrea.
+
+
+
+
+
+
+
+     * @return Value of property at_datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+  //  public srcastra.astra.sys.classetransfert.utils.Date getAt_datetimecrea() {
+
+
+
+
+
+
+
+    //    return at_datetimecrea;
+
+
+
+
+
+
+
+   // }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property at_datetimecrea.
+
+
+
+
+
+
+
+     * @param at_datetimecrea New value of property at_datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   // public void setAt_datetimecrea(srcastra.astra.sys.classetransfert.utils.Date at_datetimecrea) {
+
+
+
+
+
+
+
+     //   this.at_datetimecrea = at_datetimecrea;
+
+
+
+
+
+
+
+   // }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property at_datetimemodif.
+
+
+
+
+
+
+
+     * @return Value of property at_datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   // public srcastra.astra.sys.classetransfert.utils.Date getAt_datetimemodif() {
+
+
+
+
+
+
+
+     //   return at_datetimemodif;
+
+
+
+
+
+
+
+    //}
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property at_datetimemodif.
+
+
+
+
+
+
+
+     * @param at_datetimemodif New value of property at_datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    //public void setAt_datetimemodif(srcastra.astra.sys.classetransfert.utils.Date at_datetimemodif) {
+
+
+
+
+
+
+
+      //  this.at_datetimemodif = at_datetimemodif;
+
+
+
+
+
+
+
+    //}
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property produitaffichage.
+
+
+
+
+
+
+
+     * @return Value of property produitaffichage.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   /* public srcastra.astra.sys.classetransfert.dossier.ProduitAffichage getProduitaffichage() {
+
+
+
+
+
+
+
+        return produitaffichage;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+    public void setProduitaffichage(srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage) {
+
+
+
+
+
+
+
+        this.produitaffichage = produitaffichage;
+
+
+
+
+
+
+
+    }*/
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_datetimecrea.
+
+
+
+
+
+
+
+     * @return Value of property ace_datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+  //  public srcastra.astra.sys.classetransfert.utils.Date getAce_datetimecrea() {
+
+
+
+
+
+
+
+    //    return ace_datetimecrea;
+
+
+
+
+
+
+
+    //}
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_datetimecrea.
+
+
+
+
+
+
+
+     * @param ace_datetimecrea New value of property ace_datetimecrea.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   // public void setAce_datetimecrea(srcastra.astra.sys.classetransfert.utils.Date ace_datetimecrea) {
+
+
+
+
+
+
+
+     //   this.ace_datetimecrea = ace_datetimecrea;
+
+
+
+
+
+
+
+    //}
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Getter for property ace_datetimemodif.
+
+
+
+
+
+
+
+     * @return Value of property ace_datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   // public srcastra.astra.sys.classetransfert.utils.Date getAce_datetimemodif() {
+
+
+
+
+
+
+
+     //   return ace_datetimemodif;
+
+
+
+
+
+
+
+   // }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Setter for property ace_datetimemodif.
+
+
+
+
+
+
+
+     * @param ace_datetimemodif New value of property ace_datetimemodif.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   // public void setAce_datetimemodif(srcastra.astra.sys.classetransfert.utils.Date ace_datetimemodif) {
+
+
+
+
+
+
+
+     //   this.ace_datetimemodif = ace_datetimemodif;
+
+
+
+
+
+
+
+    //}
+
+
+
+
+
+
+
+    public long insertOnlyme(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException{
+
+
+
+
+
+
+
+       String date;
+
+
+
+
+
+
+
+      // INSERT INTO assurance (ase_num_police,ase_pourcent,ase_taxe,ase_montant,ase_memo,ase_datetimecrea,ase_datetimemodif,
+
+
+
+
+
+
+
+       //frgt_cleunik,dr_cleunik,longtime) VALUES (?,?,?,?,?,NOW(),NOW(),?,?,?);"; 
+
+
+
+
+
+
+
+       pstmt=con.prepareStatement("INSERT INTO assurance (ase_num_police,ase_pourcent,ase_taxe,ase_montant,ase_memo,ase_datetimecrea,ase_datetimemodif,frgt_cleunik,dr_cleunik,longtime,pax,quantite,pourcent,ase_statut) VALUES (?,?,?,?,?,NOW(),NOW(),?,?,?,?,?,?,?)");
+
+                pstmt.setString(1,this.getAce_numPolice());   
+
+                pstmt.setFloat(2,this.getAce_pourcent());
+
+                pstmt.setFloat(3,this.getAce_taxe());
+
+                pstmt.setDouble(4,this.getAt_val_vente());
+
+                pstmt.setString(5,this.getAce_memo());
+
+                pstmt.setInt(6,this.getFrgtcleunik());
+
+                pstmt.setInt(7,new Double(cledossier).intValue());
+
+                pstmt.setLong(8,this.getLongtime());
+
+                pstmt.setInt(9,this.getPax());
+
+                pstmt.setInt(10,this.getQua());
+
+                pstmt.setFloat(11,this.getPrct());
+
+                pstmt.setInt(12,this.getStatut());
+
+                pstmt.execute();
+
+                this.setAce_cleUnik(getId(con));   
+
+                return this.getAce_cleUnik();
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ public void annulMe(Connection con, PreparedStatement pstmt)  throws SQLException{
+
+  pstmt=con.prepareStatement("UPDATE  assurance set annuler=1 WHERE ase_cleunik=?");
+
+  pstmt.setLong(1,this.getAce_cleUnik());
+
+  pstmt.execute();
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ public void modifyOnlyMe(Connection con, int cledossier, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+    // UPDATE  assurance set ase_num_police=?,ase_pourcent=?,ase_taxe=?,ase_montant=?,ase_memo=?,ase_datetimemodif=?,
+
+
+
+
+
+
+
+     //frgt_cleunik=?,pax=?,quantite=?,pourcent=? WHERE ase_cleunik=?;";
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("UPDATE  assurance set ase_num_police=?,ase_pourcent=?,ase_taxe=?,ase_montant=?,ase_memo=?,ase_datetimemodif=NOW(),frgt_cleunik=?,pax=?,quantite=?,pourcent=?,ase_statut =? WHERE ase_cleunik=?");
+
+
+
+
+
+
+
+                pstmt.setString(1,this.getAce_numPolice());   
+
+
+
+
+
+
+
+                pstmt.setFloat(2,this.getAce_pourcent());
+
+
+
+
+
+
+
+                pstmt.setFloat(3,this.getAce_taxe());
+
+
+
+
+
+
+
+                pstmt.setDouble(4,this.getAt_val_vente());
+
+
+
+
+
+
+
+                pstmt.setString(5,this.getAce_memo());
+
+
+
+
+
+
+
+                pstmt.setInt(6,this.getFrgtcleunik());
+
+
+
+
+
+
+
+                pstmt.setInt(7,this.getPax());
+
+
+
+
+
+
+
+                pstmt.setInt(8,this.getQua());
+
+
+
+
+
+
+
+                pstmt.setFloat(9,this.getPrct());
+
+                pstmt.setInt(10,this.getStatut());
+
+                pstmt.setLong(11,this.getAce_cleUnik());
+
+
+
+
+
+
+
+                pstmt.execute();
+
+
+
+
+
+
+
+               // return this.getAce_cleUnik(); 
+
+
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+ public void chargeMe(Loginusers_T currentuser, astrainterface serveur, Dossier_T dossier, Connection con, double cledossier, PreparedStatement pstmt) throws SQLException, java.rmi.RemoteException{ 
+
+
+
+
+
+
+
+           //  SELECT a.ase_cleunik,a.ase_num_police,a.ase_pourcent,a.ase_taxe,a.ase_montant,a.ase_memo,a.ase_datetimecrea,
+
+
+
+
+
+
+
+     //a.ase_datetimemodif,a.frgt_cleunik,a.dr_cleunik,a.longtime,a.pax,a.quantite,a.pourcent,h.hevaleur,h.hevaleurbase,h.hevaleurtva 
+
+
+
+
+
+
+
+     //FROM assurance a,historique2 h WHERE h.lignecleunik=a.ase_cleunik AND h.sn_cleunik=0 AND h.ctprocleunik=8 
+
+
+
+
+
+
+
+     //AND a.dr_cleunik=? AND a.annuler=0 AND h.hedossiercourant='O'
+
+
+
+
+
+
+
+                Assurance_T assurance;
+
+
+
+
+
+
+
+                pstmt=con.prepareStatement("SELECT a.ase_cleunik,a.ase_num_police,a.ase_pourcent,a.ase_taxe,a.ase_montant,a.ase_memo,a.ase_datetimecrea,a.ase_datetimemodif,a.frgt_cleunik,a.dr_cleunik,a.longtime,a.pax,a.quantite,a.pourcent,h.hevaleur,h.hevaleurbase,h.hevaleurtva,h.helibelle,a.ase_statut    FROM assurance a,historique2 h WHERE h.lignecleunik=a.ase_cleunik AND h.sn_cleunik=0 AND h.ctprocleunik=8 AND a.dr_cleunik=? AND a.annuler=0 AND h.hedossiercourant='O'");
+
+
+
+
+
+
+
+                pstmt.setInt(1,dossier.getDrcleunik());
+
+
+
+
+
+
+
+                ResultSet result=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result.beforeFirst();
+
+
+
+
+
+
+
+                while(result.next()){ 
+
+
+
+
+
+
+
+                assurance=new Assurance_T();
+
+
+
+
+
+
+
+                assurance.setAce_cleUnik(result.getLong(1));
+
+
+
+
+
+
+
+                assurance.setAce_numPolice(result.getString(2));   
+
+
+
+
+
+
+
+                assurance.setAce_pourcent(result.getFloat(3));
+
+
+
+
+
+
+
+                assurance.setAce_taxe(result.getFloat(4));
+
+
+
+
+
+
+
+                assurance.setAt_val_vente(result.getDouble(5));
+
+
+
+
+
+
+
+                assurance.setAce_memo(result.getString(6));
+
+
+
+
+
+
+
+                assurance.setDatetimecrea(new Date(result.getString(7)));
+
+
+
+
+
+
+
+                assurance.setDatetimemodif(new Date(result.getString(8)));
+
+
+
+
+
+
+
+                assurance.setFrgtcleunik(result.getInt(9));
+
+
+
+
+
+
+
+                assurance.setLongtime(result.getLong(11));
+
+
+
+
+
+
+
+                assurance.setPax(result.getInt(12));
+
+
+
+
+
+
+
+                assurance.setQua(result.getInt(13));
+
+
+
+
+
+
+
+                assurance.setPrct(result.getFloat(14));
+
+
+
+
+
+
+
+                assurance.setValeur_tot_tva_inc(-result.getDouble(15));                
+
+
+
+
+
+
+
+                assurance.setValeur_tot(-result.getDouble(16));
+
+
+
+
+
+
+
+                assurance.setMontant_tva(-result.getDouble(17)); 
+
+
+
+
+
+
+
+                assurance.setLibelleCompta(result.getString(18));
+
+                assurance.setStatut(result.getInt(19));
+
+                GrpRetValue retG=GrpProduitGestion.filGrpDecToProd(serveur,assurance,con,currentuser.getUrcleunik());
+
+
+
+                assurance.setGroupdecBase(retG.getBase());
+
+
+
+                assurance.setGroupdec(retG.getOwn());
+
+                ProduitInfoComplementaire.getInfo(ProduitInfoComplementaire.AS,ProduitInfoComplementaire.AS_FULL,produit_T.AS,currentuser.getLangage(),assurance,con);
+
+               /* pstmt=con.prepareStatement(CHARGE_GRP_PROD);
+
+
+
+
+
+
+
+                pstmt.setInt(1,assurance.getFrgtcleunik());
+
+
+
+
+
+
+
+                ResultSet result2=pstmt.executeQuery();
+
+
+
+
+
+
+
+                result2.beforeFirst();
+
+
+
+
+
+
+
+                while(result2.next()){
+
+
+
+
+
+
+
+                    assurance.setGroupe_produit_nom(result2.getString(1));
+
+
+
+
+
+
+
+                    assurance.setFrcleunik(result2.getInt(2));
+
+
+
+
+
+
+
+                    assurance.setFrnom(result2.getString(3));
+
+
+
+
+
+
+
+                    assurance.setTypeDeProduitCleunik(assurance.AS);
+
+
+
+
+
+
+
+                    assurance.setTypeDeProduitNom("AS");
+
+
+
+
+
+
+
+                }  */
+
+
+
+
+
+
+
+                   assurance.setDoc(pstmt,con);
+
+
+
+
+
+
+
+                 //chargeConjonction(ticket,pstmt,con);
+
+
+
+
+
+
+
+                 SupplementReduction.chargeSupreduc(assurance,con,pstmt,serveur,currentuser.getUrcleunik()); 
+
+
+
+
+
+
+
+                 dossier.addAssurance(assurance);
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+ }
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ /** Getter for property sup_statutCleuUnik.
+
+
+
+
+
+
+
+  * @return Value of property sup_statutCleuUnik.
+
+
+
+
+
+
+
+  */
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+  public long insertDescriptif(Connection con,double cledossier,PreparedStatement pstmt )throws SQLException{
+
+
+
+
+
+
+
+   return 0;   
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+  public void chargeDescriptif(Connection con, PreparedStatement pstmt, Dossier_T tmpDossier) throws SQLException {
+
+
+
+
+
+
+
+  }
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  public void modifyDescriptif(Connection con, PreparedStatement pstmt) throws SQLException {
+
+
+
+
+
+
+
+  }
+
+
+
+  public srcastra.astra.sys.classetransfert.utils.Date getDateDep() {
+
+      return null;
+
+  }  
+
+
+
+  public String getDestination() {
+
+      return "";
+
+  }  
+
+
+
+  public String getLogement() {
+
+           return "";
+
+  }  
+
+  
+
+  public String getPnr() {
+
+       return this.getAce_numPolice();
+
+  }  
+
+  public java.util.ArrayList getDestinationArray() {
+    return null;
+  }  
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+ 

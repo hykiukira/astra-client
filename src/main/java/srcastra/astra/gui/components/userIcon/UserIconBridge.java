@@ -1,0 +1,1 @@
+/* * UserIconBridge.java * * Created on 8 mars 2002, 9:25 */package srcastra.astra.gui.components.userIcon;/** * @author Sébastien */public interface UserIconBridge {    public void setUsernameFromUserIcon(String username);}

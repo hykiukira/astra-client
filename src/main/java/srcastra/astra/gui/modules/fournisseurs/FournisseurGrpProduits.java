@@ -1,0 +1,5615 @@
+ /*
+
+
+
+
+
+
+
+ * FournisseurGrpProduits.java
+
+
+
+
+
+
+
+ * Created on 18 avril 2002, 15:27
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+package srcastra.astra.gui.modules.fournisseurs;
+
+
+
+
+
+
+
+import srcastra.astra.gui.modules.InternScreenModule;
+
+
+
+
+
+
+
+import srcastra.astra.gui.modules.MainScreenModule;
+
+
+
+
+
+
+
+import srcastra.astra.gui.sys.ErreurScreenLibrary;
+
+
+
+
+
+
+
+import srcastra.astra.gui.components.actions.actionToolBar.*;
+
+
+
+
+
+
+
+import srcastra.astra.gui.components.AstraComponent;
+
+
+
+
+
+
+
+import srcastra.astra.sys.classetransfert.Gestionerreur_T;
+
+
+
+
+
+
+
+import javax.swing.JOptionPane;
+
+
+
+
+
+
+
+import srcastra.astra.gui.sys.formVerification.*;
+
+
+
+
+
+
+
+import srcastra.astra.gui.components.actions.ToolBarInteraction;
+
+
+
+
+
+
+
+import java.awt.event.ActionEvent;
+
+
+
+
+
+
+
+import java.awt.event.ActionListener;
+
+
+
+
+
+
+
+import srcastra.astra.gui.event.ValidateField;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+
+
+
+
+
+
+
+ *
+
+
+
+
+
+
+
+ * @author  Sébastien
+
+
+
+
+
+
+
+ */
+
+
+
+
+
+
+
+public class FournisseurGrpProduits extends javax.swing.JPanel implements InternScreenModule,
+
+
+
+
+
+
+
+                                                                          ToolBarComposer,
+
+
+
+
+
+
+
+                                                                          java.awt.event.ComponentListener {
+
+
+
+
+
+
+
+                                                                              
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+// CONSTRUCTOR
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+                                                                                
+
+
+
+
+
+
+
+   /** Creates new form FournisseurGrpProduits */
+
+
+
+
+
+
+
+    public FournisseurGrpProduits(srcastra.astra.sys.rmi.astrainterface serveur, 
+
+
+
+
+
+
+
+                                  srcastra.astra.sys.classetransfert.Loginusers_T currentUser, 
+
+
+
+
+
+
+
+                                  MainScreenModule parent, ActionToolBar actionToolBar, int frCleUnik) {
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+        // initialisation des champs
+
+
+
+
+
+
+
+        this.serveur = serveur;
+
+
+
+
+
+
+
+        this.currentUser = currentUser;
+
+
+
+
+
+
+
+        this.parent = parent;
+
+
+
+
+
+
+
+        this.actionToolBar = actionToolBar;
+
+
+
+
+
+
+
+        this.frCleUnik = frCleUnik;
+
+
+
+
+
+
+
+        addComponentListener(this);
+
+
+
+
+
+
+
+        setLastModify(-1);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+// INITIALISATION
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+     /** Initialise les champs graphiques ainsi qu'un tableau pour permettre d'interargir
+
+
+
+
+
+
+
+     * sur tous les éléments à partir d'une boucle.
+
+
+
+
+
+
+
+     * Les éléments graphiques et le tableau ne sera initialisé qu' 1 fois  */
+
+
+
+
+
+
+
+    private void init() {
+
+
+
+
+
+
+
+        if (!initOnce) {
+
+
+
+
+
+
+
+            // chargement des composants et de leurs propriétes
+
+
+
+
+
+
+
+            initComponents();
+
+
+
+
+
+
+
+            init2();
+
+
+
+
+
+
+
+            setDocumentMask();
+
+
+
+
+
+
+
+            // chargement d'un tableau reprenant tous les éléments pour une correction
+
+
+
+
+
+
+
+            this.composantToVerif = new AstraComponent[] {
+
+
+
+
+
+
+
+                grp_TField_titreCatologue, grp_TField_ref1, grp_TField_ref2 };
+
+
+
+
+
+
+
+                
+
+
+
+
+
+
+
+            this.tb_interaction = new ToolBarInteraction(parent, this, composantToVerif);
+
+
+
+
+
+
+
+            tb_interaction.setValidateActionEnvironnement(ToolBarInteraction.ACT_ENV_STANDART);
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+            //-> Régistration des listeners pour la validité des composants
+
+
+
+
+
+
+
+            for (int i=0; i < composantToVerif.length; i++) {
+
+
+
+
+
+
+
+                composantToVerif[i].addActionListener(tb_interaction.getValidateActionListener());
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            grp_Combo_insertCombo.addInsertComboListener(tb_interaction.getChangeInsertComboDataActionListener());
+
+
+
+
+
+
+
+            //-------------------fin de la régistration des listeners dans les beans --------------------------------
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+             // les éléments ne sont intialisé qu'1 seule fois
+
+
+
+
+
+
+
+             initOnce = true;
+
+
+
+
+
+
+
+             grp_TField_ref2.addActionListener(valideAndPrevious);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+   private void setDocumentMask() {
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setDocument(new DefaultMask(0, 15, currentUser.getLangage(), DefaultMask.FIRST_LETTRE_IN_UPPERCASE));
+
+
+
+
+
+
+
+        grp_TField_ref1.setDocument(new DefaultMask(1, 25, currentUser.getLangage(), DefaultMask.FIRST_LETTRE_IN_UPPERCASE));
+
+
+
+
+
+
+
+        grp_TField_ref2.setDocument(new DefaultMask(0, 25, currentUser.getLangage(), DefaultMask.FIRST_LETTRE_IN_UPPERCASE));
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** This method is called from within the constructor to
+
+
+
+
+
+
+
+     * initialize the form.
+
+
+
+
+
+
+
+     * WARNING: Do NOT modify this code. The content of this method is
+
+
+
+
+
+
+
+     * always regenerated by the Form Editor.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    private void initComponents() {//GEN-BEGIN:initComponents
+
+
+
+
+
+
+
+        java.awt.GridBagConstraints gridBagConstraints;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel1 = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        grp_Pan_CenterPan = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        grp_Pan_AfficheInsertCombo = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        jPanel4 = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        jPanel5 = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        grp_Label_titreCatologue = new javax.swing.JLabel();
+
+
+
+
+
+
+
+        grp_Label_ref1 = new javax.swing.JLabel();
+
+
+
+
+
+
+
+        grp_Label_ref2 = new javax.swing.JLabel();
+
+
+
+
+
+
+
+        grp_TField_titreCatologue = new srcastra.astra.gui.components.textFields.ATextField();
+
+
+
+
+
+
+
+        grp_TField_ref1 = new srcastra.astra.gui.components.textFields.ATextField();
+
+
+
+
+
+
+
+        grp_TField_ref2 = new srcastra.astra.gui.components.textFields.ATextField();
+
+
+
+
+
+
+
+        grp_Pan_SouthPan = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        jPanel2 = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        jPanel3 = new javax.swing.JPanel();
+
+
+
+
+
+
+
+        jLabel1 = new javax.swing.JLabel();
+
+
+
+
+
+
+
+        grp_But_viewDecision = new javax.swing.JButton();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        setLayout(new java.awt.BorderLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        setBorder(new javax.swing.border.TitledBorder(java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_titrePane")));
+
+
+
+
+
+
+
+        setEnabled(false);
+
+
+
+
+
+
+
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Pan_CenterPan.setLayout(new java.awt.BorderLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Pan_AfficheInsertCombo.setLayout(new java.awt.GridLayout(1, 0));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Pan_AfficheInsertCombo.setEnabled(false);
+
+
+
+
+
+
+
+        grp_Pan_CenterPan.add(grp_Pan_AfficheInsertCombo, java.awt.BorderLayout.CENTER);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel4.setBorder(new javax.swing.border.EtchedBorder());
+
+
+
+
+
+
+
+        jPanel4.setMinimumSize(new java.awt.Dimension(50, 86));
+
+
+
+
+
+
+
+        jPanel4.setPreferredSize(new java.awt.Dimension(50, 77));
+
+
+
+
+
+
+
+        jPanel4.setEnabled(false);
+
+
+
+
+
+
+
+        jPanel5.setLayout(new java.awt.GridBagLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel5.setEnabled(false);
+
+
+
+
+
+
+
+        grp_Label_titreCatologue.setFont(new java.awt.Font("Tahoma", 0, 10));
+
+
+
+
+
+
+
+        grp_Label_titreCatologue.setForeground(java.awt.Color.black);
+
+
+
+
+
+
+
+        grp_Label_titreCatologue.setText(java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_titreCatalogue"));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 100);
+
+
+
+
+
+
+
+        jPanel5.add(grp_Label_titreCatologue, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Label_ref1.setFont(new java.awt.Font("Tahoma", 0, 10));
+
+
+
+
+
+
+
+        grp_Label_ref1.setForeground(java.awt.Color.black);
+
+
+
+
+
+
+
+        grp_Label_ref1.setText(java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_reference01"));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.gridx = 0;
+
+
+
+
+
+
+
+        gridBagConstraints.gridy = 1;
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 100);
+
+
+
+
+
+
+
+        jPanel5.add(grp_Label_ref1, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Label_ref2.setFont(new java.awt.Font("Tahoma", 0, 10));
+
+
+
+
+
+
+
+        grp_Label_ref2.setForeground(java.awt.Color.black);
+
+
+
+
+
+
+
+        grp_Label_ref2.setText(java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_reference02"));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.gridx = 0;
+
+
+
+
+
+
+
+        gridBagConstraints.gridy = 2;
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 100);
+
+
+
+
+
+
+
+        jPanel5.add(grp_Label_ref2, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setGrp_Comp_nextComponent(grp_TField_ref1);
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setMinimumSize(new java.awt.Dimension(150, 18));
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setPreferredSize(new java.awt.Dimension(150, 18));
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setWarningIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/warning.gif")));
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setWorkingIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/working.gif")));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
+
+
+
+
+
+
+
+        jPanel5.add(grp_TField_titreCatologue, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_TField_ref1.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_ref1.setGrp_Comp_nextComponent(grp_TField_ref2);
+
+
+
+
+
+
+
+        grp_TField_ref1.setGrp_Comp_previousComponent(grp_TField_titreCatologue);
+
+
+
+
+
+
+
+        grp_TField_ref1.setWarningIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/warning.gif")));
+
+
+
+
+
+
+
+        grp_TField_ref1.setWorkingIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/working.gif")));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.gridx = 1;
+
+
+
+
+
+
+
+        gridBagConstraints.gridy = 1;
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
+
+
+
+
+
+
+
+        jPanel5.add(grp_TField_ref1, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_TField_ref2.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_ref2.setGrp_Comp_nextComponent(null);
+
+
+
+
+
+
+
+        grp_TField_ref2.setGrp_Comp_previousComponent(grp_TField_ref1);
+
+
+
+
+
+
+
+        grp_TField_ref2.setLastFocusedComponent(true);
+
+
+
+
+
+
+
+        grp_TField_ref2.setWarningIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/warning.gif")));
+
+
+
+
+
+
+
+        grp_TField_ref2.setWorkingIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/aTextfield/working.gif")));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.gridx = 1;
+
+
+
+
+
+
+
+        gridBagConstraints.gridy = 2;
+
+
+
+
+
+
+
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 3, 0);
+
+
+
+
+
+
+
+        jPanel5.add(grp_TField_ref2, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel4.add(jPanel5);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Pan_CenterPan.add(jPanel4, java.awt.BorderLayout.SOUTH);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel1.add(grp_Pan_CenterPan, java.awt.BorderLayout.CENTER);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_Pan_SouthPan.setEnabled(false);
+
+
+
+
+
+
+
+        jPanel1.add(grp_Pan_SouthPan, java.awt.BorderLayout.SOUTH);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        add(jPanel1, java.awt.BorderLayout.CENTER);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel2.setBorder(new javax.swing.border.EtchedBorder());
+
+
+
+
+
+
+
+        jPanel2.setPreferredSize(new java.awt.Dimension(92, 182));
+
+
+
+
+
+
+
+        jPanel3.setLayout(new java.awt.GridBagLayout());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 10));
+
+
+
+
+
+
+
+        jLabel1.setForeground(java.awt.Color.black);
+
+
+
+
+
+
+
+        jLabel1.setText(java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GRPRD_titreGroupeD\u00E9cision"));
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+
+
+
+
+
+
+
+        jPanel3.add(jLabel1, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        grp_But_viewDecision.setIcon(new javax.swing.ImageIcon(getClass().getResource("/srcastra/astra/gui/img/grdDecisionButton/grpDecision_info.gif")));
+
+
+
+
+
+
+
+        grp_But_viewDecision.setMargin(new java.awt.Insets(2, 2, 2, 2));
+
+
+
+
+
+
+
+        grp_But_viewDecision.setRequestFocusEnabled(false);
+
+
+
+
+
+
+
+        grp_But_viewDecision.addActionListener(new java.awt.event.ActionListener() {
+
+
+
+
+
+
+
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+
+
+
+
+
+
+                grp_But_viewDecisionActionPerformed(evt);
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+
+
+
+
+
+
+        gridBagConstraints.gridx = 0;
+
+
+
+
+
+
+
+        gridBagConstraints.gridy = 3;
+
+
+
+
+
+
+
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
+
+
+
+
+
+
+
+        jPanel3.add(grp_But_viewDecision, gridBagConstraints);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        jPanel2.add(jPanel3);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        add(jPanel2, java.awt.BorderLayout.EAST);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }//GEN-END:initComponents
+
+
+
+
+
+
+ 
+    private void grp_But_viewDecisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grp_But_viewDecisionActionPerformed
+
+
+
+
+
+
+        grp_Combo_insertCombo.SelectionObj2();
+        this.removeComponentListener(this);
+        super.removeAll();
+        grp_DecPane_panneauDecision = new srcastra.astra.gui.modules.decision.DecisionPane(serveur, currentUser, actionToolBar, this, grpProdCleUnik, parent);
+        this.addComponentListener(grp_DecPane_panneauDecision.getGrp_TDec_tableDecision());
+        parent.setCurrentPanel(grp_DecPane_panneauDecision.getGrp_TDec_tableDecision());
+        // actionToolBar.setTbComposer(grp_DecPane_panneauDecision.getGrp_TDec_tableDecision());
+        this.add(grp_DecPane_panneauDecision);
+        this.updateUI();
+
+
+
+
+
+
+
+    }//GEN-LAST:event_grp_But_viewDecisionActionPerformed
+
+
+
+
+
+
+
+    private void init2() {
+
+
+
+
+
+
+
+        String[] titre=new String[]{"id",java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_titreCatalogue"),java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_reference01")};
+
+
+
+
+
+
+
+        grp_Combo_insertCombo = new srcastra.astra.gui.components.InsertCombo.InsertCombo(titre,0, currentUser);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setServeur(this.serveur);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setTypeDeCombo(srcastra.astra.sys.rmi.astrainterface.COMBO_FOURNPROD);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setIParent(this);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setEnvironnement(srcastra.astra.gui.components.InsertCombo.InsertCombo.ENVIRONNEMENT_PANEL_DATA);
+
+
+
+
+
+
+
+        grp_Pan_AfficheInsertCombo.add(grp_Combo_insertCombo);       
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => LISTENERS
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void componentShown(java.awt.event.ComponentEvent componentEvent) {
+
+
+
+
+
+
+
+        parent.setCurrentPanel(this);
+
+
+
+
+
+
+
+        switch (action) {
+
+
+
+
+
+
+
+            case ActionToolBar.ACT_READ :
+
+
+
+
+
+
+
+                displayReadMode();
+
+
+
+
+
+
+
+                break;
+
+
+
+
+
+
+
+            case ActionToolBar.ACT_INSERT :
+
+
+
+
+
+
+
+                displayInsertMode();
+
+
+
+
+
+
+
+                break;
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    public void componentMoved(java.awt.event.ComponentEvent componentEvent) {
+
+
+
+
+
+
+
+    }    
+
+
+
+
+
+
+
+    public void componentResized(java.awt.event.ComponentEvent componentEvent) {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void componentHidden(java.awt.event.ComponentEvent componentEvent) {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    private ValidateField valideAndPrevious = new ValidateField() {
+
+
+
+
+
+
+
+        public void actionPerformed(ActionEvent evt) {
+
+
+
+
+
+
+
+            if (action == ActionToolBar.ACT_INSERT || action == ActionToolBar.ACT_MODIFY) {
+
+
+
+
+
+
+
+                requestFocus();
+
+
+
+
+
+
+
+                doPrevious();
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => METHODE APPARENTE AU BEANS
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void removeAll() {
+
+
+
+
+
+
+
+        if (grp_DecPane_panneauDecision != null) {
+
+
+
+
+
+
+
+           removeComponentListener(grp_DecPane_panneauDecision.getGrp_TDec_tableDecision());
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        super.removeAll();
+
+
+
+
+
+
+
+        initOnce = false;
+
+
+
+
+
+
+
+        //actionToolBar.setTbComposer(this);
+
+
+
+
+
+
+
+        parent.setCurrentPanel(this);
+
+
+
+
+
+
+
+        displayReadMode();
+
+
+
+
+
+
+
+        //updateUI();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => FONCTIONS APPARENTES AU TRANSFERT DE DONNEE
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+     /** Permet au parent de lancer le chargement des données au
+
+
+
+
+
+
+
+     * sein de liste (Ici : ListSelector)
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void chargeData() {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Demande d'une insertion au serveur  */
+
+
+
+
+
+
+
+    public void dbInsert() {
+
+
+
+
+
+
+
+        srcastra.astra.sys.classetransfert.Gestionerreur_T erreur;
+
+
+
+
+
+
+
+       // construction de l'objet Contact 
+
+
+
+
+
+
+
+       fournGrpProd = new srcastra.astra.sys.classetransfert.FournGrpProduits_T();
+
+
+
+
+
+
+
+       fournGrpProd.setFrcleunik(frCleUnik);
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtitrecatalog(grp_TField_titreCatologue.getText());
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtreference1(grp_TField_ref1.getText());
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtreference2(grp_TField_ref2.getText());
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+       try {
+
+
+
+
+
+
+
+            erreur = serveur.insertObjectPopup(fournGrpProd, currentUser.getUrcleunik(), srcastra.astra.sys.rmi.astrainterface.COMBO_FOURNPROD, 1);
+
+
+
+
+
+
+
+            if (erreur.getErreurcode() == 1062) {
+
+
+
+                srcastra.astra.gui.GetTextFromBundle.getText("srcastra.astra.locale.generale","catalogue",parent.getCurrentUser().getLangage());
+
+
+
+            }
+
+
+
+
+
+
+
+            else {
+
+
+
+
+
+
+
+                setLastModify(erreur.getTmpint());
+
+
+
+
+
+
+
+                 displayReadMode();
+
+
+
+
+
+
+
+                 //parent.nextScreen(PANE_NUMBER, false);
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (java.rmi.RemoteException re) {
+
+
+
+
+
+
+
+            ErreurScreenLibrary.displayErreur(this,  ErreurScreenLibrary.REMOTE_EXCEPTION, srcastra.astra.Astra.DEBUG, re);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+       catch (Exception e) {
+
+
+
+
+
+
+
+           ErreurScreenLibrary.displayErreur(this, ErreurScreenLibrary.EXCEPTION, srcastra.astra.Astra.DEBUG, e);
+
+
+
+
+
+
+
+       }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+     /** Demande de sélection au serveur  */
+
+
+
+
+
+
+
+    public void dbSelect() {
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setExtCleUnik(this.frCleUnik);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setValuefromParent(1,srcastra.astra.sys.rmi.astrainterface.COMBO_FOURNPROD);
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.chargeData(1);      
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setModifyItem(getLastModify());
+
+
+
+
+
+
+
+        if (fournGrpProd != null) setLastModify(fournGrpProd.getFrgtcleunik());
+
+
+
+
+
+
+
+        else setLastModify(-1);
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        // -> il faudrait charger la première ligne de la table dans les champs !!!
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+    /** Demande de sélection en vue d'une modification au serveur  */
+
+
+
+
+
+
+
+    public void dbSelectForUpdate() {
+
+
+
+
+
+
+
+         try {
+
+
+
+
+
+
+
+            Object obj = serveur.ChargeObjectPopup(0, currentUser.getUrcleunik(), grpProdCleUnik, 2, serveur.COMBO_FOURNPROD);
+
+
+
+
+
+
+
+            fournGrpProd = (srcastra.astra.sys.classetransfert.FournGrpProduits_T) obj;
+
+
+
+
+
+
+
+            if(fournGrpProd.getErreurcode()==1205)
+
+
+
+
+
+
+
+            {
+
+
+
+                srcastra.astra.gui.GetTextFromBundle.getText("srcastra.astra.locale.generale","en_modif",parent.getCurrentUser().getLangage());
+
+
+
+                //JOptionPane.showMessageDialog(this,"Ce produit est déjà en cours de modification par un autre utilisateur!");
+
+
+
+
+
+
+
+                checkValidity=false;
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            else
+
+
+
+
+
+
+
+            {
+
+
+
+
+
+
+
+                 grpProdCleUnik = fournGrpProd.getFrgtcleunik();
+
+
+
+
+
+
+
+                 updateAllFields();
+
+
+
+
+
+
+
+                 checkValidity=true;            
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (java.rmi.RemoteException re) {
+
+
+
+
+
+
+
+            ErreurScreenLibrary.displayErreur(this, ErreurScreenLibrary.REMOTE_EXCEPTION, srcastra.astra.Astra.DEBUG, re);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (Exception e) {
+
+
+
+
+
+
+
+             ErreurScreenLibrary.displayErreur(this, ErreurScreenLibrary.EXCEPTION, srcastra.astra.Astra.DEBUG, e);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+       
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Demande d'une modification au serveur  */
+
+
+
+
+
+
+
+    public void dbUpdate() {
+
+
+
+
+
+
+
+       Gestionerreur_T erreur=null;
+
+
+
+
+
+
+
+       fournGrpProd = new srcastra.astra.sys.classetransfert.FournGrpProduits_T();
+
+
+
+
+
+
+
+       fournGrpProd.setFrcleunik(frCleUnik);
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtcleunik(grpProdCleUnik);
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtitrecatalog(grp_TField_titreCatologue.getText());
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtreference1(grp_TField_ref1.getText());
+
+
+
+
+
+
+
+       fournGrpProd.setFrgtreference2(grp_TField_ref2.getText());       
+
+
+
+
+
+
+
+       try {
+
+
+
+
+
+
+
+            erreur = serveur.modifyObjectPopup(fournGrpProd,currentUser.getUrcleunik(),serveur.COMBO_FOURNPROD,1);
+
+
+
+
+
+
+
+            if (erreur.getErreurcode() == 1062) {
+
+
+
+
+
+
+
+               srcastra.astra.gui.GetTextFromBundle.getText("srcastra.astra.locale.generale","catalogue",parent.getCurrentUser().getLangage());
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+            else {
+
+
+
+
+
+
+
+                setLastModify(fournGrpProd.getFrgtcleunik());
+
+
+
+
+
+
+
+                displayReadMode();
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (java.rmi.RemoteException re) {
+
+
+
+
+
+
+
+            ErreurScreenLibrary.displayErreur(this,  ErreurScreenLibrary.REMOTE_EXCEPTION, srcastra.astra.Astra.DEBUG, re);            
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+         
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Demande d'une suppression ou d'une annulation physique au serveur  */
+
+
+
+
+
+
+
+    public void dbDelete() {
+
+
+
+        try{
+
+
+
+            System.out.println("cle de grpprod"+fournGrpProd.getFrgtcleunik());
+
+
+
+        parent.getServeur().deleteSignaletique("","",parent.getCurrentUser().getUrcleunik(),-1,fournGrpProd.getFrgtcleunik(),parent.getServeur().COMBO_FOURNPROD);
+
+
+
+        }catch(srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se){
+
+
+
+            ErreurScreenLibrary.displayErreur(this,  ErreurScreenLibrary.SERVEUR_SQL_FAILURE, srcastra.astra.Astra.DEBUG, se);            
+
+
+
+        } 
+
+
+
+        catch(java.rmi.RemoteException re){
+
+
+
+            ErreurScreenLibrary.displayErreur(this,  ErreurScreenLibrary.REMOTE_EXCEPTION, srcastra.astra.Astra.DEBUG, re);            
+
+
+
+        }
+
+
+
+        displayReadMode();
+
+
+
+
+
+
+
+         // setLastModify(-1);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => METHODE APPARENTE A L' AFFICHAGE DES DONNEES
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /** Méthode pour l'update de tous les champs  */
+
+
+
+
+
+
+
+    public void updateAllFields() {
+
+
+
+
+
+
+
+        try {
+
+
+
+
+
+
+
+            grp_TField_titreCatologue.setText("" + fournGrpProd.getFrgtitrecatalog());
+
+
+
+
+
+
+
+            grp_TField_ref1.setText("" + fournGrpProd.getFrgtreference1());
+
+
+
+
+
+
+
+            grp_TField_ref2.setText("" + fournGrpProd.getFrgtreference2());
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (NullPointerException npe) {
+
+
+
+
+
+
+
+            ErreurScreenLibrary.displayErreur(this, ErreurScreenLibrary.NULL_POINTER_EXCEPTION, srcastra.astra.Astra.DEBUG, npe);
+
+
+
+
+
+
+
+            doCancel();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+   public void updateAllFields(Object donnee) {
+
+
+
+
+
+
+
+        fournGrpProd = (srcastra.astra.sys.classetransfert.FournGrpProduits_T) donnee;
+
+
+
+
+
+
+
+        grpProdCleUnik = fournGrpProd.getFrgtcleunik();
+
+
+
+
+
+
+
+        updateAllFields();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+    /** Affichage en mode Lecture  */
+
+
+
+
+
+
+
+    public void displayReadMode() {
+
+
+
+
+
+
+
+        // toolbar
+
+
+
+
+
+
+
+        parent.setCurrentActionEnabled(new int[0]);
+
+
+
+
+
+
+
+        action = ActionToolBar.ACT_READ;
+
+
+
+
+
+
+
+        parent.enabledTabbedPane(true);
+
+
+
+
+
+
+
+        init();
+
+
+
+
+
+
+
+        /* chargement des données en lecture dans grp_Combo_inserCombo */
+
+
+
+
+
+
+
+        dbSelect();        
+
+
+
+
+
+
+
+        for (int i=0; i < composantToVerif.length; i++) {
+
+
+
+
+
+
+
+            composantToVerif[i].setEnabled(false);
+
+
+
+
+
+
+
+            composantToVerif[i].setLastFocusedComponent(false);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setEnabled(true);
+
+
+
+
+
+
+
+         grp_TField_ref2.setLastFocusedComponent(true);
+
+
+
+
+
+
+
+         grp_But_viewDecision.setEnabled(true);
+
+
+
+
+
+
+
+         this.requestFocus();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Affichage en mode Insertion  */
+
+
+
+
+
+
+
+    public void displayInsertMode() {
+
+
+
+
+
+
+
+        // toolbar
+
+
+
+
+
+
+
+        parent.setCurrentActionEnabled(new int[] { ActionToolBar.DO_CANCEL } );
+
+
+
+
+
+
+
+        action = ActionToolBar.ACT_INSERT;
+
+
+
+
+
+
+
+        parent.enabledTabbedPane(false);
+
+
+
+
+
+
+
+        init();
+
+
+
+
+
+
+
+        for (int i=0; i < composantToVerif.length; i++) {
+
+
+
+
+
+
+
+            composantToVerif[i].setEnabled(false);
+
+
+
+
+
+
+
+            composantToVerif[i].setText("");
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_ref2.setLastFocusedComponent(true);
+
+
+
+
+
+
+
+        grp_But_viewDecision.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.setEnabled(true);
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.requestFocus();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Affichage en mode Modification  */
+
+
+
+
+
+
+
+    public void displayUpdateMode() {
+
+
+
+
+
+
+
+        // effectuer un select for update dans insertCombo 
+
+
+
+
+
+
+
+        dbSelectForUpdate();
+
+
+
+
+
+
+
+        if(!checkValidity)
+
+
+
+
+
+
+
+             {
+
+
+
+
+
+
+
+                 displayReadMode();
+
+
+
+
+
+
+
+             }
+
+
+
+
+
+
+
+        else
+
+
+
+
+
+
+
+        {
+
+
+
+
+
+
+
+        // afficher les données dans les champs d'insertCombo
+
+
+
+
+
+
+
+        parent.enabledTabbedPane(false);
+
+
+
+
+
+
+
+        parent.setCurrentActionEnabled(new int[] { ActionToolBar.DO_PREVIOUS,
+
+
+
+
+
+
+
+                                                   ActionToolBar.DO_CANCEL } );
+
+
+
+
+
+
+
+        action = ActionToolBar.ACT_MODIFY;
+
+
+
+
+
+
+
+        init();
+
+
+
+
+
+
+
+        for (int i=0; i < composantToVerif.length; i++) {
+
+
+
+
+
+
+
+            composantToVerif[i].setEnabled(true);
+
+
+
+
+
+
+
+            composantToVerif[i].setLastFocusedComponent(true);
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.requestFocus();
+
+
+
+
+
+
+
+        grp_Combo_insertCombo.setEnabled(false);
+
+
+
+
+
+
+
+        grp_But_viewDecision.setEnabled(false);
+
+
+
+
+
+
+
+        grp_TField_titreCatologue.requestFocus(); 
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void displayDisableMode() {
+
+
+
+
+
+
+
+         //
+
+
+
+
+
+
+
+     }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => METHODE APPARENTE AUX APPELS DE LA TOOLBAR
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+    public void doAccept() {
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doDelete() {
+
+
+
+
+
+
+
+        dbDelete();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doClose() {
+
+
+
+
+
+
+
+        parent.cancelModule();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doPrint() {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+   public void doCreate() {
+
+
+
+
+
+
+
+        displayInsertMode(); 
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doHelp() {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doPrevious() {
+
+
+
+
+
+
+
+         // actions
+
+
+
+
+
+
+
+        if (action == ActionToolBar.ACT_INSERT) {
+
+
+
+
+
+
+
+            dbInsert();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        else if (action == ActionToolBar.ACT_MODIFY) {
+
+
+
+
+
+
+
+            dbUpdate();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+    public void doModify() {
+
+
+
+
+
+
+
+        displayUpdateMode();
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doNext() {
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public void doCancel() {
+
+
+
+
+
+
+
+        switch (action) {
+
+
+
+
+
+
+
+            case ActionToolBar.ACT_INSERT :
+
+
+
+
+
+
+
+                displayReadMode();    
+
+
+
+
+
+
+
+                break;
+
+
+
+
+
+
+
+            case ActionToolBar.ACT_MODIFY :
+
+
+
+
+
+
+
+                try{
+
+
+
+
+
+
+
+                serveur.remoterollback(currentUser.getUrcleunik());
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                catch(java.rmi.RemoteException e)
+
+
+
+
+
+
+
+                {
+
+
+
+
+
+
+
+                    System.out.println("Exception dans remoterollback dans docancel fournisseurgénéralinfopane"+e.getMessage());
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+                setLastModify(fournGrpProd.getFrgtcleunik());
+
+
+
+
+
+
+
+               displayReadMode();
+
+
+
+
+
+
+
+                break;
+
+
+
+
+
+
+
+            case ActionToolBar.ACT_READ :
+
+
+
+
+
+
+
+                parent.cancelModule();
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// => Champs de la classe
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+    private srcastra.astra.sys.classetransfert.Loginusers_T currentUser;
+
+
+
+
+
+
+
+    private srcastra.astra.gui.modules.decision.DecisionPane grp_DecPane_panneauDecision;
+
+
+
+
+
+
+
+    /** pour 1 seul initiation du panneau
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public boolean initOnce = false;
+
+
+
+
+
+
+
+    private srcastra.astra.gui.components.InsertCombo.InsertCombo grp_Combo_insertCombo;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    private AstraComponent[] composantToVerif;
+
+
+
+
+
+
+
+    private ActionToolBar actionToolBar;
+
+
+
+
+
+
+
+    private int action;
+
+
+
+
+
+
+
+    private int frCleUnik;
+
+
+
+
+
+
+
+    private MainScreenModule parent;
+
+
+
+
+
+
+
+    private int grpProdCleUnik;
+
+
+
+
+
+
+
+    private srcastra.astra.sys.classetransfert.FournGrpProduits_T fournGrpProd;
+
+
+
+
+
+
+
+    private srcastra.astra.sys.rmi.astrainterface serveur;
+
+
+
+
+
+
+
+    private  boolean checkValidity=false;
+
+
+
+
+
+
+
+    private ToolBarInteraction tb_interaction;
+
+
+
+
+
+
+
+    private int lastModify;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+// STATIC VARIABLES
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static int PANE_NUMBER = 4;
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////        
+
+
+
+
+
+
+
+// => Graphic Component
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+
+
+
+
+
+
+
+    private srcastra.astra.gui.components.textFields.ATextField grp_TField_ref2;
+
+
+
+
+
+
+
+    private srcastra.astra.gui.components.textFields.ATextField grp_TField_ref1;
+
+
+
+
+
+
+
+    private javax.swing.JPanel jPanel5;
+
+
+
+
+
+
+
+    private javax.swing.JPanel jPanel4;
+
+
+
+
+
+
+
+    private javax.swing.JPanel jPanel3;
+
+
+
+
+
+
+
+    private javax.swing.JPanel grp_Pan_AfficheInsertCombo;
+
+
+
+
+
+
+
+    private javax.swing.JPanel jPanel2;
+
+
+
+
+
+
+
+    private javax.swing.JPanel jPanel1;
+
+
+
+
+
+
+
+    private srcastra.astra.gui.components.textFields.ATextField grp_TField_titreCatologue;
+
+
+
+
+
+
+
+    private javax.swing.JLabel grp_Label_ref2;
+
+
+
+
+
+
+
+    private javax.swing.JLabel grp_Label_ref1;
+
+
+
+
+
+
+
+    private javax.swing.JButton grp_But_viewDecision;
+
+
+
+
+
+
+
+    private javax.swing.JLabel grp_Label_titreCatologue;
+
+
+
+
+
+
+
+    private javax.swing.JPanel grp_Pan_SouthPan;
+
+
+
+
+
+
+
+    private javax.swing.JPanel grp_Pan_CenterPan;
+
+
+
+
+
+
+
+    private javax.swing.JLabel jLabel1;
+
+
+
+
+
+
+
+    // End of variables declaration//GEN-END:variables
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+
+
+
+
+
+
+// BEANS PROPERTIES GET/SET SUPPORT
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Permet à la classe qui implémente cette méthode de se
+
+
+
+
+
+
+
+     * référencer auprès d' ActionToolBar
+
+
+
+
+
+
+
+     * @return le n° de l'action
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public int getAction() {
+
+
+
+
+
+
+
+        return this.action;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    public int[] getDefaultActionToolBarMask() {
+
+
+
+
+
+
+
+        return new int[0];
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Permet de préciser le type d'action qu'on est occupé de faire :
+
+
+
+
+
+
+
+     * 0 pour lecture
+
+
+
+
+
+
+
+     * 1 pour création
+
+
+
+
+
+
+
+     * 2 pour modification
+
+
+
+
+
+
+
+     * @param action type d'action
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setAction(int action) {
+
+
+
+
+
+
+
+        this.action = action;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Permet de recevoir la clé unique d'un objet relatif
+
+
+
+
+
+
+
+    * au modules : création par partie ou modification
+
+
+
+
+
+
+
+     * @param frCleUnik la clé unique
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   public void setFrCleunik(int frCleUnik) {
+
+
+
+
+
+
+
+       this.frCleUnik = frCleUnik;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Sert à recevoir le titre de son parent
+
+
+
+
+
+
+
+     * pour un cadre éventuel
+
+
+
+
+
+
+
+     * @return le titre du panneau
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public String getTitle() {
+
+
+
+
+
+
+
+        try {
+
+
+
+
+
+
+
+            return java.util.ResourceBundle.getBundle("srcastra/astra/locale/ModuleFournisseur", currentUser.getLangage()).getString("GPRD_titrePane");
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+        catch (java.util.MissingResourceException mre) {
+
+
+
+
+
+
+
+            ErreurScreenLibrary.displayErreur(this, ErreurScreenLibrary.MISSING_RESSOURCE_EXCEPTION, srcastra.astra.Astra.DEBUG, mre);
+
+
+
+
+
+
+
+            return "";
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+    /** Spécifie le composant qui implémente cette fonction comme
+
+
+
+
+
+
+
+     * le composant qui pilote l'actionToolBar
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setThisAsToolBarComponent() {
+
+
+
+
+
+
+
+        parent.setCurrentPanel(this);
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+     /** Setter for property lastModify.
+
+
+
+
+
+
+
+     * @param lastModify New value of property lastModify.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+    public void setLastModify(int lastModify) {
+
+
+
+
+
+
+
+       this.lastModify = lastModify;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+     /** Getter for property lastModify.
+
+
+
+
+
+
+
+     * @return Value of property lastModify.
+
+
+
+
+
+
+
+     */
+
+
+
+
+
+
+
+   public int getLastModify() {
+
+
+
+
+
+
+
+        return lastModify;
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+   public void doSwitch() {
+
+
+
+
+
+
+
+   }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+   public void goUp() {
+
+
+
+
+
+
+
+   }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+   public java.awt.Component m_getGeneriqueTable() {
+
+
+
+
+
+
+
+       return grp_Combo_insertCombo.getGrp_Table_Affiche();
+
+
+
+
+
+
+
+   }
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+   public void doF10() {
+
+
+
+
+
+
+
+   }
+
+
+
+   public void addKeystroque() {
+
+   }   
+
+
+
+   public void doF7() {
+
+   }   
+
+
+
+   
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
