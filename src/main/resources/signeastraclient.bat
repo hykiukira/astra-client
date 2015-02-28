@@ -1,0 +1,15 @@
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\astraclient.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\AbsoluteLayout.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\FORMS_10.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\ITEXT.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\JDOM.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\jsch.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\LOOKS_11.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\mysql-connector-java-5.1.22-bin.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\servlet-api.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\XBASEJ.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\SMTP.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\POP3.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\MAILAPI.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\IMAP.jar astra
+C:\install\jdk7\bin\jarsigner -keystore astra.jks -storepass signeastra C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\ACTIVATI.jar astra

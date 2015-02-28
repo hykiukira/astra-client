@@ -33,6 +33,25 @@
                     <compilerArgument>-XDignore.symbol.file=true</compilerArgument>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jarsigner-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <id>sign</id>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <keystore>/keystore/astra.jks</keystore>
+                    <alias>signeastra</alias>
+                    <storepass>signeastra</storepass>
+                    <keypass>signeastra</keypass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
