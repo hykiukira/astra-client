@@ -344,7 +344,6 @@ public class ListingFrame extends javax.swing.JInternalFrame implements MainScre
 
     }
 
-
     public void doCancel() {
 
     }

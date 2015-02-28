@@ -17,6 +17,8 @@ import srcastra.astra.sys.rmi.*;
 
 import srcastra.astra.sys.classetransfert.*;
 
+import java.awt.*;
+
 /**
  * @author Thomas
  */
@@ -28,7 +30,7 @@ public class Listchoicedossier extends javax.swing.JPanel {
      * Creates new form Listchoicedossier
      */
 
-    JLayeredPane layredpane;
+    JPanel layredpane;
 
     JGoodiesConfigDossier configdossier;
 
@@ -74,7 +76,7 @@ public class Listchoicedossier extends javax.swing.JPanel {
 
         configdebemb = new JGoodiesConfigDebEmb(user.getLangage().toString(), user, serveur);
 
-        layredpane = new JLayeredPane();
+        layredpane = new JPanel(new CardLayout());
 
         JGoodiesFactory goody = new JGoodiesFactory(layredpane, frame, user);
 

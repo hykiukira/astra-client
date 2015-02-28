@@ -17,6 +17,7 @@ import com.jgoodies.forms.builder.*;
 
 import javax.swing.*;
 
+import javafx.scene.layout.HBox;
 import srcastra.astra.gui.components.date.thedate.*;
 
 import srcastra.astra.gui.components.textFields.*;
@@ -86,7 +87,7 @@ public class JGoodiesFactory {
      * Creates a new instance of JGoodiesFactory
      */
 
-    JLayeredPane layeredpane;
+    JPanel layeredpane;
 
     JComboBox liste;
 
@@ -109,41 +110,13 @@ public class JGoodiesFactory {
 
             System.out.println(liste.getSelectedIndex());
             int id = liste.getSelectedIndex();
-            if (first)
-                id = -1;
-
+            id++;
+            CardLayout cardLayout= (CardLayout) layeredpane.getLayout();
 
             switch (id) {
 
-                case (0):
-
-
-                    ((JPanel) panel.get(1)).setVisible(false);
-
-                    ((JPanel) panel.get(0)).setVisible(true);
-
-                    ((JPanel) panel.get(2)).setVisible(false);
-
-                    ((JPanel) panel.get(3)).setVisible(false);
-
-                    ((JPanel) panel.get(4)).setVisible(false);
-
-                    ((JPanel) panel.get(5)).setVisible(false);
-
-                    ((JPanel) panel.get(6)).setVisible(false);
-
-                    ((JPanel) panel.get(7)).setVisible(false);
-
-                    ((JPanel) panel.get(8)).setVisible(false);
-
-                    ((JPanel) panel.get(9)).setVisible(false);
-
-                    layeredpane.moveToFront((JPanel) panel.get(0));
-                    frame.setPanelSelected(1);
-                    break;
-
                 case (1):
-                    ((JPanel) panel.get(0)).setVisible(false);
+                  /*  ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(true);
 
@@ -160,16 +133,17 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
                     // layeredpane.moveToBack(layeredpane.getComponent(1));
 
-                    layeredpane.moveToFront((JPanel) panel.get(1));
+                    cardLayout= (CardLayout) layeredpane.getLayout();
+                    cardLayout.show(layeredpane, "1");
                     frame.setPanelSelected(2);
                     break;
                 case (2):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                   /* ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -186,14 +160,14 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "2");
                     frame.setPanelSelected(3);
                     break;
                 case (3):
-
+/*
                     ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
@@ -211,16 +185,16 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "3");
                     frame.setPanelSelected(4);
 
                     break;
 
                 case (4):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                   /* ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -237,16 +211,16 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "4");
                     frame.setPanelSelected(5);
                     break;
 
 
                 case (5):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                 /*   ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -263,15 +237,15 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "5");
                     frame.setPanelSelected(6);
                     break;
 
                 case (6):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                 /*   ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -289,14 +263,14 @@ public class JGoodiesFactory {
                     ((JPanel) panel.get(8)).setVisible(false);
 
                     ((JPanel) panel.get(9)).setVisible(false);
-
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+*/
+                    cardLayout.show(layeredpane, "6");
                     frame.setPanelSelected(7);
                     break;
 
                 case (7):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                 /*   ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -313,15 +287,15 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(false);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "7");
                     frame.setPanelSelected(8);
                     break;
 
                 case (8):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                 /*   ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -338,15 +312,15 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(8)).setVisible(true);
 
-                    ((JPanel) panel.get(9)).setVisible(false);
+                    ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "8");
                     frame.setPanelSelected(9);
                     break;
 
                 case (9):
 
-                    ((JPanel) panel.get(0)).setVisible(false);
+                /*    ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(false);
 
@@ -364,8 +338,8 @@ public class JGoodiesFactory {
                     ((JPanel) panel.get(8)).setVisible(false);
 
                     ((JPanel) panel.get(9)).setVisible(true);
-
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+*/
+                    cardLayout.show(layeredpane, "9");
                     frame.setPanelSelected(10);
                     break;
 
@@ -384,12 +358,13 @@ public class JGoodiesFactory {
 
     };
 
-    KeyAdapter my_key = new KeyAdapter() {
+   /* KeyAdapter my_key = new KeyAdapter() {
 
         public void keyPressed(KeyEvent evt) {
 
             if (evt.getKeyCode() == evt.VK_SPACE) {
 
+                CardLayout cardLayout= (CardLayout) layeredpane.getLayout();
                 if (evt.getSource() == dossier) {
 
                     //  layeredpane.moveToBack(layeredpane.getComponent(2));
@@ -401,8 +376,7 @@ public class JGoodiesFactory {
                     ((JPanel) panel.get(2)).setVisible(false);
 
                     ((JPanel) panel.get(3)).setVisible(false);
-
-                    layeredpane.moveToFront((JPanel) panel.get(0));
+                    cardLayout.show(layeredpane, "0");
 
                 } else if (evt.getSource() == caisse) {
 
@@ -416,7 +390,7 @@ public class JGoodiesFactory {
 
                     // layeredpane.moveToBack(layeredpane.getComponent(1));
 
-                    layeredpane.moveToFront((JPanel) panel.get(1));
+                    cardLayout.show(layeredpane,"1");
 
                 } else if (evt.getSource() == controle) {
 
@@ -429,7 +403,7 @@ public class JGoodiesFactory {
                     ((JPanel) panel.get(3)).setVisible(false);
 
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane, "2");
 
 
                 } else if (evt.getSource() == fournisseur) {
@@ -442,7 +416,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(3)).setVisible(true);
 
-                    layeredpane.moveToFront((JPanel) panel.get(2));
+                    cardLayout.show(layeredpane,"3");
 
 
                 }
@@ -452,9 +426,9 @@ public class JGoodiesFactory {
 
         }
 
-    };
+    };*/
 
-    MouseAdapter my_mouse = new MouseAdapter() {
+   /* MouseAdapter my_mouse = new MouseAdapter() {
 
         public void mouseClicked(MouseEvent evt) {
 
@@ -537,9 +511,9 @@ public class JGoodiesFactory {
         }
 
 
-    };
+    };*/
 
-    public JGoodiesFactory(JLayeredPane layeredpane, ListingFrame frame, Loginusers_T currentUser) {
+    public JGoodiesFactory(JPanel layeredpane, ListingFrame frame, Loginusers_T currentUser) {
 
         this.layeredpane = layeredpane;
 
@@ -548,43 +522,6 @@ public class JGoodiesFactory {
         liste = new JComboBox();
 
         liste.addActionListener(lst);
-
-        /* dossier=new JCheckBox("");
-
-       caisse=new JCheckBox("");
-
-       controle=new JCheckBox("");
-
-       fournisseur=new JCheckBox("");
-
-
-
-       if(currentUser.getUrrights()>2)
-       {
-        controle.setEnabled(false);
-        fournisseur.setEnabled(false);
-       }
-       else
-       {
-        controle.addKeyListener(my_key);
-        controle.addMouseListener(my_mouse);
-
-        fournisseur.addKeyListener(my_key);
-        fournisseur.addMouseListener(my_mouse);
-       }
-
-
-
-
-       caisse.addKeyListener(my_key);
-
-       dossier.addKeyListener(my_key);
-
-
-
-       caisse.addMouseListener(my_mouse);
-
-       dossier.addMouseListener(my_mouse); */
 
 
         panel = new ArrayList();
@@ -601,11 +538,6 @@ public class JGoodiesFactory {
 
             case DOSSIER_CHOICE: {
 
-                //FormLayout layout=new FormLayout("pref,2dlu,pref,min",
-
-                //                                 "pref,2dlu,pref,2dlu");
-
-                ///layout.setRowGroups(new int[][]{{1,4}});
 
                 JPanel panel = new JPanel();
 
@@ -613,35 +545,10 @@ public class JGoodiesFactory {
 
                 panel.add(liste);
 
-                //panel.add(new JLabel(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("dos_tile")),cc.xy(1,1));
 
-                /* group.add(dossier);
-
-                group.add(caisse);
-                
-                group.add(controle);
-                
-                group.add(fournisseur);
-
-                dossier.setSelected(true);
-
-                panel.add(dossier);//,cc.xy(3,1)); 
-
-                panel.add(new JLabel(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("cai")),cc.xy(1,3));
-
-                panel.add(caisse);//,cc.xy(3,3));
-
-                panel.add(new JLabel(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("controle")),cc.xy(1,4));
-
-                panel.add(controle);//,cc.xy(3,4));
-                
-                panel.add(new JLabel(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("fourn")),cc.xy(1,2));
-
-                panel.add(fournisseur);//,cc.xy(3,2));*/
 
                 panel.setBounds(10, 20, 90, 50);
 
-                //liste.set(new String(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("choix")));
 
                 liste.addItem(new String(java.util.ResourceBundle.getBundle("srcastra/astra/locale/listing", currentUser.getLangage()).getString("dos_tile")));
 
@@ -1050,43 +957,37 @@ public class JGoodiesFactory {
 
                 JPanel[] panel = (JPanel[]) tabcomp[0][0];
 
-                layeredpane.add(panel[0], 0);
+//                layeredpane.add(panel[0], ""+0);
 
-                layeredpane.add(panel[1], 1);
+                layeredpane.add(panel[1], ""+1);
 
-                layeredpane.add(panel[2], 2);
+                layeredpane.add(panel[2], ""+2);
 
-                layeredpane.add(panel[3], 3);
+                layeredpane.add(panel[3], ""+3);
 
-                layeredpane.add(panel[4], 4);
+                layeredpane.add(panel[4], ""+4);
 
-                layeredpane.add(panel[5], 5);
+                layeredpane.add(panel[5], ""+5);
 
-                layeredpane.add(panel[6], 6);
+                layeredpane.add(panel[6], ""+6);
 
-                layeredpane.add(panel[7], 7);
+                layeredpane.add(panel[7], ""+7);
 
-                layeredpane.add(panel[8], 8);
+                layeredpane.add(panel[8], ""+8);
 
-                layeredpane.add(panel[9], 9);
+                layeredpane.add(panel[9], ""+9);
 
-                layeredpane.add(panel[10], 10);
+                layeredpane.add(panel[10], ""+10);
 
                 layeredpane.setBackground(java.awt.Color.BLUE);
 
-                layeredpane.moveToFront(panel[1]);
-
-                // builder.add(layeredpane);
-
-                //  builder.add(panel[1],cc.xywh(3,2,1,1));
-
-                // builder.getPanel().add(layeredpane);
-
-                //builder.getPanel().setBackground(java.awt.Color.BLACK);
-
-                //return builder.getPanel();   
-
-                retval.add(layeredpane);
+                CardLayout cardLayout= (CardLayout) layeredpane.getLayout();
+                cardLayout.show(layeredpane,"1");
+                JPanel hbox=new JPanel();
+                hbox.setLayout(new BoxLayout(hbox, BoxLayout.X_AXIS));
+                hbox.add(panel[0]);
+                hbox.add(layeredpane);
+                retval.add(hbox);
 
                 return retval;
 
