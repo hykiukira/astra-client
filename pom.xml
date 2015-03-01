@@ -46,10 +46,10 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <keystore>/keystore/astra.jks</keystore>
-                    <alias>signeastra</alias>
-                    <storepass>signeastra</storepass>
-                    <keypass>signeastra</keypass>
+                    <keystore>/keystore/astra</keystore>
+                    <alias>astraclient</alias>
+                    <storepass>vidaloca</storepass>
+                    <keypass>vidaloca</keypass>
                 </configuration>
             </plugin>
         </plugins>
@@ -140,5 +140,6 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.1</version>
         </dependency>
+
     </dependencies>
 </project>
