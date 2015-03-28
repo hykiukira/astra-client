@@ -1,16 +1,16 @@
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\1.6.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\AbsoluteLayout-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\FORMS_10-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\ITEXT-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\jdom-1.1.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\jsch-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\LOOKS_11-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\mysql-connector-java-5.1.32.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\servlet-api-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\XBASEJ-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\SMTP-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\POP3-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\MAILAPI-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\IMAP-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\ACTIVATI-0.0.jar astraclient
-C:\install\jdk7\bin\jarsigner -keystore astra -storepass vidaloca C:\Users\hykiukira\MyProjects\astra\client\1.6\out\artifacts\1_6_jar\JHALL-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\astra-client.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\AbsoluteLayout-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\FORMS_10-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\ITEXT-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\jdom-1.1.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\jsch-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\LOOKS_11-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\mysql-connector-java-5.1.32.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\servlet-api-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\XBASEJ-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\SMTP-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\POP3-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\MAILAPI-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\IMAP-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\ACTIVATI-0.0.jar astraclient
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\JHALL-0.0.jar astraclient
