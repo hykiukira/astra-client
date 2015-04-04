@@ -15,6 +15,20 @@
     </repositories>
 
     <build>
+        <resources>
+        <resource>
+            <directory>src/main/java</directory>
+            <excludes>
+                <exclude>**/*.java</exclude>
+            </excludes>
+        </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -46,7 +60,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <keystore>/keystore/astra</keystore>
+                    <keystore>/Users/B2NEXT/projects/astraclient/src/main/signing/astra</keystore>
                     <alias>astraclient</alias>
                     <storepass>vidaloca</storepass>
                     <keypass>vidaloca</keypass>
@@ -128,11 +142,6 @@
         <dependency>
             <groupId>XBASEJ</groupId>
             <artifactId>XBASEJ</artifactId>
-            <version>0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ACTIVATI</groupId>
-            <artifactId>ACTIVATI</artifactId>
             <version>0.0</version>
         </dependency>
         <dependency>
