@@ -27,6 +27,7 @@ import srcastra.astra.sys.classetransfert.*;
 import srcastra.astra.gui.sys.*;
 import srcastra.astra.gui.sys.formVerification.*;
 
+import javax.swing.*;
 import java.awt.event.*;
 
 import java.lang.Runtime.*;
@@ -49,6 +50,7 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
     AstraPrint dossierprint;
     String pathForMail;
     String mailEntite;
+    //String emailAdresse;
     String[] emailAdresse;
     java.awt.Frame frame;
 
@@ -728,12 +730,13 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
 
         jPanel2.add(jButton5);
 
-        grp_JBut_mail.setText("MAIL PDF");
+
+        grp_JBut_mail.setText("MAIL-OUTLOOK");
         grp_JBut_mail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 grp_JBut_mailActionPerformed(evt);
             }
-        });
+     });
 
         jPanel2.add(grp_JBut_mail);
 
@@ -864,9 +867,47 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
         setBounds((screenSize.width - 800) / 2, (screenSize.height - 600) / 2, 800, 600);
     }//GEN-END:initComponents
 
-    private void grp_JBut_mailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grp_JBut_mailActionPerformed
+   private void grp_JBut_mailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grp_JBut_mailActionPerformed
+       String temp = this.pathForMail;
 
-        Entite e = null;
+
+        String temp1 = temp.replaceAll(".pdf", ".pdf");
+        if (new File(temp1).exists())
+            temp = temp1;
+
+
+        temp = temp.replaceAll("/", "\\\\");
+
+        System.out.println(temp);
+
+        String temp2[];
+
+
+        temp2 = getEmailAdres();
+
+        String temp3= temp2[0].toString();
+
+        System.out.println(temp3);
+
+
+
+
+        try {
+
+
+           Process proc = Runtime.getRuntime().exec("C:\\HTSMAIL\\HTSMAIL.exe " + temp+ "$" +temp3 + "$");
+
+        }
+
+        catch (Exception e) {
+
+
+        }
+
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    /*    Entite e = null;
 
 
         try {
@@ -874,10 +915,10 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
             ArrayList data = m_serveur.renvEntiteRmiObject(m_user.getUrcleunik()).getList(m_user.getUrcleunik(), m_user.getUreecleunik());
 
             int cpt = 0;
-            boolean found = false;
+           boolean found = false;
 
-            while (!found && cpt < data.size()) {
-                e = (Entite) data.get(cpt);
+           while (!found && cpt < data.size()) {
+               e = (Entite) data.get(cpt);
 
                 if (e.getEecleunik() == m_user.getUreecleunik())
                     found = true;
@@ -904,7 +945,7 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
 
 
     }//GEN-LAST:event_grp_JBut_mailActionPerformed
-
+     */
     private void grp_button_validActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_grp_button_validActionPerformed
         srcastra.astra.sys.configuration.MainConfig.getMainConfig().getConfig().setBdc_bdc_cli_x(StaticFields.getClient().x);
         srcastra.astra.sys.configuration.MainConfig.getMainConfig().getConfig().setBdc_bdc_cli_y(StaticFields.getClient().y);
@@ -1096,29 +1137,30 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
         String temp = this.pathForMail;
-
-        String temp1 = temp.replaceAll(".pdf", "_origin.pdf");
-
+        String temp1 = temp.replaceAll(".pdf", ".pdf");
         if (new File(temp1).exists())
             temp = temp1;
 
 
         temp = temp.replaceAll("/", "\\\\");
 
-        //temp=temp.replaceAll("/","");
-
-        //temp=temp.replaceAll("")
 
         System.out.println(temp);
+
+        String temp2[];
+
+
+        temp2 = getEmailAdres();
+        String temp3= temp2[0].toString();
+
+        System.out.println(temp3);
+
+
 
 
         try {
 
-            //temp=temp.replaceAll("/","\\");
-
-            //System.out.println(temp);
-
-            Process proc = Runtime.getRuntime().exec("explorer.exe " + temp);
+           Process proc = Runtime.getRuntime().exec("explorer.exe "+ temp);
         }
 
         catch (Exception e) {
@@ -1143,7 +1185,6 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
     }//GEN-LAST:event_exitForm
 
     /**
-     * @param args the command line arguments
      */
     public void setFacture() {
 
