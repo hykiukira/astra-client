@@ -204,7 +204,7 @@ public class Astra {
             if (local.equals("1"))
                 url = "jdbc:mysql://" + this.localDb + ":3306/AstraConnect";
             else
-                url = "jdbc:mysql://ooohtml.no-ip.info:3306/AstraConnect";
+                url = "jdbc:mysql://helpastra.no-ip.org:3306/AstraConnect";
 
             String user = "agence";
             String password = "keyagence3164978520";
@@ -221,7 +221,7 @@ public class Astra {
                     //url="jdbc:mysql://192.168.1.63:3306/AstraConnect";
                     System.out.println("je passe par ici");
                     try {
-                        url = "jdbc:mysql://ooohtml.dyndns.org:3306/astraconnect";
+                        url = "jdbc:mysql://helpastra.no-ip.org:3306/astraconnect";
 
 
                         con = DriverManager.getConnection(url, user, password);
