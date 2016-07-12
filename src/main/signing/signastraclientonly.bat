@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.8.0_25\bin\jarsigner" -keystore astra -storepass vidaloca C:\Users\B2NEXT\projects\astraclient\classes\artifacts\astra_client_jar\astra-client.jar astraclient
