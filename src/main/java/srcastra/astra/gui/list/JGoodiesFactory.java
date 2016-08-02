@@ -110,12 +110,12 @@ public class JGoodiesFactory {
 
             System.out.println(liste.getSelectedIndex());
             int id = liste.getSelectedIndex();
-            id++;
+           // id++;
             CardLayout cardLayout= (CardLayout) layeredpane.getLayout();
 
             switch (id) {
 
-                case (1):
+                case (0):
                   /*  ((JPanel) panel.get(0)).setVisible(false);
 
                     ((JPanel) panel.get(1)).setVisible(true);
@@ -139,6 +139,32 @@ public class JGoodiesFactory {
 
                     cardLayout= (CardLayout) layeredpane.getLayout();
                     cardLayout.show(layeredpane, "1");
+                    frame.setPanelSelected(1);
+                    break;
+                case (1):
+                  /*  ((JPanel) panel.get(0)).setVisible(false);
+
+                    ((JPanel) panel.get(1)).setVisible(true);
+
+                    ((JPanel) panel.get(2)).setVisible(false);
+
+                    ((JPanel) panel.get(3)).setVisible(false);
+
+                    ((JPanel) panel.get(4)).setVisible(false);
+
+                    ((JPanel) panel.get(5)).setVisible(false);
+                    ((JPanel) panel.get(6)).setVisible(false);
+
+                    ((JPanel) panel.get(7)).setVisible(false);
+
+                    ((JPanel) panel.get(8)).setVisible(false);
+
+                    ((JPanel) panel.get(9)).setVisible(false);*/
+
+                    // layeredpane.moveToBack(layeredpane.getComponent(1));
+
+                    cardLayout= (CardLayout) layeredpane.getLayout();
+                    cardLayout.show(layeredpane, "2");
                     frame.setPanelSelected(2);
                     break;
                 case (2):
@@ -163,7 +189,7 @@ public class JGoodiesFactory {
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
 
-                    cardLayout.show(layeredpane, "2");
+                    cardLayout.show(layeredpane, "3");
                     frame.setPanelSelected(3);
                     break;
                 case (3):
@@ -187,7 +213,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    cardLayout.show(layeredpane, "3");
+                    cardLayout.show(layeredpane, "4");
                     frame.setPanelSelected(4);
 
                     break;
@@ -213,7 +239,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    cardLayout.show(layeredpane, "4");
+                    cardLayout.show(layeredpane, "5");
                     frame.setPanelSelected(5);
                     break;
 
@@ -239,7 +265,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    cardLayout.show(layeredpane, "5");
+                    cardLayout.show(layeredpane, "6");
                     frame.setPanelSelected(6);
                     break;
 
@@ -264,7 +290,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);
 */
-                    cardLayout.show(layeredpane, "6");
+                    cardLayout.show(layeredpane, "7");
                     frame.setPanelSelected(7);
                     break;
 
@@ -289,7 +315,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    cardLayout.show(layeredpane, "7");
+                    cardLayout.show(layeredpane, "8");
                     frame.setPanelSelected(8);
                     break;
 
@@ -314,7 +340,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(false);*/
 
-                    cardLayout.show(layeredpane, "8");
+                    cardLayout.show(layeredpane, "9");
                     frame.setPanelSelected(9);
                     break;
 
@@ -339,7 +365,7 @@ public class JGoodiesFactory {
 
                     ((JPanel) panel.get(9)).setVisible(true);
 */
-                    cardLayout.show(layeredpane, "9");
+                    cardLayout.show(layeredpane, "10");
                     frame.setPanelSelected(10);
                     break;
 
@@ -957,7 +983,7 @@ public class JGoodiesFactory {
 
                 JPanel[] panel = (JPanel[]) tabcomp[0][0];
 
-//                layeredpane.add(panel[0], ""+0);
+              //  layeredpane.add(panel[0], ""+0);
 
                 layeredpane.add(panel[1], ""+1);
 
