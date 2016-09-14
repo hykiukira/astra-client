@@ -52,7 +52,7 @@ public class RHBloqueGauche extends AbstractBloque{
 
     protected void initField(int fcase, int color, int igenerique, String sgenerique, java.awt.Font font){      
 
-        nomagence=new MyRvfield(fcase,color,entite.getEenom(),igenerique,sgenerique,fontBold12);
+        nomagence=new MyRvfield(false,true,fcase,color,entite.getEenom(),igenerique,sgenerique,fontBold12);
 
         StaticFields.setBloqueG(nomagence);
 
