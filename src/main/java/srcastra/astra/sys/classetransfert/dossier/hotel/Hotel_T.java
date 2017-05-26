@@ -1,6828 +1,1 @@
-/*
-
-
-
-
-
-
-
- * Hotel_T.java
-
-
-
-
-
-
-
- *
-
-
-
-
-
-
-
- * Created on 19 novembre 2002, 13:57
-
-
-
-
-
-
-
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-package srcastra.astra.sys.classetransfert.dossier.hotel;
-
-
-
-
-
-
-
-import srcastra.astra.sys.classetransfert.utils.*;
-
-
-
-
-
-
-
-import java.util.Hashtable;
-
-
-
-
-
-
-
-import java.util.ArrayList;
-
-
-
-
-
-
-
-import srcastra.astra.sys.classetransfert.Grpdecision_T;
-
-
-
-
-
-
-
-import srcastra.astra.gui.test.*;
-
-
-
-
-
-
-
-import srcastra.astra.sys.classetransfert.dossier.brochure.DescriptionLogement_T;
-
-
-
-
-
-
-
-import java.sql.Connection;
-
-
-
-
-
-
-
-import java.sql.ResultSet;
-
-
-
-
-
-
-
-import java.sql.PreparedStatement;
-
-
-
-
-
-
-
-import java.sql.SQLException;
-
-
-
-
-
-
-
-import srcastra.astra.sys .classetransfert.Loginusers_T;
-
-
-
-
-
-
-
-import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
-
-
-
-
-
-
-
-import srcastra.astra.sys.rmi.astrainterface;
-
-
-
-import srcastra.astra.sys.rmi.groupe_dec.*;
-
-import srcastra.astra.sys.classetransfert.dossier.*;
-
-import srcastra.astra.sys.produit.*;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
-
-
-
-
-
-
-
- *
-
-
-
-
-
-
-
- * @author  Sébastien
-
-
-
-
-
-
-
- */
-
-
-
-
-
-
-
-public class Hotel_T extends srcastra.astra.sys.classetransfert.dossier.produit_T implements java.io.Serializable,
-
-
-
-
-
-
-
-                                    Cloneable,srcastra.astra.sys.rmi.DossierSql,srcastra.astra.sys.classetransfert.dossier.InterfaceIndivProduit,ProduitSynthese {
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    private long hl_cleUnik;
-
-
-
-
-
-
-
-    private String hl_hotel;
-
-
-
-
-
-
-
-    private int hl_accomodation_cleUnik;
-
-
-
-
-
-
-
-    private String hl_accomodation_libele;
-
-
-
-
-
-
-
-    private String hl_pnr;
-
-
-
-
-
-
-
-    private Date hl_dateEntree;
-
-
-
-
-
-
-
-    private Date hl_dateSortie;
-
-
-
-
-
-
-
-    private int hl_nuite;
-
-
-
-
-
-
-
-    private String hl_email;
-
-
-
-
-
-
-
-    private String hl_adresse;
-
-
-
-
-
-
-
-    private int hl_cp_cleUnik;
-
-
-
-
-
-
-
-    private String hl_cp_libele;
-
-
-
-
-
-
-
-    private String hl_localite;
-
-
-
-
-
-
-
-    private int hl_pays_cleUnik;
-
-
-
-
-
-
-
-    private String hl_pays_libele;
-
-
-
-
-
-
-
-    private String hl_cccf;
-
-
-
-
-
-
-
-    private float hl_valeur;
-
-
-
-
-
-
-
-    private String hl_memo;
-
-
-
-
-
-
-
-    private String hl_emissionVoucher;
-
-
-
-
-
-
-
-    private int hl_langue_cleUnik;
-
-
-
-
-
-
-
-    private String hl_langue_libele;
-
-
-
-
-
-
-
-    private Date hl_dateEmission;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    private String hl_prest_nom;
-
-
-
-
-
-
-
-    private String hl_prest_adresse;
-
-
-
-
-
-
-
-    private int hl_prest_cp_cleUnik;
-
-
-
-
-
-
-
-    private String hl_prest_cp_libele;
-
-
-
-
-
-
-
-    private String hl_prest_localite;
-
-
-
-
-
-
-
-    private int hl_prest_pays_cleUnik;
-
-
-
-
-
-
-
-    private String hl_prest_pays_libele;
-
-
-
-
-
-
-
-    private String hl_prest_email;
-
-
-
-
-
-
-
-    private int hl_vouch;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    private String hl_vouch_vouch1;
-
-
-
-
-
-
-
-    private String hl_vouch_vouch2;
-
-
-
-
-
-
-
-    private String hl_vouch_vouch3;
-
-
-
-
-
-
-
-   
-
-
-
-
-
-
-
-    private ArrayList descriptionLogement;
-
-
-
-
-
-
-
-  //  public transient srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage;
-
-
-
-
-
-
-
-    private Date datetimemodif;
-
-
-
-
-
-
-
-    private Date datetimecrea;
-
-
-
-
-
-
-
-    private long longtime;
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Creates a new instance of Hotel_T */
-
-
-
-
-
-
-
-    public Hotel_T() {
-
-
-
-
-
-
-
-        setPax(1);
-
-
-
-
-
-
-
-        setQua(1);
-
-
-
-
-
-
-
-        setPrct(100);
-
-
-
-
-
-
-
-        setTypeDeProduitCleunik(super.HO);
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public Object clone()throws CloneNotSupportedException {
-
-
-
-
-
-
-
-        return super.clone(); 
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public long getAt_cleunik() {
-
-
-
-
-
-
-
-        return hl_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void setAt_cleunik(long atCleunik) {
-
-
-
-
-
-
-
-        hl_cleUnik = atCleunik;
-
-
-
-
-
-
-
-        super.setAt_cleunik(atCleunik);
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-  /*  public void prepareAffichage() {
-
-
-
-
-
-
-
-        String tmp=getGroupdec().getGntvainclusvente()==1?"INC":"N.INC";
-
-
-
-
-
-
-
-        produitaffichage=new srcastra.astra.sys.classetransfert.dossier.ProduitAffichage(   this,"B",this.getFrnom(),this.getGroupe_produit_nom(), 
-
-
-
-
-
-
-
-                                                                "AV", "",this.getHl_memo(), this.getHl_valeur(),this.getQua(),this.getPax(),this.getPrct(),"ok",this.getValeur_tot(),
-
-
-
-
-
-
-
-                                                                this.getHl_cleUnik(),this.getTypeDeProduitCleunik(),getGroupdec().getValeurGenFloat1(),tmp,getValeur_tot_tva_inc());   
-
-
-
-
-
-
-
-    }*/
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property descriptionLogement.
-
-
-
-
-
-
-
-     * @return Value of property descriptionLogement.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.util.ArrayList getDescriptionLogement() {
-
-
-
-
-
-
-
-        return descriptionLogement;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property descriptionLogement.
-
-
-
-
-
-
-
-     * @param descriptionLogement New value of property descriptionLogement.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setDescriptionLogement(java.util.ArrayList descriptionLogement) {
-
-
-
-
-
-
-
-        this.descriptionLogement = descriptionLogement;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_accomodation_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_accomodation_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_accomodation_cleUnik() {
-
-
-
-
-
-
-
-        return hl_accomodation_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_accomodation_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_accomodation_cleUnik New value of property hl_accomodation_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_accomodation_cleUnik(int hl_accomodation_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_accomodation_cleUnik = hl_accomodation_cleUnik;
-
-
-
-
-
-
-
-    }
-     private String getDestination(long dncleunik,Connection con,int lmcleunik)throws SQLException {
-        String requete="SELECT tn_traduction FROM traduction_destination WHERE dn_cleunik=? AND lmcleunik=?";
-        PreparedStatement pstmt=con.prepareStatement(requete);
-        pstmt.setLong(1, dncleunik);
-        pstmt.setInt(2,lmcleunik);
-        ResultSet result=pstmt.executeQuery();
-        String retval=""; 
-        while(result.next()){
-            retval=result.getString(1);             
-        }
-        return retval;      
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_accomodation_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_accomodation_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_accomodation_libele() {
-
-
-
-
-
-
-
-        return hl_accomodation_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_accomodation_libele.
-
-
-
-
-
-
-
-     * @param hl_accomodation_libele New value of property hl_accomodation_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_accomodation_libele(java.lang.String hl_accomodation_libele) {
-
-
-
-
-
-
-
-        this.hl_accomodation_libele = hl_accomodation_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_adresse.
-
-
-
-
-
-
-
-     * @return Value of property hl_adresse.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_adresse() {
-
-
-
-
-
-
-
-        return hl_adresse;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_adresse.
-
-
-
-
-
-
-
-     * @param hl_adresse New value of property hl_adresse.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_adresse(java.lang.String hl_adresse) {
-
-
-
-
-
-
-
-        this.hl_adresse = hl_adresse;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_cccf.
-
-
-
-
-
-
-
-     * @return Value of property hl_cccf.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_cccf() {
-
-
-
-
-
-
-
-        return hl_cccf;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_cccf.
-
-
-
-
-
-
-
-     * @param hl_cccf New value of property hl_cccf.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_cccf(java.lang.String hl_cccf) {
-
-
-
-
-
-
-
-        this.hl_cccf = hl_cccf;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public long getHl_cleUnik() {
-
-
-
-
-
-
-
-        return hl_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_cleUnik New value of property hl_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_cleUnik(long hl_cleUnik) {
-
-
-
-
-
-
-
-        setAt_cleunik(hl_cleUnik);
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_cp_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_cp_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_cp_cleUnik() {
-
-
-
-
-
-
-
-        return hl_cp_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_cp_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_cp_cleUnik New value of property hl_cp_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_cp_cleUnik(int hl_cp_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_cp_cleUnik = hl_cp_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_cp_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_cp_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_cp_libele() {
-
-
-
-
-
-
-
-        return hl_cp_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_cp_libele.
-
-
-
-
-
-
-
-     * @param hl_cp_libele New value of property hl_cp_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_cp_libele(java.lang.String hl_cp_libele) {
-
-
-
-
-
-
-
-        this.hl_cp_libele = hl_cp_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_dateEmission.
-
-
-
-
-
-
-
-     * @return Value of property hl_dateEmission.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateEmission() {
-
-
-
-
-
-
-
-        return hl_dateEmission;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_dateEmission.
-
-
-
-
-
-
-
-     * @param hl_dateEmission New value of property hl_dateEmission.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_dateEmission(srcastra.astra.sys.classetransfert.utils.Date hl_dateEmission) {
-
-
-
-
-
-
-
-        this.hl_dateEmission = hl_dateEmission;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_dateEntree.
-
-
-
-
-
-
-
-     * @return Value of property hl_dateEntree.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateEntree() {
-
-
-
-
-
-
-
-        return hl_dateEntree;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_dateEntree.
-
-
-
-
-
-
-
-     * @param hl_dateEntree New value of property hl_dateEntree.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_dateEntree(srcastra.astra.sys.classetransfert.utils.Date hl_dateEntree) {
-
-
-
-
-
-
-
-        this.hl_dateEntree = hl_dateEntree;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_dateSortie.
-
-
-
-
-
-
-
-     * @return Value of property hl_dateSortie.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateSortie() {
-
-
-
-
-
-
-
-        return hl_dateSortie;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_dateSortie.
-
-
-
-
-
-
-
-     * @param hl_dateSortie New value of property hl_dateSortie.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_dateSortie(srcastra.astra.sys.classetransfert.utils.Date hl_dateSortie) {
-
-
-
-
-
-
-
-        this.hl_dateSortie = hl_dateSortie;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_email.
-
-
-
-
-
-
-
-     * @return Value of property hl_email.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_email() {
-
-
-
-
-
-
-
-        return hl_email;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_email.
-
-
-
-
-
-
-
-     * @param hl_email New value of property hl_email.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_email(java.lang.String hl_email) {
-
-
-
-
-
-
-
-        this.hl_email = hl_email;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_emissionVoucher.
-
-
-
-
-
-
-
-     * @return Value of property hl_emissionVoucher.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_emissionVoucher() {
-
-
-
-
-
-
-
-        return hl_emissionVoucher;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_emissionVoucher.
-
-
-
-
-
-
-
-     * @param hl_emissionVoucher New value of property hl_emissionVoucher.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_emissionVoucher(java.lang.String hl_emissionVoucher) {
-
-
-
-
-
-
-
-        this.hl_emissionVoucher = hl_emissionVoucher;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_hotel.
-
-
-
-
-
-
-
-     * @return Value of property hl_hotel.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_hotel() {
-
-
-
-
-
-
-
-        return hl_hotel;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_hotel.
-
-
-
-
-
-
-
-     * @param hl_hotel New value of property hl_hotel.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_hotel(java.lang.String hl_hotel) {
-
-
-
-
-
-
-
-        this.hl_hotel = hl_hotel;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_langue_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_langue_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_langue_cleUnik() {
-
-
-
-
-
-
-
-        return hl_langue_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_langue_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_langue_cleUnik New value of property hl_langue_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_langue_cleUnik(int hl_langue_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_langue_cleUnik = hl_langue_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_langue_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_langue_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_langue_libele() {
-
-
-
-
-
-
-
-        return hl_langue_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_langue_libele.
-
-
-
-
-
-
-
-     * @param hl_langue_libele New value of property hl_langue_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_langue_libele(java.lang.String hl_langue_libele) {
-
-
-
-
-
-
-
-        this.hl_langue_libele = hl_langue_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_localite.
-
-
-
-
-
-
-
-     * @return Value of property hl_localite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_localite() {
-
-
-
-
-
-
-
-        return hl_localite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_localite.
-
-
-
-
-
-
-
-     * @param hl_localite New value of property hl_localite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_localite(java.lang.String hl_localite) {
-
-
-
-
-
-
-
-        this.hl_localite = hl_localite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_memo.
-
-
-
-
-
-
-
-     * @return Value of property hl_memo.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_memo() {
-
-
-
-
-
-
-
-        return hl_memo;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_memo.
-
-
-
-
-
-
-
-     * @param hl_memo New value of property hl_memo.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_memo(java.lang.String hl_memo) {
-
-
-
-
-
-
-
-        this.hl_memo = hl_memo;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_nuite.
-
-
-
-
-
-
-
-     * @return Value of property hl_nuite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_nuite() {
-
-
-
-
-
-
-
-        return hl_nuite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_nuite.
-
-
-
-
-
-
-
-     * @param hl_nuite New value of property hl_nuite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_nuite(int hl_nuite) {
-
-
-
-
-
-
-
-        this.hl_nuite = hl_nuite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_pays_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_pays_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_pays_cleUnik() {
-
-
-
-
-
-
-
-        return hl_pays_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_pays_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_pays_cleUnik New value of property hl_pays_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_pays_cleUnik(int hl_pays_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_pays_cleUnik = hl_pays_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_pays_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_pays_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_pays_libele() {
-
-
-
-
-
-
-
-        return hl_pays_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_pays_libele.
-
-
-
-
-
-
-
-     * @param hl_pays_libele New value of property hl_pays_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_pays_libele(java.lang.String hl_pays_libele) {
-
-
-
-
-
-
-
-        this.hl_pays_libele = hl_pays_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_pnr.
-
-
-
-
-
-
-
-     * @return Value of property hl_pnr.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_pnr() {
-
-
-
-
-
-
-
-        return hl_pnr;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_pnr.
-
-
-
-
-
-
-
-     * @param hl_pnr New value of property hl_pnr.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_pnr(java.lang.String hl_pnr) {
-
-
-
-
-
-
-
-        this.hl_pnr = hl_pnr;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_adresse.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_adresse.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_adresse() {
-
-
-
-
-
-
-
-        return hl_prest_adresse;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_adresse.
-
-
-
-
-
-
-
-     * @param hl_prest_adresse New value of property hl_prest_adresse.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_adresse(java.lang.String hl_prest_adresse) {
-
-
-
-
-
-
-
-        this.hl_prest_adresse = hl_prest_adresse;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_cp_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_cp_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_prest_cp_cleUnik() {
-
-
-
-
-
-
-
-        return hl_prest_cp_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_cp_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_prest_cp_cleUnik New value of property hl_prest_cp_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_cp_cleUnik(int hl_prest_cp_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_prest_cp_cleUnik = hl_prest_cp_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_cp_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_cp_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_cp_libele() {
-
-
-
-
-
-
-
-        return hl_prest_cp_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_cp_libele.
-
-
-
-
-
-
-
-     * @param hl_prest_cp_libele New value of property hl_prest_cp_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_cp_libele(java.lang.String hl_prest_cp_libele) {
-
-
-
-
-
-
-
-        this.hl_prest_cp_libele = hl_prest_cp_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_email.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_email.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_email() {
-
-
-
-
-
-
-
-        return hl_prest_email;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_email.
-
-
-
-
-
-
-
-     * @param hl_prest_email New value of property hl_prest_email.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_email(java.lang.String hl_prest_email) {
-
-
-
-
-
-
-
-        this.hl_prest_email = hl_prest_email;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_localite.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_localite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_localite() {
-
-
-
-
-
-
-
-        return hl_prest_localite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_localite.
-
-
-
-
-
-
-
-     * @param hl_prest_localite New value of property hl_prest_localite.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_localite(java.lang.String hl_prest_localite) {
-
-
-
-
-
-
-
-        this.hl_prest_localite = hl_prest_localite;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_nom.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_nom.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_nom() {
-
-
-
-
-
-
-
-        return hl_prest_nom;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_nom.
-
-
-
-
-
-
-
-     * @param hl_prest_nom New value of property hl_prest_nom.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_nom(java.lang.String hl_prest_nom) {
-
-
-
-
-
-
-
-        this.hl_prest_nom = hl_prest_nom;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_pays_cleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_pays_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_prest_pays_cleUnik() {
-
-
-
-
-
-
-
-        return hl_prest_pays_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_pays_cleUnik.
-
-
-
-
-
-
-
-     * @param hl_prest_pays_cleUnik New value of property hl_prest_pays_cleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_pays_cleUnik(int hl_prest_pays_cleUnik) {
-
-
-
-
-
-
-
-        this.hl_prest_pays_cleUnik = hl_prest_pays_cleUnik;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_prest_pays_libele.
-
-
-
-
-
-
-
-     * @return Value of property hl_prest_pays_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_prest_pays_libele() {
-
-
-
-
-
-
-
-        return hl_prest_pays_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_prest_pays_libele.
-
-
-
-
-
-
-
-     * @param hl_prest_pays_libele New value of property hl_prest_pays_libele.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_prest_pays_libele(java.lang.String hl_prest_pays_libele) {
-
-
-
-
-
-
-
-        this.hl_prest_pays_libele = hl_prest_pays_libele;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_valeur.
-
-
-
-
-
-
-
-     * @return Value of property hl_valeur.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public float getHl_valeur() {
-
-
-
-
-
-
-
-        return hl_valeur;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_valeur.
-
-
-
-
-
-
-
-     * @param hl_valeur New value of property hl_valeur.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_valeur(float hl_valeur) {
-
-
-
-
-
-
-
-        this.hl_valeur = hl_valeur;
-
-
-
-
-
-
-
-        super.setAt_val_vente(hl_valeur);
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_vouch_vouch1.
-
-
-
-
-
-
-
-     * @return Value of property hl_vouch_vouch1.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_vouch_vouch1() {
-
-
-
-
-
-
-
-        return hl_vouch_vouch1;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_vouch_vouch1.
-
-
-
-
-
-
-
-     * @param hl_vouch_vouch1 New value of property hl_vouch_vouch1.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_vouch_vouch1(java.lang.String hl_vouch_vouch1) {
-
-
-
-
-
-
-
-        this.hl_vouch_vouch1 = hl_vouch_vouch1;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-     
-
-
-
-
-
-
-
-    /** Getter for property hl_vouch_vouch2.
-
-
-
-
-
-
-
-     * @return Value of property hl_vouch_vouch2.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_vouch_vouch2() {
-
-
-
-
-
-
-
-        return hl_vouch_vouch2;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_vouch_vouch2.
-
-
-
-
-
-
-
-     * @param hl_vouch_vouch2 New value of property hl_vouch_vouch2.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_vouch_vouch2(java.lang.String hl_vouch_vouch2) {
-
-
-
-
-
-
-
-        this.hl_vouch_vouch2 = hl_vouch_vouch2;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_vouch_vouch3.
-
-
-
-
-
-
-
-     * @return Value of property hl_vouch_vouch3.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public java.lang.String getHl_vouch_vouch3() {
-
-
-
-
-
-
-
-        return hl_vouch_vouch3;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_vouch_vouch3.
-
-
-
-
-
-
-
-     * @param hl_vouch_vouch3 New value of property hl_vouch_vouch3.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_vouch_vouch3(java.lang.String hl_vouch_vouch3) {
-
-
-
-
-
-
-
-        this.hl_vouch_vouch3 = hl_vouch_vouch3;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property isattached.
-
-
-
-
-
-
-
-     * @return Value of property isattached.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property produitaffichage.
-
-
-
-
-
-
-
-     * @return Value of property produitaffichage.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-   /* public srcastra.astra.sys.classetransfert.dossier.ProduitAffichage getProduitaffichage() {
-
-
-
-
-
-
-
-        return produitaffichage;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    public void setProduitaffichage(srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage) {
-
-
-
-
-
-
-
-        this.produitaffichage = produitaffichage;
-
-
-
-
-
-
-
-    }*/
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void addDescriptionLogement(DescriptionLogement_T obj) {
-
-
-
-
-
-
-
-        if (descriptionLogement == null) descriptionLogement = new ArrayList(0);
-
-
-
-
-
-
-
-        descriptionLogement.add(obj);      
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void removeDescriptionLogement(DescriptionLogement_T obj) {
-
-
-
-
-
-
-
-        if (descriptionLogement != null) descriptionLogement.remove(obj);
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_vouch.
-
-
-
-
-
-
-
-     * @return Value of property hl_vouch.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public int getHl_vouch() {
-
-
-
-
-
-
-
-        return hl_vouch;
-
-
-
-
-
-
-
-    }    
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Setter for property hl_vouch.
-
-
-
-
-
-
-
-     * @param hl_vouch New value of property hl_vouch.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    public void setHl_vouch(int hl_vouch) {
-
-
-
-
-
-
-
-        this.hl_vouch = hl_vouch;
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void annulMe(Connection con, PreparedStatement pstmt) throws SQLException{
-
-      pstmt=con.prepareStatement("UPDATE hotel SET annuler=1 WHERE hl_cleunik =?");
-
-      pstmt.setLong(1,this.getHl_cleUnik());
-
-      pstmt.execute();
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void chargeMe(Loginusers_T currentuser, astrainterface serveur, Dossier_T dossier, Connection con, double cledossier, PreparedStatement pstmt) throws SQLException, java.rmi.RemoteException {
-
-
-
-
-
-
-
-        //"SELECT h.hl_cleunik , h.hl_hotel , h.ltcleunik , h.hl_pnr , hl_dateentree , h.hl_datesortie , h.hl_nuite , h.hl_email ,
-
-
-
-
-
-
-
-        //h.hl_adresse , h.cxcleunik , h.pyscleunik , h.hl_ccf , h.hl_valeur , h.hl_memo , h.hl_emission_voucher , h.lecleunik,
-
-
-
-
-
-
-
-        //h.hl_date_emission , h.hl_prest_nom , h.hl_prest_adresse , h.prestcxcleunik , h.prestpycleunik , h.hl_prest_email ,
-
-
-
-
-
-
-
-        //h.hl_vouch , h.hl_vouch1 , h.hl_vouch2 , h.hl_datetimecrea , h.hl_datetimemodif , h.longtime , h.pax , h.quantite , h.pourcent,
-
-
-
-
-
-
-
-        //h.statut , h.frgtcleunik , h.dr_cleunik , hi.hevaleur , hi.hevaleurbase , hi.hevaleurtva  FROM hotel h ,historique2 hi 
-
-
-
-
-
-
-
-        //WHERE hi.lignecleunik=h.hl_cleunik AND hi.sn_cleunik=0  AND hi.ctprocleunik=3 AND h.dr_cleunik=?AND h.annuler=0 
-
-
-
-
-
-
-
-        //AND hi.hedossiercourant='O'";
-
-
-
-
-
-
-
-        pstmt=con.prepareStatement("SELECT h.hl_cleunik,h.hl_hotel,h.ltcleunik,h.hl_pnr,hl_dateentree,h.hl_datesortie,h.hl_nuite,h.hl_email,h.hl_adresse,h.cxcleunik,h.pyscleunik,h.hl_ccf,h.hl_valeur,h.hl_memo,h.hl_emission_voucher,h.lecleunik,h.hl_date_emission,h.hl_prest_nom,h.hl_prest_adresse,h.prestcxcleunik,h.prestpycleunik,h.hl_prest_email,h.hl_vouch,h.hl_vouch1,h.hl_vouch2,h.hl_datetimecrea,h.hl_datetimemodif,h.longtime,h.pax,h.quantite,h.pourcent,h.statut,h.frgtcleunik,h.dr_cleunik, hi.hevaleur,hi.hevaleurbase,hi.hevaleurtva,h.hl_localite,h.hl_prest_localite,hi.helibelle  FROM hotel h ,historique2 hi WHERE hi.lignecleunik=h.hl_cleunik AND hi.sn_cleunik=0  AND hi.ctprocleunik=3 AND h.dr_cleunik=? AND h.annuler=0 AND hi.hedossiercourant='O'");
-
-
-
-
-
-
-
-        System.out.println(CHARGE_HOTEL);
-
-
-
-
-
-
-
-                pstmt.setInt(1,dossier.getDrcleunik());
-
-
-
-
-
-
-
-                ResultSet result=pstmt.executeQuery();
-
-
-
-
-
-
-
-                result.beforeFirst();
-
-
-
-
-
-
-
-                while(result.next()){ 
-
-
-
-
-
-
-
-                Hotel_T hotel=new Hotel_T();
-
-
-
-
-
-
-
-                hotel.setHl_cleUnik(result.getLong(1));
-
-
-
-
-
-
-
-                hotel.setHl_hotel(result.getString(2));
-
-
-
-
-
-
-
-                hotel.setHl_accomodation_cleUnik(result.getInt(3));
-
-
-
-
-
-
-
-                hotel.setHl_pnr(result.getString(4));
-
-
-
-
-
-
-
-                hotel.setHl_dateEntree(new Date(result.getString(5)));
-
-
-
-
-
-
-
-                hotel.setHl_dateSortie(new Date(result.getString(6)));
-
-
-
-
-
-
-
-                hotel.setHl_nuite(result.getInt(7));
-
-
-
-
-
-
-
-                hotel.setHl_email(result.getString(8));
-
-
-
-
-
-
-
-                hotel.setHl_adresse(result.getString(9));
-
-
-
-
-
-
-
-                hotel.setHl_cp_cleUnik(result.getInt(10));
-
-
-
-
-
-
-
-                hotel.setHl_pays_cleUnik(result.getInt(11));
-
-
-
-
-
-
-
-                hotel.setHl_cccf(result.getString(12));
-
-
-
-
-
-
-
-                hotel.setAt_val_vente(result.getDouble(13));
-
-
-
-
-
-
-
-                hotel.setHl_memo(result.getString(14));
-
-
-
-
-
-
-
-                hotel.setHl_emissionVoucher(result.getString(15));
-
-
-
-
-
-
-
-                hotel.setHl_langue_cleUnik(result.getInt(16));
-
-
-
-
-
-
-
-                hotel.setHl_dateEmission(new Date(result.getString(17)));
-
-
-
-
-
-
-
-                hotel.setHl_prest_nom(result.getString(18));
-
-
-
-
-
-
-
-                hotel.setHl_prest_adresse(result.getString(19));
-
-
-
-
-
-
-
-                hotel.setHl_prest_cp_cleUnik(result.getInt(20));
-
-
-
-
-
-
-
-                hotel.setHl_prest_pays_cleUnik(result.getInt(21));
-
-
-
-
-
-
-
-                hotel.setHl_prest_email(result.getString(22));
-
-
-
-
-
-
-
-                hotel.setHl_vouch(result.getInt(23));
-
-
-
-
-
-
-
-                hotel.setHl_vouch_vouch1(result.getString(24));
-
-
-
-
-
-
-
-                hotel.setHl_vouch_vouch2(result.getString(25));
-
-
-
-
-
-
-
-                hotel.setDatetimecrea(new Date(result.getString(26)));
-
-
-
-
-
-
-
-                hotel.setDatetimemodif(new Date(result.getString(27)));
-
-
-
-
-
-
-
-                hotel.setLongtime(result.getLong(28));
-
-
-
-
-
-
-
-                hotel.setPax(result.getInt(29));
-
-                hotel.setQua(result.getInt(30));
-
-                hotel.setPrct(result.getFloat(31));
-
-                hotel.setStatut(result.getInt(32));
-
-                hotel.setFrgtcleunik(result.getInt(33));
-
-                hotel.setValeur_tot_tva_inc(-result.getDouble(35));                
-
-                hotel.setValeur_tot(-result.getDouble(36));
-
-                hotel.setMontant_tva(-result.getDouble(37));
-
-                hotel.setHl_localite(result.getString(38));
-
-                hotel.setHl_prest_localite(result.getString(39));
-
-                hotel.setLibelleCompta(result.getString(40));
-
-                GrpRetValue retG=GrpProduitGestion.filGrpDecToProd(serveur,hotel,con,currentuser.getUrcleunik());
-
-                hotel.setGroupdecBase(retG.getBase());
-
-                hotel.setGroupdec(retG.getOwn());
-
-                ProduitInfoComplementaire.getInfo(ProduitInfoComplementaire.HO,ProduitInfoComplementaire.HO_FULL,produit_T.HO,currentuser.getLangage(),hotel,con);
-
-                hotel.setDoc(pstmt,con);
-
-                srcastra.astra.sys.produit.SupplementReduction.chargeSupreduc(hotel,con,pstmt,serveur,currentuser.getUrcleunik()); 
-                new ManageDescLog(hotel,hotel.getDescriptionLogement(),con,pstmt).chargeBrochure_logement();
-                    hotel.setHl_pays_libele(getDestination(hotel.getHl_pays_cleUnik(), con, currentuser.getUrlmcleunik()));
-                    dossier.addHotel(hotel);
-                }
- }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public long insertOnlyme(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {
-
-
-
-
-
-
-
-         String date;
-
-
-
-
-
-
-
-     //"INSERT INTO hotel (hl_hotel,ltcleunik,hl_pnr,hl_dateentree,hl_datesortie,hl_nuite,hl_email,hl_adresse,cxcleunik,pyscleunik,
-
-
-
-
-
-
-
-     //hl_ccf,hl_valeur,hl_memo,hl_emission_voucher,lecleunik,hl_date_emission,hl_prest_nom,hl_prest_adresse,prestcxcleunik,prestpycleunik
-
-
-
-
-
-
-
-     //,hl_prest_email,hl_vouch,hl_vouch1,hl_vouch2,hl_datetimecrea,hl_datetimemodif,longtime,pax,quantite,pourcent,statut)
-
-
-
-
-
-
-
-     //VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?);";
-
-
-
-
-
-
-
-                pstmt=con.prepareStatement(INSERT_HOTEL);
-
-
-
-
-
-
-
-                pstmt.setString(1,this.getHl_hotel());   
-
-
-
-
-
-
-
-                pstmt.setInt(2,this.getHl_accomodation_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(3,this.getHl_pnr());
-
-
-
-
-
-
-
-                if(this.getHl_dateEntree()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateEntree().toString();
-
-
-
-
-
-
-
-                pstmt.setString(4,date);
-
-
-
-
-
-
-
-                if(this.getHl_dateSortie()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateSortie().toString();
-
-
-
-
-
-
-
-                pstmt.setString(5,date);
-
-
-
-
-
-
-
-                pstmt.setInt(6,this.getHl_nuite());
-
-
-
-
-
-
-
-                pstmt.setString(7,this.getHl_email());
-
-
-
-
-
-
-
-                pstmt.setString(8,this.getHl_adresse());
-
-
-
-
-
-
-
-                pstmt.setInt(9,this.getHl_cp_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setInt(10,this.getHl_pays_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(11,this.getHl_cccf());
-
-
-
-
-
-
-
-                pstmt.setDouble(12,this.getAt_val_vente());
-
-
-
-
-
-
-
-                pstmt.setString(13,this.getHl_memo());
-
-
-
-
-
-
-
-                pstmt.setInt(14,this.getHl_vouch());
-
-
-
-
-
-
-
-                pstmt.setInt(15,this.getHl_langue_cleUnik());
-
-
-
-
-
-
-
-                if(this.getHl_dateEmission()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateEmission().toString();
-
-
-
-
-
-
-
-                pstmt.setString(16,date);
-
-
-
-
-
-
-
-                pstmt.setString(17,this.getHl_prest_nom());
-
-
-
-
-
-
-
-                pstmt.setString(18,this.getHl_prest_adresse());
-
-
-
-
-
-
-
-                pstmt.setInt(19,this.getHl_prest_cp_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setInt(20,this.getHl_prest_pays_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(21,this.getHl_prest_email());
-
-
-
-
-
-
-
-                pstmt.setInt(22,this.getHl_vouch());
-
-
-
-
-
-
-
-                pstmt.setString(23,this.getHl_vouch_vouch1());
-
-
-
-
-
-
-
-                pstmt.setString(24,this.getHl_vouch_vouch2());
-
-
-
-
-
-
-
-                pstmt.setLong(25,this.getLongtime());
-
-
-
-
-
-
-
-                pstmt.setInt(26,this.getPax());
-
-
-
-
-
-
-
-                pstmt.setInt(27,this.getQua());
-
-
-
-
-
-
-
-                pstmt.setFloat(28,this.getPrct());
-
-
-
-
-
-
-
-                pstmt.setFloat(29,this.getStatut()); 
-
-
-
-
-
-
-
-                pstmt.setInt(30,this.getFrgtcleunik());
-
-
-
-
-
-
-
-                pstmt.setInt(31,new Double(cledossier).intValue()); 
-
-
-
-
-
-
-
-                pstmt.setString(32,this.getHl_localite());
-
-
-
-
-
-
-
-                pstmt.setString(33,this.getHl_prest_localite());
-
-
-
-
-
-
-
-                pstmt.execute();
-
-
-
-
-
-
-
-                this.setHl_cleUnik(getId(con));   
-
-
-
-
-
-
-
-                return this.getHl_cleUnik();
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    public  long insertDescriptif(Connection con,double cledossier,PreparedStatement pstmt )throws SQLException{
-
-         new ManageDescLog(this,this.getDescriptionLogement(),con,pstmt).insertAllDescLog();
-
-         return 0;
-
-
-
-
-
-         /*        if(this.getDescriptionLogement()!=null)
-
-
-
-
-
-
-
-                 for(int i=0;i<this.getDescriptionLogement().size();i++){
-
-
-
-
-
-
-
-                    DescriptionLogement_T desclo=(DescriptionLogement_T)getDescriptionLogement().get(i);
-
-
-
-
-
-
-
-                   /* pstmt=con.prepareStatement(INSERT_HOTEL_LOGEMENT);
-
-
-
-
-
-
-
-                    pstmt.setInt(1,desclo.getDlt_quantité());
-
-
-
-
-
-
-
-                    pstmt.setInt(2,desclo.getDlt_xlit());
-
-
-
-
-
-
-
-                    pstmt.setInt(3,desclo.getDlt_commodite());
-
-
-
-
-
-
-
-                    pstmt.setInt(4,desclo.getDlt_situation());
-
-
-
-
-
-
-
-                    pstmt.setInt(5,desclo.getDlt_vue());
-
-
-
-
-
-
-
-                    pstmt.setInt(6,desclo.getDlt_regime());
-
-
-
-
-
-
-
-                    pstmt.setLong(7, this.getHl_cleUnik());
-
-
-
-
-
-
-
-                    pstmt.execute();
-
-
-
-
-
-
-
-                    insertOneDescriptif(con,pstmt,desclo);
-
-
-
-
-
-
-
-                  }
-
-
-
-
-
-
-
-        return 0;  */
-
-         
-
-
-
-
-
-
-
-     }
-
-
-
-
-
-
-
-    public void insertOneDescriptif(Connection con,PreparedStatement pstmt,DescriptionLogement_T desclo)throws SQLException{
-
-
-
-
-
-
-
-                   pstmt=con.prepareStatement(INSERT_HOTEL_LOGEMENT);
-
-
-
-
-
-
-
-                    pstmt.setInt(1,desclo.getDlt_quantité());
-
-
-
-
-
-
-
-                    pstmt.setInt(2,desclo.getDlt_xlit());
-
-
-
-
-
-
-
-                    pstmt.setInt(3,desclo.getDlt_commodite());
-
-
-
-
-
-
-
-                    pstmt.setInt(4,desclo.getDlt_situation());
-
-
-
-
-
-
-
-                    pstmt.setInt(5,desclo.getDlt_vue());
-
-
-
-
-
-
-
-                    pstmt.setInt(6,desclo.getDlt_regime());
-
-
-
-
-
-
-
-                    pstmt.setLong(7, this.getHl_cleUnik());
-
-
-
-
-
-
-
-                    pstmt.execute();   
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-        public void modifyDescriptif(Connection con, PreparedStatement pstmt) throws SQLException{
-
-
-
-
-
-                 new ManageDescLog(this,this.getDescriptionLogement(),con,pstmt).checkDescLog();
-
-              /*   if(this.getDescriptionLogement()!=null)
-
-
-
-
-
-
-
-                 for(int i=0;i<this.getDescriptionLogement().size();i++){
-
-
-
-
-
-
-
-                    DescriptionLogement_T desclo=(DescriptionLogement_T)getDescriptionLogement().get(i);
-
-
-
-
-
-
-
-                    if(desclo.isNewreccord())
-
-
-
-
-
-
-
-                        insertOneDescriptif(con,pstmt,desclo);
-
-
-
-
-
-
-
-                    else if(desclo.isModif())
-
-
-
-
-
-
-
-                        modifyOnlyOneDescriptif(con,pstmt,desclo);
-
-
-
-
-
-
-
-                    
-
-
-
-
-
-
-
-        /*           pstmt=con.prepareStatement(INSERT_HOTEL_LOGEMENT);
-
-
-
-
-
-
-
-                    pstmt.setInt(1,desclo.getDlt_quantité());
-
-
-
-
-
-
-
-                    pstmt.setInt(2,desclo.getDlt_xlit());
-
-
-
-
-
-
-
-                    pstmt.setInt(3,desclo.getDlt_commodite());
-
-
-
-
-
-
-
-                    pstmt.setInt(4,desclo.getDlt_situation());
-
-
-
-
-
-
-
-                    pstmt.setInt(5,desclo.getDlt_vue());
-
-
-
-
-
-
-
-                    pstmt.setInt(6,desclo.getDlt_regime());
-
-
-
-
-
-
-
-                    pstmt.setLong(7, this.getHl_cleUnik());
-
-
-
-
-
-
-
-                    pstmt.execute();
-
-
-
-
-
-
-
-                  }*/
-
-
-
-
-
-
-
-     }
-
-
-
-
-
-
-
-     public void modifyOnlyOneDescriptif(Connection con,PreparedStatement pstmt,DescriptionLogement_T desclo )throws SQLException{
-
-
-
-
-
-
-
-         pstmt=con.prepareStatement(MODIFY_BROCHURE_LOGEMENT);
-
-
-
-
-
-
-
-         pstmt.setInt(1,desclo.getDlt_quantité());
-
-
-
-
-
-
-
-         pstmt.setInt(2,desclo.getDlt_xlit());
-
-
-
-
-
-
-
-         pstmt.setInt(3,desclo.getDlt_commodite());
-
-
-
-
-
-
-
-         pstmt.setInt(4,desclo.getDlt_situation());
-
-
-
-
-
-
-
-         pstmt.setInt(5,desclo.getDlt_vue()); 
-
-
-
-
-
-
-
-         pstmt.setInt(6,desclo.getDlt_regime());
-
-
-
-
-
-
-
-         pstmt.setLong(7,desclo.getDlt_cleUnik());
-
-
-
-
-
-
-
-         pstmt.execute();
-
-
-
-
-
-
-
-     }
-
-
-
-
-
-
-
-    public void modifyOnlyMe(Connection con, int cledossier, PreparedStatement pstmt) throws SQLException {
-
-
-
-
-
-
-
-       // UPDATE hotel set hl_hotel=?,ltcleunik=?,hl_pnr=?,hl_dateentree=?,hl_datesortie=?,hl_nuite=?,hl_email=?,
-
-
-
-
-
-
-
-        //hl_adresse=?,cxcleunik=?,pyscleunik=?,hl_ccf=?,hl_valeur=?,hl_memo=?,hl_emission_voucher=?,lecleunik=?,
-
-
-
-
-
-
-
-        //hl_date_emission=?,hl_prest_nom=?,hl_prest_adresse=?,prestcxcleunik=?,prestpycleunik=?,hl_prest_email=?,hl_vouch=?,
-
-
-
-
-
-
-
-        //hl_vouch1=?,hl_vouch2=?,hl_datetimemodif=NOW(),pax=?,quantite=?,pourcent=?,statut=?,frgtcleunik=?,hl_localite=?, 
-
-
-
-
-
-
-
-        //hl_prest_localite=? WHERE hl_cleunik=?;";
-
-
-
-
-
-
-
-        String date;
-
-
-
-
-
-
-
-           pstmt=con.prepareStatement(MODIFY_HOTEL);
-
-
-
-
-
-
-
-                pstmt.setString(1,this.getHl_hotel());   
-
-
-
-
-
-
-
-                pstmt.setInt(2,this.getHl_accomodation_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(3,this.getHl_pnr());
-
-
-
-
-
-
-
-                if(this.getHl_dateEntree()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateEntree().toString();
-
-
-
-
-
-
-
-                pstmt.setString(4,date);
-
-
-
-
-
-
-
-                if(this.getHl_dateSortie()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateSortie().toString();
-
-
-
-
-
-
-
-                pstmt.setString(5,date);
-
-
-
-
-
-
-
-                pstmt.setInt(6,this.getHl_nuite());
-
-
-
-
-
-
-
-                pstmt.setString(7,this.getHl_email());
-
-
-
-
-
-
-
-                pstmt.setString(8,this.getHl_adresse());
-
-
-
-
-
-
-
-                pstmt.setInt(9,this.getHl_cp_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setInt(10,this.getHl_pays_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(11,this.getHl_cccf());
-
-
-
-
-
-
-
-                pstmt.setDouble(12,this.getAt_val_vente());
-
-
-
-
-
-
-
-                pstmt.setString(13,this.getHl_memo());
-
-
-
-
-
-
-
-                pstmt.setInt(14,this.getHl_vouch());
-
-
-
-
-
-
-
-                pstmt.setInt(15,this.getHl_langue_cleUnik());
-
-
-
-
-
-
-
-                if(this.getHl_dateEmission()==null) date="0000-00-00 00:00:00"; else date=this.getHl_dateEmission().toString();
-
-
-
-
-
-
-
-                pstmt.setString(16,date);
-
-
-
-
-
-
-
-                pstmt.setString(17,this.getHl_prest_nom());
-
-
-
-
-
-
-
-                pstmt.setString(18,this.getHl_prest_adresse());
-
-
-
-
-
-
-
-                pstmt.setInt(19,this.getHl_prest_cp_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setInt(20,this.getHl_prest_pays_cleUnik());
-
-
-
-
-
-
-
-                pstmt.setString(21,this.getHl_prest_email());
-
-
-
-
-
-
-
-                pstmt.setInt(22,this.getHl_vouch());
-
-
-
-
-
-
-
-                pstmt.setString(23,this.getHl_vouch_vouch1());
-
-
-
-
-
-
-
-                pstmt.setString(24,this.getHl_vouch_vouch2());
-
-
-
-
-
-
-
-                pstmt.setInt(25,this.getPax());
-
-
-
-
-
-
-
-                pstmt.setInt(26,this.getQua());
-
-
-
-
-
-
-
-                pstmt.setFloat(27,this.getPrct());
-
-
-
-
-
-
-
-                pstmt.setFloat(28,this.getStatut()); 
-
-
-
-
-
-
-
-                pstmt.setInt(29,this.getFrgtcleunik());
-
-
-
-
-
-
-
-                pstmt.setString(30,this.getHl_localite());
-
-
-
-
-
-
-
-                pstmt.setString(31,this.getHl_prest_localite());
-
-
-
-
-
-
-
-                pstmt.setLong(32,this.getHl_cleUnik());
-
-
-
-
-
-
-
-                pstmt.execute();
-
-
-
-
-
-
-
-    }
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Getter for property hl_statutCleUnik.
-
-
-
-
-
-
-
-     * @return Value of property hl_statutCleUnik.
-
-
-
-
-
-
-
-     */
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    public void chargeDescriptif(Connection con, PreparedStatement pstmt, Dossier_T tmpDossier) throws SQLException {
-
-
-
-
-
-
-
-                pstmt=con.prepareStatement(CHARGE_HOTEL_LOGEMENT);
-
-
-
-
-
-
-
-                long cle=this.getHl_cleUnik();
-
-
-
-
-
-
-
-                pstmt.setLong(1,this.getHl_cleUnik());
-
-
-
-
-
-
-
-                ResultSet result=pstmt.executeQuery();
-
-
-
-
-
-
-
-                result.beforeFirst();
-
-
-
-
-
-
-
-                while(result.next()){
-
-
-
-
-
-
-
-                 DescriptionLogement_T brolog=new DescriptionLogement_T();
-
-
-
-
-
-
-
-                 brolog.setDlt_cleUnik(result.getInt(1));
-
-
-
-
-
-
-
-                 brolog.setDlt_quantité(result.getInt(2));
-
-
-
-
-
-
-
-                 brolog.setDlt_xlit(result.getInt(3));
-
-
-
-
-
-
-
-                 brolog.setDlt_commodite(result.getInt(4));
-
-
-
-
-
-
-
-                 brolog.setDlt_situation(result.getInt(5));
-
-
-
-
-
-
-
-                 brolog.setDlt_vue(result.getInt(6));
-
-
-
-
-
-
-
-                 brolog.setDlt_regime(result.getInt(7));
-
-
-
-
-
-
-
-                 brolog.setDlt_cleUnik(result.getInt(8));
-
-
-
-
-
-
-
-                 brolog.setDlt_crea(new Date(result.getString(9)));
-
-
-
-
-
-
-
-                 brolog.setDlt_modif(new Date(result.getString(10)));
-
-
-
-
-
-
-
-                 this.addDescriptionLogement(brolog);       
-
-
-
-
-
-
-
-                }
-
-
-
-
-
-
-
-    }
-
-
-
-    public srcastra.astra.sys.classetransfert.utils.Date getDateDep() {
-
-        return this.getHl_dateEntree();
-
-    }    
-
-
-
-    public String getDestination() {
-
-        return this.getHl_pays_libele();
-
-    }    
-
-
-
-    public String getLogement() {
-
-        return this.getHl_accomodation_libele();
-
-    }    
-
-    
-
-    public String getPnr() {
-
-        return this.getHl_pnr();
-
-    }    
-
-    public java.util.ArrayList getDestinationArray() {
- 
-            ArrayList destination=new ArrayList();
-            destination.add(this.getDestination());
-	    return destination;    
-
-    }    
-
-
-
-
-
-
-}
-
-
-
-
-
-
-
+/* * Hotel_T.java * * Created on 19 novembre 2002, 13:57 */package srcastra.astra.sys.classetransfert.dossier.hotel;import srcastra.astra.sys.classetransfert.Loginusers_T;import srcastra.astra.sys.classetransfert.dossier.Dossier_T;import srcastra.astra.sys.classetransfert.dossier.ProduitInfoComplementaire;import srcastra.astra.sys.classetransfert.dossier.ProduitSynthese;import srcastra.astra.sys.classetransfert.dossier.brochure.DescriptionLogement_T;import srcastra.astra.sys.classetransfert.dossier.produit_T;import srcastra.astra.sys.classetransfert.utils.Date;import srcastra.astra.sys.produit.ManageDescLog;import srcastra.astra.sys.rmi.astrainterface;import srcastra.astra.sys.rmi.groupe_dec.GrpProduitGestion;import srcastra.astra.sys.rmi.groupe_dec.GrpRetValue;import java.sql.Connection;import java.sql.PreparedStatement;import java.sql.ResultSet;import java.sql.SQLException;import java.util.ArrayList;/** * @author Sébastien */public class Hotel_T extends srcastra.astra.sys.classetransfert.dossier.produit_T implements java.io.Serializable,        Cloneable, srcastra.astra.sys.rmi.DossierSql, srcastra.astra.sys.classetransfert.dossier.InterfaceIndivProduit, ProduitSynthese {    private long hl_cleUnik;    private String hl_hotel;    private int hl_accomodation_cleUnik;    private String hl_accomodation_libele;    private String hl_pnr;    private Date hl_dateEntree;    private Date hl_dateSortie;    private int hl_nuite;    private String hl_email;    private String hl_adresse;    private int hl_cp_cleUnik;    private String hl_cp_libele;    private String hl_localite;    private int hl_pays_cleUnik;    private String hl_pays_libele;    private String hl_cccf;    private float hl_valeur;    private String hl_memo;    private String hl_emissionVoucher;    private int hl_langue_cleUnik;    private String hl_langue_libele;    private Date hl_dateEmission;    private String hl_prest_nom;    private String hl_prest_adresse;    private int hl_prest_cp_cleUnik;    private String hl_prest_cp_libele;    private String hl_prest_localite;    private int hl_prest_pays_cleUnik;    private String hl_prest_pays_libele;    private String hl_prest_email;    private int hl_vouch;    private String hl_vouch_vouch1;    private String hl_vouch_vouch2;    private String hl_vouch_vouch3;    private ArrayList descriptionLogement;    //  public transient srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage;    private Date datetimemodif;    private Date datetimecrea;    private long longtime;    /**     * Creates a new instance of Hotel_T     */    public Hotel_T() {        setPax(1);        setQua(1);        setPrct(100);        setTypeDeProduitCleunik(super.HO);    }    public Object clone() throws CloneNotSupportedException {        return super.clone();    }    public long getAt_cleunik() {        return hl_cleUnik;    }    public void setAt_cleunik(long atCleunik) {        hl_cleUnik = atCleunik;        super.setAt_cleunik(atCleunik);    }      /*  public void prepareAffichage() {        String tmp=getGroupdec().getGntvainclusvente()==1?"INC":"N.INC";        produitaffichage=new srcastra.astra.sys.classetransfert.dossier.ProduitAffichage(   this,"B",this.getFrnom(),this.getGroupe_produit_nom(),                                                                 "AV", "",this.getHl_memo(), this.getHl_valeur(),this.getQua(),this.getPax(),this.getPrct(),"ok",this.getValeur_tot(),                                                                this.getHl_cleUnik(),this.getTypeDeProduitCleunik(),getGroupdec().getValeurGenFloat1(),tmp,getValeur_tot_tva_inc());       }*/    /**     * Getter for property descriptionLogement.     *     * @return Value of property descriptionLogement.     */    public java.util.ArrayList getDescriptionLogement() {        return descriptionLogement;    }    /**     * Setter for property descriptionLogement.     *     * @param descriptionLogement New value of property descriptionLogement.     */    public void setDescriptionLogement(java.util.ArrayList descriptionLogement) {        this.descriptionLogement = descriptionLogement;    }    /**     * Getter for property hl_accomodation_cleUnik.     *     * @return Value of property hl_accomodation_cleUnik.     */    public int getHl_accomodation_cleUnik() {        return hl_accomodation_cleUnik;    }    /**     * Setter for property hl_accomodation_cleUnik.     *     * @param hl_accomodation_cleUnik New value of property hl_accomodation_cleUnik.     */    public void setHl_accomodation_cleUnik(int hl_accomodation_cleUnik) {        this.hl_accomodation_cleUnik = hl_accomodation_cleUnik;    }    private String getDestination(long dncleunik, Connection con, int lmcleunik) throws SQLException {        String requete = "SELECT tn_traduction FROM traduction_destination WHERE dn_cleunik=? AND lmcleunik=?";        PreparedStatement pstmt = con.prepareStatement(requete);        pstmt.setLong(1, dncleunik);        pstmt.setInt(2, lmcleunik);        ResultSet result = pstmt.executeQuery();        String retval = "";        while (result.next()) {            retval = result.getString(1);        }        return retval;    }    /**     * Getter for property hl_accomodation_libele.     *     * @return Value of property hl_accomodation_libele.     */    public java.lang.String getHl_accomodation_libele() {        return hl_accomodation_libele;    }    /**     * Setter for property hl_accomodation_libele.     *     * @param hl_accomodation_libele New value of property hl_accomodation_libele.     */    public void setHl_accomodation_libele(java.lang.String hl_accomodation_libele) {        this.hl_accomodation_libele = hl_accomodation_libele;    }    /**     * Getter for property hl_adresse.     *     * @return Value of property hl_adresse.     */    public java.lang.String getHl_adresse() {        return hl_adresse;    }    /**     * Setter for property hl_adresse.     *     * @param hl_adresse New value of property hl_adresse.     */    public void setHl_adresse(java.lang.String hl_adresse) {        this.hl_adresse = hl_adresse;    }    /**     * Getter for property hl_cccf.     *     * @return Value of property hl_cccf.     */    public java.lang.String getHl_cccf() {        return hl_cccf;    }    /**     * Setter for property hl_cccf.     *     * @param hl_cccf New value of property hl_cccf.     */    public void setHl_cccf(java.lang.String hl_cccf) {        this.hl_cccf = hl_cccf;    }    /**     * Getter for property hl_cleUnik.     *     * @return Value of property hl_cleUnik.     */    public long getHl_cleUnik() {        return hl_cleUnik;    }    /**     * Setter for property hl_cleUnik.     *     * @param hl_cleUnik New value of property hl_cleUnik.     */    public void setHl_cleUnik(long hl_cleUnik) {        setAt_cleunik(hl_cleUnik);    }    /**     * Getter for property hl_cp_cleUnik.     *     * @return Value of property hl_cp_cleUnik.     */    public int getHl_cp_cleUnik() {        return hl_cp_cleUnik;    }    /**     * Setter for property hl_cp_cleUnik.     *     * @param hl_cp_cleUnik New value of property hl_cp_cleUnik.     */    public void setHl_cp_cleUnik(int hl_cp_cleUnik) {        this.hl_cp_cleUnik = hl_cp_cleUnik;    }    /**     * Getter for property hl_cp_libele.     *     * @return Value of property hl_cp_libele.     */    public java.lang.String getHl_cp_libele() {        return hl_cp_libele;    }    /**     * Setter for property hl_cp_libele.     *     * @param hl_cp_libele New value of property hl_cp_libele.     */    public void setHl_cp_libele(java.lang.String hl_cp_libele) {        this.hl_cp_libele = hl_cp_libele;    }    /**     * Getter for property hl_dateEmission.     *     * @return Value of property hl_dateEmission.     */    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateEmission() {        return hl_dateEmission;    }    /**     * Setter for property hl_dateEmission.     *     * @param hl_dateEmission New value of property hl_dateEmission.     */    public void setHl_dateEmission(srcastra.astra.sys.classetransfert.utils.Date hl_dateEmission) {        this.hl_dateEmission = hl_dateEmission;    }    /**     * Getter for property hl_dateEntree.     *     * @return Value of property hl_dateEntree.     */    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateEntree() {        return hl_dateEntree;    }    /**     * Setter for property hl_dateEntree.     *     * @param hl_dateEntree New value of property hl_dateEntree.     */    public void setHl_dateEntree(srcastra.astra.sys.classetransfert.utils.Date hl_dateEntree) {        this.hl_dateEntree = hl_dateEntree;    }    /**     * Getter for property hl_dateSortie.     *     * @return Value of property hl_dateSortie.     */    public srcastra.astra.sys.classetransfert.utils.Date getHl_dateSortie() {        return hl_dateSortie;    }    /**     * Setter for property hl_dateSortie.     *     * @param hl_dateSortie New value of property hl_dateSortie.     */    public void setHl_dateSortie(srcastra.astra.sys.classetransfert.utils.Date hl_dateSortie) {        this.hl_dateSortie = hl_dateSortie;    }    /**     * Getter for property hl_email.     *     * @return Value of property hl_email.     */    public java.lang.String getHl_email() {        return hl_email;    }    /**     * Setter for property hl_email.     *     * @param hl_email New value of property hl_email.     */    public void setHl_email(java.lang.String hl_email) {        this.hl_email = hl_email;    }    /**     * Getter for property hl_emissionVoucher.     *     * @return Value of property hl_emissionVoucher.     */    public java.lang.String getHl_emissionVoucher() {        return hl_emissionVoucher;    }    /**     * Setter for property hl_emissionVoucher.     *     * @param hl_emissionVoucher New value of property hl_emissionVoucher.     */    public void setHl_emissionVoucher(java.lang.String hl_emissionVoucher) {        this.hl_emissionVoucher = hl_emissionVoucher;    }    /**     * Getter for property hl_hotel.     *     * @return Value of property hl_hotel.     */    public java.lang.String getHl_hotel() {        return hl_hotel;    }    /**     * Setter for property hl_hotel.     *     * @param hl_hotel New value of property hl_hotel.     */    public void setHl_hotel(java.lang.String hl_hotel) {        this.hl_hotel = hl_hotel;    }    /**     * Getter for property hl_langue_cleUnik.     *     * @return Value of property hl_langue_cleUnik.     */    public int getHl_langue_cleUnik() {        return hl_langue_cleUnik;    }    /**     * Setter for property hl_langue_cleUnik.     *     * @param hl_langue_cleUnik New value of property hl_langue_cleUnik.     */    public void setHl_langue_cleUnik(int hl_langue_cleUnik) {        this.hl_langue_cleUnik = hl_langue_cleUnik;    }    /**     * Getter for property hl_langue_libele.     *     * @return Value of property hl_langue_libele.     */    public java.lang.String getHl_langue_libele() {        return hl_langue_libele;    }    /**     * Setter for property hl_langue_libele.     *     * @param hl_langue_libele New value of property hl_langue_libele.     */    public void setHl_langue_libele(java.lang.String hl_langue_libele) {        this.hl_langue_libele = hl_langue_libele;    }    /**     * Getter for property hl_localite.     *     * @return Value of property hl_localite.     */    public java.lang.String getHl_localite() {        return hl_localite;    }    /**     * Setter for property hl_localite.     *     * @param hl_localite New value of property hl_localite.     */    public void setHl_localite(java.lang.String hl_localite) {        this.hl_localite = hl_localite;    }    /**     * Getter for property hl_memo.     *     * @return Value of property hl_memo.     */    public java.lang.String getHl_memo() {        return hl_memo;    }    /**     * Setter for property hl_memo.     *     * @param hl_memo New value of property hl_memo.     */    public void setHl_memo(java.lang.String hl_memo) {        this.hl_memo = hl_memo;    }    /**     * Getter for property hl_nuite.     *     * @return Value of property hl_nuite.     */    public int getHl_nuite() {        return hl_nuite;    }    /**     * Setter for property hl_nuite.     *     * @param hl_nuite New value of property hl_nuite.     */    public void setHl_nuite(int hl_nuite) {        this.hl_nuite = hl_nuite;    }    /**     * Getter for property hl_pays_cleUnik.     *     * @return Value of property hl_pays_cleUnik.     */    public int getHl_pays_cleUnik() {        return hl_pays_cleUnik;    }    /**     * Setter for property hl_pays_cleUnik.     *     * @param hl_pays_cleUnik New value of property hl_pays_cleUnik.     */    public void setHl_pays_cleUnik(int hl_pays_cleUnik) {        this.hl_pays_cleUnik = hl_pays_cleUnik;    }    /**     * Getter for property hl_pays_libele.     *     * @return Value of property hl_pays_libele.     */    public java.lang.String getHl_pays_libele() {        return hl_pays_libele;    }    /**     * Setter for property hl_pays_libele.     *     * @param hl_pays_libele New value of property hl_pays_libele.     */    public void setHl_pays_libele(java.lang.String hl_pays_libele) {        this.hl_pays_libele = hl_pays_libele;    }    /**     * Getter for property hl_pnr.     *     * @return Value of property hl_pnr.     */    public java.lang.String getHl_pnr() {        return hl_pnr;    }    /**     * Setter for property hl_pnr.     *     * @param hl_pnr New value of property hl_pnr.     */    public void setHl_pnr(java.lang.String hl_pnr) {        this.hl_pnr = hl_pnr;    }    /**     * Getter for property hl_prest_adresse.     *     * @return Value of property hl_prest_adresse.     */    public java.lang.String getHl_prest_adresse() {        return hl_prest_adresse;    }    /**     * Setter for property hl_prest_adresse.     *     * @param hl_prest_adresse New value of property hl_prest_adresse.     */    public void setHl_prest_adresse(java.lang.String hl_prest_adresse) {        this.hl_prest_adresse = hl_prest_adresse;    }    /**     * Getter for property hl_prest_cp_cleUnik.     *     * @return Value of property hl_prest_cp_cleUnik.     */    public int getHl_prest_cp_cleUnik() {        return hl_prest_cp_cleUnik;    }    /**     * Setter for property hl_prest_cp_cleUnik.     *     * @param hl_prest_cp_cleUnik New value of property hl_prest_cp_cleUnik.     */    public void setHl_prest_cp_cleUnik(int hl_prest_cp_cleUnik) {        this.hl_prest_cp_cleUnik = hl_prest_cp_cleUnik;    }    /**     * Getter for property hl_prest_cp_libele.     *     * @return Value of property hl_prest_cp_libele.     */    public java.lang.String getHl_prest_cp_libele() {        return hl_prest_cp_libele;    }    /**     * Setter for property hl_prest_cp_libele.     *     * @param hl_prest_cp_libele New value of property hl_prest_cp_libele.     */    public void setHl_prest_cp_libele(java.lang.String hl_prest_cp_libele) {        this.hl_prest_cp_libele = hl_prest_cp_libele;    }    /**     * Getter for property hl_prest_email.     *     * @return Value of property hl_prest_email.     */    public java.lang.String getHl_prest_email() {        return hl_prest_email;    }    /**     * Setter for property hl_prest_email.     *     * @param hl_prest_email New value of property hl_prest_email.     */    public void setHl_prest_email(java.lang.String hl_prest_email) {        this.hl_prest_email = hl_prest_email;    }    /**     * Getter for property hl_prest_localite.     *     * @return Value of property hl_prest_localite.     */    public java.lang.String getHl_prest_localite() {        return hl_prest_localite;    }    /**     * Setter for property hl_prest_localite.     *     * @param hl_prest_localite New value of property hl_prest_localite.     */    public void setHl_prest_localite(java.lang.String hl_prest_localite) {        this.hl_prest_localite = hl_prest_localite;    }    /**     * Getter for property hl_prest_nom.     *     * @return Value of property hl_prest_nom.     */    public java.lang.String getHl_prest_nom() {        return hl_prest_nom;    }    /**     * Setter for property hl_prest_nom.     *     * @param hl_prest_nom New value of property hl_prest_nom.     */    public void setHl_prest_nom(java.lang.String hl_prest_nom) {        this.hl_prest_nom = hl_prest_nom;    }    /**     * Getter for property hl_prest_pays_cleUnik.     *     * @return Value of property hl_prest_pays_cleUnik.     */    public int getHl_prest_pays_cleUnik() {        return hl_prest_pays_cleUnik;    }    /**     * Setter for property hl_prest_pays_cleUnik.     *     * @param hl_prest_pays_cleUnik New value of property hl_prest_pays_cleUnik.     */    public void setHl_prest_pays_cleUnik(int hl_prest_pays_cleUnik) {        this.hl_prest_pays_cleUnik = hl_prest_pays_cleUnik;    }    /**     * Getter for property hl_prest_pays_libele.     *     * @return Value of property hl_prest_pays_libele.     */    public java.lang.String getHl_prest_pays_libele() {        return hl_prest_pays_libele;    }    /**     * Setter for property hl_prest_pays_libele.     *     * @param hl_prest_pays_libele New value of property hl_prest_pays_libele.     */    public void setHl_prest_pays_libele(java.lang.String hl_prest_pays_libele) {        this.hl_prest_pays_libele = hl_prest_pays_libele;    }    /**     * Getter for property hl_valeur.     *     * @return Value of property hl_valeur.     */    public float getHl_valeur() {        return hl_valeur;    }    /**     * Setter for property hl_valeur.     *     * @param hl_valeur New value of property hl_valeur.     */    public void setHl_valeur(float hl_valeur) {        this.hl_valeur = hl_valeur;        super.setAt_val_vente(hl_valeur);    }    /**     * Getter for property hl_vouch_vouch1.     *     * @return Value of property hl_vouch_vouch1.     */    public java.lang.String getHl_vouch_vouch1() {        return hl_vouch_vouch1;    }    /**     * Setter for property hl_vouch_vouch1.     *     * @param hl_vouch_vouch1 New value of property hl_vouch_vouch1.     */    public void setHl_vouch_vouch1(java.lang.String hl_vouch_vouch1) {        this.hl_vouch_vouch1 = hl_vouch_vouch1;    }    /**     * Getter for property hl_vouch_vouch2.     *     * @return Value of property hl_vouch_vouch2.     */    public java.lang.String getHl_vouch_vouch2() {        return hl_vouch_vouch2;    }    /**     * Setter for property hl_vouch_vouch2.     *     * @param hl_vouch_vouch2 New value of property hl_vouch_vouch2.     */    public void setHl_vouch_vouch2(java.lang.String hl_vouch_vouch2) {        this.hl_vouch_vouch2 = hl_vouch_vouch2;    }    /**     * Getter for property hl_vouch_vouch3.     *     * @return Value of property hl_vouch_vouch3.     */    public java.lang.String getHl_vouch_vouch3() {        return hl_vouch_vouch3;    }    /**     * Setter for property hl_vouch_vouch3.     *     * @param hl_vouch_vouch3 New value of property hl_vouch_vouch3.     */    public void setHl_vouch_vouch3(java.lang.String hl_vouch_vouch3) {        this.hl_vouch_vouch3 = hl_vouch_vouch3;    }    /** Getter for property isattached.     * @return Value of property isattached.     */    /**     * Getter for property produitaffichage.     *     * @return Value of property produitaffichage.     */   /* public srcastra.astra.sys.classetransfert.dossier.ProduitAffichage getProduitaffichage() {        return produitaffichage;    }    public void setProduitaffichage(srcastra.astra.sys.classetransfert.dossier.ProduitAffichage produitaffichage) {        this.produitaffichage = produitaffichage;    }*/    public void addDescriptionLogement(DescriptionLogement_T obj) {        if (descriptionLogement == null) descriptionLogement = new ArrayList(0);        descriptionLogement.add(obj);    }    public void removeDescriptionLogement(DescriptionLogement_T obj) {        if (descriptionLogement != null) descriptionLogement.remove(obj);    }    /**     * Getter for property hl_vouch.     *     * @return Value of property hl_vouch.     */    public int getHl_vouch() {        return hl_vouch;    }    /**     * Setter for property hl_vouch.     *     * @param hl_vouch New value of property hl_vouch.     */    public void setHl_vouch(int hl_vouch) {        this.hl_vouch = hl_vouch;    }    public void annulMe(Connection con, PreparedStatement pstmt) throws SQLException {        pstmt = con.prepareStatement("UPDATE hotel SET annuler=1 WHERE hl_cleunik =?");        pstmt.setLong(1, this.getHl_cleUnik());        pstmt.execute();    }    public void chargeMe(Loginusers_T currentuser, astrainterface serveur, Dossier_T dossier, Connection con, double cledossier, PreparedStatement pstmt) throws SQLException, java.rmi.RemoteException {        //"SELECT h.hl_cleunik , h.hl_hotel , h.ltcleunik , h.hl_pnr , hl_dateentree , h.hl_datesortie , h.hl_nuite , h.hl_email ,        //h.hl_adresse , h.cxcleunik , h.pyscleunik , h.hl_ccf , h.hl_valeur , h.hl_memo , h.hl_emission_voucher , h.lecleunik,        //h.hl_date_emission , h.hl_prest_nom , h.hl_prest_adresse , h.prestcxcleunik , h.prestpycleunik , h.hl_prest_email ,        //h.hl_vouch , h.hl_vouch1 , h.hl_vouch2 , h.hl_datetimecrea , h.hl_datetimemodif , h.longtime , h.pax , h.quantite , h.pourcent,        //h.statut , h.frgtcleunik , h.dr_cleunik , hi.hevaleur , hi.hevaleurbase , hi.hevaleurtva  FROM hotel h ,historique2 hi        //WHERE hi.lignecleunik=h.hl_cleunik AND hi.sn_cleunik=0  AND hi.ctprocleunik=3 AND h.dr_cleunik=?AND h.annuler=0        //AND hi.hedossiercourant='O'";        pstmt = con.prepareStatement("SELECT h.hl_cleunik,h.hl_hotel,h.ltcleunik,h.hl_pnr,hl_dateentree,h.hl_datesortie,h.hl_nuite,h.hl_email,h.hl_adresse,h.cxcleunik,h.pyscleunik,h.hl_ccf,h.hl_valeur,h.hl_memo,h.hl_emission_voucher,h.lecleunik,h.hl_date_emission,h.hl_prest_nom,h.hl_prest_adresse,h.prestcxcleunik,h.prestpycleunik,h.hl_prest_email,h.hl_vouch,h.hl_vouch1,h.hl_vouch2,h.hl_datetimecrea,h.hl_datetimemodif,h.longtime,h.pax,h.quantite,h.pourcent,h.statut,h.frgtcleunik,h.dr_cleunik, hi.hevaleur,hi.hevaleurbase,hi.hevaleurtva,h.hl_localite,h.hl_prest_localite,hi.helibelle  FROM hotel h ,historique2 hi WHERE hi.lignecleunik=h.hl_cleunik AND hi.sn_cleunik=0  AND hi.ctprocleunik=3 AND h.dr_cleunik=? AND h.annuler=0 AND hi.hedossiercourant='O'");        System.out.println(CHARGE_HOTEL);        pstmt.setInt(1, dossier.getDrcleunik());        ResultSet result = pstmt.executeQuery();        result.beforeFirst();        while (result.next()) {            Hotel_T hotel = new Hotel_T();            hotel.setHl_cleUnik(result.getLong(1));            hotel.setHl_hotel(result.getString(2));            hotel.setHl_accomodation_cleUnik(result.getInt(3));            hotel.setHl_pnr(result.getString(4));            hotel.setHl_dateEntree(new Date(result.getString(5)));            hotel.setHl_dateSortie(new Date(result.getString(6)));            hotel.setHl_nuite(result.getInt(7));            hotel.setHl_email(result.getString(8));            hotel.setHl_adresse(result.getString(9));            hotel.setHl_cp_cleUnik(result.getInt(10));            hotel.setHl_pays_cleUnik(result.getInt(11));            hotel.setHl_cccf(result.getString(12));            hotel.setAt_val_vente(result.getDouble(13));            hotel.setHl_memo(result.getString(14));            hotel.setHl_emissionVoucher(result.getString(15));            hotel.setHl_langue_cleUnik(result.getInt(16));            hotel.setHl_dateEmission(new Date(result.getString(17)));            hotel.setHl_prest_nom(result.getString(18));            hotel.setHl_prest_adresse(result.getString(19));            hotel.setHl_prest_cp_cleUnik(result.getInt(20));            hotel.setHl_prest_pays_cleUnik(result.getInt(21));            hotel.setHl_prest_email(result.getString(22));            hotel.setHl_vouch(result.getInt(23));            hotel.setHl_vouch_vouch1(result.getString(24));            hotel.setHl_vouch_vouch2(result.getString(25));            hotel.setDatetimecrea(new Date(result.getString(26)));            hotel.setDatetimemodif(new Date(result.getString(27)));            hotel.setLongtime(result.getLong(28));            hotel.setPax(result.getInt(29));            hotel.setQua(result.getInt(30));            hotel.setPrct(result.getFloat(31));            hotel.setStatut(result.getInt(32));            hotel.setFrgtcleunik(result.getInt(33));            hotel.setValeur_tot_tva_inc(-result.getDouble(35));            hotel.setValeur_tot(-result.getDouble(36));            hotel.setMontant_tva(-result.getDouble(37));            hotel.setHl_localite(result.getString(38));            hotel.setHl_prest_localite(result.getString(39));            hotel.setLibelleCompta(result.getString(40));            GrpRetValue retG = GrpProduitGestion.filGrpDecToProd(serveur, hotel, con, currentuser.getUrcleunik());            hotel.setGroupdecBase(retG.getBase());            hotel.setGroupdec(retG.getOwn());            ProduitInfoComplementaire.getInfo(ProduitInfoComplementaire.HO, ProduitInfoComplementaire.HO_FULL, produit_T.HO, currentuser.getLangage(), hotel, con);            hotel.setDoc(pstmt, con);            srcastra.astra.sys.produit.SupplementReduction.chargeSupreduc(hotel, con, pstmt, serveur, currentuser.getUrcleunik());            new ManageDescLog(hotel, hotel.getDescriptionLogement(), con, pstmt).chargeBrochure_logement();            hotel.setHl_pays_libele(getDestination(hotel.getHl_pays_cleUnik(), con, currentuser.getUrlmcleunik()));            dossier.addHotel(hotel);        }    }    public long insertOnlyme(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {        String date;        //"INSERT INTO hotel (hl_hotel,ltcleunik,hl_pnr,hl_dateentree,hl_datesortie,hl_nuite,hl_email,hl_adresse,cxcleunik,pyscleunik,        //hl_ccf,hl_valeur,hl_memo,hl_emission_voucher,lecleunik,hl_date_emission,hl_prest_nom,hl_prest_adresse,prestcxcleunik,prestpycleunik        //,hl_prest_email,hl_vouch,hl_vouch1,hl_vouch2,hl_datetimecrea,hl_datetimemodif,longtime,pax,quantite,pourcent,statut)        //VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),NOW(),?,?,?,?,?);";        pstmt = con.prepareStatement(INSERT_HOTEL);        pstmt.setString(1, this.getHl_hotel());        pstmt.setInt(2, this.getHl_accomodation_cleUnik());        pstmt.setString(3, this.getHl_pnr());        if (this.getHl_dateEntree() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateEntree().toString();        pstmt.setString(4, date);        if (this.getHl_dateSortie() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateSortie().toString();        pstmt.setString(5, date);        pstmt.setInt(6, this.getHl_nuite());        pstmt.setString(7, this.getHl_email());        pstmt.setString(8, this.getHl_adresse());        pstmt.setInt(9, this.getHl_cp_cleUnik());        pstmt.setInt(10, this.getHl_pays_cleUnik());        pstmt.setString(11, this.getHl_cccf());        pstmt.setDouble(12, this.getAt_val_vente());        pstmt.setString(13, this.getHl_memo());        pstmt.setInt(14, this.getHl_vouch());        pstmt.setInt(15, this.getHl_langue_cleUnik());        if (this.getHl_dateEmission() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateEmission().toString();        pstmt.setString(16, date);        pstmt.setString(17, this.getHl_prest_nom());        pstmt.setString(18, this.getHl_prest_adresse());        pstmt.setInt(19, this.getHl_prest_cp_cleUnik());        pstmt.setInt(20, this.getHl_prest_pays_cleUnik());        pstmt.setString(21, this.getHl_prest_email());        pstmt.setInt(22, this.getHl_vouch());        pstmt.setString(23, this.getHl_vouch_vouch1());        pstmt.setString(24, this.getHl_vouch_vouch2());        pstmt.setLong(25, this.getLongtime());        pstmt.setInt(26, this.getPax());        pstmt.setInt(27, this.getQua());        pstmt.setFloat(28, this.getPrct());        pstmt.setFloat(29, this.getStatut());        pstmt.setInt(30, this.getFrgtcleunik());        pstmt.setInt(31, new Double(cledossier).intValue());        pstmt.setString(32, this.getHl_localite());        pstmt.setString(33, this.getHl_prest_localite());        pstmt.execute();        this.setHl_cleUnik(getId(con));        return this.getHl_cleUnik();    }    public long insertDescriptif(Connection con, double cledossier, PreparedStatement pstmt) throws SQLException {        new ManageDescLog(this, this.getDescriptionLogement(), con, pstmt).insertAllDescLog();        return 0;         /*        if(this.getDescriptionLogement()!=null)                 for(int i=0;i<this.getDescriptionLogement().size();i++){                    DescriptionLogement_T desclo=(DescriptionLogement_T)getDescriptionLogement().get(i);                   /* pstmt=con.prepareStatement(INSERT_HOTEL_LOGEMENT);                    pstmt.setInt(1,desclo.getDlt_quantité());                    pstmt.setInt(2,desclo.getDlt_xlit());                    pstmt.setInt(3,desclo.getDlt_commodite());                    pstmt.setInt(4,desclo.getDlt_situation());                    pstmt.setInt(5,desclo.getDlt_vue());                    pstmt.setInt(6,desclo.getDlt_regime());                    pstmt.setLong(7, this.getHl_cleUnik());                    pstmt.execute();                    insertOneDescriptif(con,pstmt,desclo);                  }        return 0;  */    }    public void insertOneDescriptif(Connection con, PreparedStatement pstmt, DescriptionLogement_T desclo) throws SQLException {        pstmt = con.prepareStatement(INSERT_HOTEL_LOGEMENT);        pstmt.setInt(1, desclo.getDlt_quantité());        pstmt.setInt(2, desclo.getDlt_xlit());        pstmt.setInt(3, desclo.getDlt_commodite());        pstmt.setInt(4, desclo.getDlt_situation());        pstmt.setInt(5, desclo.getDlt_vue());        pstmt.setInt(6, desclo.getDlt_regime());        pstmt.setLong(7, this.getHl_cleUnik());        pstmt.execute();    }    public void modifyDescriptif(Connection con, PreparedStatement pstmt) throws SQLException {        new ManageDescLog(this, this.getDescriptionLogement(), con, pstmt).checkDescLog();              /*   if(this.getDescriptionLogement()!=null)                 for(int i=0;i<this.getDescriptionLogement().size();i++){                    DescriptionLogement_T desclo=(DescriptionLogement_T)getDescriptionLogement().get(i);                    if(desclo.isNewreccord())                        insertOneDescriptif(con,pstmt,desclo);                    else if(desclo.isModif())                        modifyOnlyOneDescriptif(con,pstmt,desclo);                            /*           pstmt=con.prepareStatement(INSERT_HOTEL_LOGEMENT);                    pstmt.setInt(1,desclo.getDlt_quantité());                    pstmt.setInt(2,desclo.getDlt_xlit());                    pstmt.setInt(3,desclo.getDlt_commodite());                    pstmt.setInt(4,desclo.getDlt_situation());                    pstmt.setInt(5,desclo.getDlt_vue());                    pstmt.setInt(6,desclo.getDlt_regime());                    pstmt.setLong(7, this.getHl_cleUnik());                    pstmt.execute();                  }*/    }    public void modifyOnlyOneDescriptif(Connection con, PreparedStatement pstmt, DescriptionLogement_T desclo) throws SQLException {        pstmt = con.prepareStatement(MODIFY_BROCHURE_LOGEMENT);        pstmt.setInt(1, desclo.getDlt_quantité());        pstmt.setInt(2, desclo.getDlt_xlit());        pstmt.setInt(3, desclo.getDlt_commodite());        pstmt.setInt(4, desclo.getDlt_situation());        pstmt.setInt(5, desclo.getDlt_vue());        pstmt.setInt(6, desclo.getDlt_regime());        pstmt.setLong(7, desclo.getDlt_cleUnik());        pstmt.execute();    }    public void modifyOnlyMe(Connection con, int cledossier, PreparedStatement pstmt) throws SQLException {        // UPDATE hotel set hl_hotel=?,ltcleunik=?,hl_pnr=?,hl_dateentree=?,hl_datesortie=?,hl_nuite=?,hl_email=?,        //hl_adresse=?,cxcleunik=?,pyscleunik=?,hl_ccf=?,hl_valeur=?,hl_memo=?,hl_emission_voucher=?,lecleunik=?,        //hl_date_emission=?,hl_prest_nom=?,hl_prest_adresse=?,prestcxcleunik=?,prestpycleunik=?,hl_prest_email=?,hl_vouch=?,        //hl_vouch1=?,hl_vouch2=?,hl_datetimemodif=NOW(),pax=?,quantite=?,pourcent=?,statut=?,frgtcleunik=?,hl_localite=?,        //hl_prest_localite=? WHERE hl_cleunik=?;";        String date;        pstmt = con.prepareStatement(MODIFY_HOTEL);        pstmt.setString(1, this.getHl_hotel());        pstmt.setInt(2, this.getHl_accomodation_cleUnik());        pstmt.setString(3, this.getHl_pnr());        if (this.getHl_dateEntree() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateEntree().toString();        pstmt.setString(4, date);        if (this.getHl_dateSortie() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateSortie().toString();        pstmt.setString(5, date);        pstmt.setInt(6, this.getHl_nuite());        pstmt.setString(7, this.getHl_email());        pstmt.setString(8, this.getHl_adresse());        pstmt.setInt(9, this.getHl_cp_cleUnik());        pstmt.setInt(10, this.getHl_pays_cleUnik());        pstmt.setString(11, this.getHl_cccf());        pstmt.setDouble(12, this.getAt_val_vente());        pstmt.setString(13, this.getHl_memo());        pstmt.setInt(14, this.getHl_vouch());        pstmt.setInt(15, this.getHl_langue_cleUnik());        if (this.getHl_dateEmission() == null) date = "0000-00-00 00:00:00";        else date = this.getHl_dateEmission().toString();        pstmt.setString(16, date);        pstmt.setString(17, this.getHl_prest_nom());        pstmt.setString(18, this.getHl_prest_adresse());        pstmt.setInt(19, this.getHl_prest_cp_cleUnik());        pstmt.setInt(20, this.getHl_prest_pays_cleUnik());        pstmt.setString(21, this.getHl_prest_email());        pstmt.setInt(22, this.getHl_vouch());        pstmt.setString(23, this.getHl_vouch_vouch1());        pstmt.setString(24, this.getHl_vouch_vouch2());        pstmt.setInt(25, this.getPax());        pstmt.setInt(26, this.getQua());        pstmt.setFloat(27, this.getPrct());        pstmt.setFloat(28, this.getStatut());        pstmt.setInt(29, this.getFrgtcleunik());        pstmt.setString(30, this.getHl_localite());        pstmt.setString(31, this.getHl_prest_localite());        pstmt.setLong(32, this.getHl_cleUnik());        pstmt.execute();    }    /**     * Getter for property hl_statutCleUnik.     *     * @return Value of property hl_statutCleUnik.     */    public void chargeDescriptif(Connection con, PreparedStatement pstmt, Dossier_T tmpDossier) throws SQLException {        pstmt = con.prepareStatement(CHARGE_HOTEL_LOGEMENT);        long cle = this.getHl_cleUnik();        pstmt.setLong(1, this.getHl_cleUnik());        ResultSet result = pstmt.executeQuery();        result.beforeFirst();        while (result.next()) {            DescriptionLogement_T brolog = new DescriptionLogement_T();            brolog.setDlt_cleUnik(result.getInt(1));            brolog.setDlt_quantité(result.getInt(2));            brolog.setDlt_xlit(result.getInt(3));            brolog.setDlt_commodite(result.getInt(4));            brolog.setDlt_situation(result.getInt(5));            brolog.setDlt_vue(result.getInt(6));            brolog.setDlt_regime(result.getInt(7));            brolog.setDlt_cleUnik(result.getInt(8));            brolog.setDlt_crea(new Date(result.getString(9)));            brolog.setDlt_modif(new Date(result.getString(10)));            this.addDescriptionLogement(brolog);        }    }    public srcastra.astra.sys.classetransfert.utils.Date getDateDep() {        return this.getHl_dateEntree();    }    public String getDestination() {        return this.getHl_pays_libele();    }    public String getLogement() {        return this.getHl_accomodation_libele();    }    public String getPnr() {        return this.getHl_pnr();    }    public java.util.ArrayList getDestinationArray() {        ArrayList destination = new ArrayList();        destination.add(this.getDestination());        return destination;    }}

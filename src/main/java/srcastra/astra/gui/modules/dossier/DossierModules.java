@@ -1034,8 +1034,6 @@ paramMenuItem.setEnabled(sw);   */
 
     /**
      * Setter for property currentPanel.
-     *
-     * @param currentPanel New value of property currentPanel.
      */
     public void requestOwnFocus() {
         requestFocus();
@@ -1248,7 +1246,6 @@ paramMenuItem.setEnabled(sw);   */
     /**
      * Setter for property ticketcompteur.
      *
-     * @param ticketcompteur New value of property ticketcompteur.
      */
     public void decrementeTicketcompteur() {
         this.ticketcompteur = ticketcompteur - 1;
@@ -1270,7 +1267,6 @@ paramMenuItem.setEnabled(sw);   */
     /**
      * Setter for property supReducCompteur.
      *
-     * @param supReducCompteur New value of property supReducCompteur.
      */
     public void decrementSupReducCompteur() {
         this.supReducCompteur = supReducCompteur - 1;
@@ -1279,7 +1275,6 @@ paramMenuItem.setEnabled(sw);   */
     /**
      * Setter for property mess.
      *
-     * @param mess New value of property mess.
      */
     public void updateDossier() {
         if (getDossier().isModifreccord() == false && getDossier().isListPassagerModif() == false)
@@ -1520,16 +1515,16 @@ return date;
         return form.format(data);
 
     }
-
+    // rené 02/05/2017 rectif caractère €
     public void calculTotal() {
         getDossier().calculTotalProduit();
-        setTotalLabelText(getDossier().getDrtotalprix() + " €");
-        setMontantTvaLabelText(getDossier().getDrtva() + " €");
+        setTotalLabelText(getDossier().getDrtotalprix() + " \u20ac");
+        setMontantTvaLabelText(getDossier().getDrtva() + " \u20ac");
         getDossier().calculTotalPayement();
-        jLabel8.setText(getDossier().getDr_Paye() + " €");
+        jLabel8.setText(getDossier().getDr_Paye() + " \u20ac");
         double solde = getDossier().getDrtotalprix() - getDossier().getDr_Paye();
         solde = MathRound.roundThisToDouble(solde);
-        jLabel12.setText(solde + " €");
+        jLabel12.setText(solde + " \u20ac");
     }
 
     public double getTot() {
@@ -1557,8 +1552,8 @@ return date;
 // setMontantTvaLabelText(formatNumber(totaltva)+ " €");
 //  MathRound.roundThisToFloat(totaltva);
 // MathRound.roundThisToFloat(totaltva);
-            setTotalLabelText(MathRound.roundThisToDouble(totaltvainc) + " €");
-            setMontantTvaLabelText(MathRound.roundThisToDouble(totaltva) + " €");
+            setTotalLabelText(MathRound.roundThisToDouble(totaltvainc) + " \u20ac");
+            setMontantTvaLabelText(MathRound.roundThisToDouble(totaltva) + " \u20ac");
 // setTotal_tvacLabelText(formatNumber(totaltvainc)+" €");
 
         }

@@ -1160,7 +1160,10 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
 
         try {
 
-           Process proc = Runtime.getRuntime().exec("explorer.exe "+ temp);
+           //Process proc = Runtime.getRuntime().exec("chrome.exe "+ temp);
+
+            Process proc = Runtime.getRuntime().exec("explorer.exe "+ temp);
+       //     Process proc = Runtime.getRuntime().exec("\\C:\\Program Files\\Internet Explorer\\iexplore.exe\" "+ temp);
         }
 
         catch (Exception e) {
@@ -1172,6 +1175,11 @@ public class JCFactureTest extends javax.swing.JDialog implements srcastra.astra
 
         //  test.doPdf();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+
+
+
+
 
     private void updatePageNumber() {
         g_la_pagenum.setText(rep.getPageNumber() + "/" + rep.getMaxPages());

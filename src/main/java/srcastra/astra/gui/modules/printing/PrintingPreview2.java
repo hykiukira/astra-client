@@ -33,342 +33,178 @@
  */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 package srcastra.astra.gui.modules.printing;
 
 
-
-import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
-
-
-
+import com.java4less.rreport.RArea;
+import com.java4less.rreport.RReportJWindow;
+import srcastra.astra.gui.modules.config.ConfigMediator;
 import srcastra.astra.gui.modules.mainScreenModule.DossierMainScreenModule;
-
-
-
-import com.java4less.rreport.*;
-
-
-
-import srcastra.astra.gui.components.actions.actionToolBar.*;
-
-
-
-import srcastra.astra.gui.modules.aidedesicion.decision;
-
-
-
-import srcastra.test.*;
-
-
-
-import srcastra.astra.sys.classetransfert.dossier.produit_T;
-
-
-
-import srcastra.astra.sys.rmi.*;
-
-
-
-import srcastra.astra.sys.classetransfert.dossier.*;
-
-
+import srcastra.astra.gui.modules.printing.classelangueuser.GeneralePrinting;
+import srcastra.astra.sys.classetransfert.Entite_T;
+import srcastra.astra.sys.classetransfert.Loginusers_T;
+import srcastra.astra.sys.classetransfert.dossier.Dossier_T;
+import srcastra.astra.sys.rmi.DossierRmiInterface;
+import srcastra.astra.sys.rmi.astrainterface;
+import srcastra.test.ServeurConnect;
 
 import java.util.ArrayList;
 
 
-
-import srcastra.astra.sys.classetransfert.*;
-
-
-
-import srcastra.astra.gui.modules.printing.classelangueuser.*;
-
-
-
-import srcastra.astra.gui.modules.config.ConfigMediator;
-
-
-
-import srcastra.astra.gui.modules.printing.header.*;
-
-
-
-import srcastra.astra.sys.Logger;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /**
-
-
-
-
-
-
-
- *
-
-
-
-
-
-
-
- * @author  Thomas
-
-
-
-
-
-
-
+ * @author Thomas
  */
-
-
-
-
-
 
 
 public class PrintingPreview2 extends javax.swing.JInternalFrame {
 
 
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    /** Creates new form PrintingPreview */
-
+    /**
+     * Creates new form PrintingPreview
+     */
 
 
     AbstractHeader header;
 
 
-
     AbstractReport report;
-
 
 
     RArea footer;
 
 
-
     RArea reportheader;
-
 
 
     RArea reportfooter;
 
 
-
     RArea reportdetail;
-
 
 
     Dossier_T m_dossier;
 
 
-
     DossierMainScreenModule m_parent;
-
 
 
     java.awt.Frame m_maman;
 
 
-
     DossierRmiInterface dossierInterface;
-
 
 
     srcastra.astra.sys.classetransfert.dossier.Dossier_T dossier;
 
 
-
     Entite_T entite;
-
 
 
     GeneralePrinting genprint;
 
 
-
     ServeurConnect kiss;
-
 
 
     Loginusers_T user;
 
 
-
     RArea area;
-
 
 
     ConfigMediator mediator;
 
 
-
     RReportJWindow Win;
-
 
 
     astrainterface serveur;
 
 
-
     boolean preview;
-    
-    String savepdf="";
 
+    String savepdf = "";
 
 
     public PrintingPreview2(java.awt.Frame maman) {
 
 
-
         //initComponents();
 
 
-
-        kiss=new ServeurConnect();
-
+        kiss = new ServeurConnect();
 
 
         kiss.connectServeur();
 
 
-
-        user=kiss.tmpgestion2;
-
+        user = kiss.tmpgestion2;
 
 
-        genprint=new GeneralePrinting();
+        genprint = new GeneralePrinting();
 
 
-
-        try{
-
+        try {
 
 
-            dossierInterface=kiss.serveur2.renvDossierRmiObject(kiss.tmpgestion2.getUrcleunik());
+            dossierInterface = kiss.serveur2.renvDossierRmiObject(kiss.tmpgestion2.getUrcleunik());
 
 
-
-            ArrayList tmp=null;//=dossierInterface.chargeDossier(kiss.tmpgestion2,147);
-
+            ArrayList tmp = null;//=dossierInterface.chargeDossier(kiss.tmpgestion2,147);
 
 
-            dossier=(Dossier_T)tmp.get(0);      
+            dossier = (Dossier_T) tmp.get(0);
 
 
-
-            entite=(Entite_T)dossierInterface.getAgenceInfo(kiss.tmpgestion2.getUrcleunik()); 
-
+            entite = (Entite_T) dossierInterface.getAgenceInfo(kiss.tmpgestion2.getUrcleunik());
 
 
             genprint.setClientLmcleunik(kiss.tmpgestion2.getUrlmcleunik());
 
 
-
             genprint.setCxusecleunik(dossier.getClientContractuel().getCxcleunik());
-
 
 
             genprint.setCxagencecleunik(entite.getCxcleunik());
 
 
-
             genprint.setClientCxCleunik(dossier.getClientContractuel().getCxcleunik());
 
 
-
-            genprint=dossierInterface.getLocaliteInfo(genprint,kiss.tmpgestion2.getUrcleunik());
-
+            genprint = dossierInterface.getLocaliteInfo(genprint, kiss.tmpgestion2.getUrcleunik());
 
 
-        }catch(srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se){
+        } catch (srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se) {
 
 
-
-          se.printStackTrace();   
-
+            se.printStackTrace();
 
 
-        }
+        } catch (java.rmi.RemoteException rn) {
 
 
-
-        catch(java.rmi.RemoteException rn){
-
-
-
-          rn.printStackTrace();   
-
+            rn.printStackTrace();
 
 
         }
 
 
-
-        requestFocus(); 
-
+        requestFocus();
 
 
-      //  m_parent=parent;
+        //  m_parent=parent;
 
 
-
-        m_maman=maman;
-
+        m_maman = maman;
 
 
         initComponents();
 
 
-
-        
-
-
-
         //exampleOrder2 f=new exampleOrder2();
 
 
-
-	//	f.setVisible(true);
+        //	f.setVisible(true);
 
 
 
@@ -411,595 +247,421 @@ public class PrintingPreview2 extends javax.swing.JInternalFrame {
         }*/
 
 
-
-	//init();	
-
+        //init();
 
 
     }
 
 
-
-    public com.java4less.rreport.RReportJ2 getUi(){
-
+    public com.java4less.rreport.RReportJ2 getUi() {
 
 
         return report;
 
 
+    }
 
-        
 
+    public void initPart() {
+
+
+        // header=new ReportHeader1(user,entite,dossier,genprint);
 
 
     }
 
 
-
-    public void initPart(){
-
+    public PrintingPreview2(java.awt.Frame maman, DossierRmiInterface dossierInterface, int numdossier, Loginusers_T user, ConfigMediator mediator, astrainterface serveur) {
 
 
-      // header=new ReportHeader1(user,entite,dossier,genprint); 
-
-
-
-    }
-
-
-
-     public PrintingPreview2(java.awt.Frame maman, DossierRmiInterface dossierInterface, int numdossier, Loginusers_T user, ConfigMediator mediator,astrainterface serveur) {
-
-
-
-        this.serveur=serveur;
-
+        this.serveur = serveur;
 
 
         initComponents();
 
 
-
-        if(mediator!=null){
-
+        if (mediator != null) {
 
 
             mediator.registerPrintingFrame(this);
 
 
-
-            this.mediator=mediator;
-
+            this.mediator = mediator;
 
 
-        this.dossierInterface=dossierInterface;
-
+            this.dossierInterface = dossierInterface;
 
 
         }
 
 
-
-        this.user=user;
-
+        this.user = user;
 
 
-        genprint=new GeneralePrinting();
+        genprint = new GeneralePrinting();
 
 
-
-        try{
-
+        try {
 
 
             //dossierInterface=kiss.serveur2.renvDossierRmiObject(kiss.tmpgestion2.getUrcleunik());
 
 
-
-            ArrayList tmp=null;//="";//=dossierInterface.chargeDossier(user,191);//162
-
+            ArrayList tmp = null;//="";//=dossierInterface.chargeDossier(user,191);//162
 
 
-            dossier=(Dossier_T)tmp.get(0);      
+            dossier = (Dossier_T) tmp.get(0);
 
 
-
-            entite=(Entite_T)dossierInterface.getAgenceInfo(user.getUrcleunik()); 
-
+            entite = (Entite_T) dossierInterface.getAgenceInfo(user.getUrcleunik());
 
 
             genprint.setClientLmcleunik(user.getUrlmcleunik());
 
 
-
             genprint.setCxusecleunik(dossier.getClientContractuel().getCxcleunik());
-
 
 
             genprint.setCxagencecleunik(entite.getCxcleunik());
 
 
-
-            genprint=dossierInterface.getLocaliteInfo(genprint,user.getUrcleunik());
-
+            genprint = dossierInterface.getLocaliteInfo(genprint, user.getUrcleunik());
 
 
-        }catch(srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se){
+        } catch (srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se) {
 
 
-
-          se.printStackTrace();   
-
+            se.printStackTrace();
 
 
-        }
+        } catch (java.rmi.RemoteException rn) {
 
 
-
-        catch(java.rmi.RemoteException rn){
-
-
-
-          rn.printStackTrace();   
-
+            rn.printStackTrace();
 
 
         }
 
 
-
-        requestFocus(); 
-
+        requestFocus();
 
 
-        m_maman=maman;
+        m_maman = maman;
 
 
-
-       // initPart();
-
+        // initPart();
 
 
-	//init();	
-
+        //init();
 
 
     }
 
 
-
-      public PrintingPreview2(java.awt.Frame maman, DossierRmiInterface dossierInterface, Dossier_T dossier, Loginusers_T user, ConfigMediator mediator,astrainterface serveur,int facture,boolean preview) {
-
+    public PrintingPreview2(java.awt.Frame maman, DossierRmiInterface dossierInterface, Dossier_T dossier, Loginusers_T user, ConfigMediator mediator, astrainterface serveur, int facture, boolean preview) {
 
 
-        this.serveur=serveur;
+        this.serveur = serveur;
 
 
-
-        this.preview=preview;
-
+        this.preview = preview;
 
 
         initComponents();
-
 
 
         //if(preview){
 
 
-
-        if(mediator!=null){
-
+        if (mediator != null) {
 
 
             mediator.registerPrintingFrame(this);
 
 
-
-            this.mediator=mediator;
-
+            this.mediator = mediator;
 
 
-            this.dossierInterface=dossierInterface;
-
+            this.dossierInterface = dossierInterface;
 
 
         }
-
 
 
         //}
 
 
-
-        try{
-
+        try {
 
 
-        this.user=(Loginusers_T)user.clone();
+            this.user = (Loginusers_T) user.clone();
 
 
-
-        }catch(CloneNotSupportedException cn){
-
+        } catch (CloneNotSupportedException cn) {
 
 
-         cn.printStackTrace();   
-
+            cn.printStackTrace();
 
 
         }
 
 
-
-        genprint=new GeneralePrinting();
-
+        genprint = new GeneralePrinting();
 
 
-        try{
-
+        try {
 
 
             //dossierInterface=kiss.serveur2.renvDossierRmiObject(kiss.tmpgestion2.getUrcleunik());
 
 
-
             //ArrayList tmp=dossierInterface.chargeDossier(user,169);//162
 
 
-
-            this.dossier=dossier;    
-
+            this.dossier = dossier;
 
 
             this.user.setUrlmcleunik(dossier.getClientContractuel().getLecleunik());
 
 
-
             this.user.resetLangage();
 
 
-
-            entite=(Entite_T)dossierInterface.getAgenceInfo(user.getUrcleunik()); 
-
+            entite = (Entite_T) dossierInterface.getAgenceInfo(user.getUrcleunik());
 
 
             genprint.setClientLmcleunik(user.getUrlmcleunik());
 
 
-
             genprint.setCxusecleunik(dossier.getClientContractuel().getCxcleunik());
-
 
 
             genprint.setCxagencecleunik(entite.getCxcleunik());
 
 
-
-            genprint=dossierInterface.getLocaliteInfo(genprint,user.getUrcleunik());
-
+            genprint = dossierInterface.getLocaliteInfo(genprint, user.getUrcleunik());
 
 
-        }catch(srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se){
+        } catch (srcastra.astra.sys.rmi.Exception.ServeurSqlFailure se) {
 
 
-
-          se.printStackTrace();   
-
+            se.printStackTrace();
 
 
-        }
+        } catch (java.rmi.RemoteException rn) {
 
 
-
-        catch(java.rmi.RemoteException rn){
-
-
-
-          rn.printStackTrace();   
-
+            rn.printStackTrace();
 
 
         }
 
 
-
-        requestFocus(); 
-
+        requestFocus();
 
 
-        m_maman=maman;
+        m_maman = maman;
 
 
-
-       // initPart();
-
+        // initPart();
 
 
-	//init( facture,preview);	
+        //init( facture,preview);
 
 //init( facture,preview);	
-init( facture,preview);	
-        
-
+        init(facture, preview);
 
 
     }
 
 
-
-      public void my_windowOpened(java.awt.event.WindowEvent evt){
-
+    public void my_windowOpened(java.awt.event.WindowEvent evt) {
 
 
-          if(mediator!=null)
-
+        if (mediator != null)
 
 
             mediator.setPrintingBdcommandeOpened(true);
 
 
-
-       }
-
+    }
 
 
-      public void my_windowClosed(java.awt.event.WindowEvent evt){
+    public void my_windowClosed(java.awt.event.WindowEvent evt) {
 
 
-
-            if(mediator!=null)
-
+        if (mediator != null)
 
 
             mediator.setPrintingBdcommandeOpened(false);
 
 
-
-       }
-
+    }
 
 
-     java.awt.event.WindowListener winlistener=new java.awt.event.WindowListener(){
+    java.awt.event.WindowListener winlistener = new java.awt.event.WindowListener() {
 
 
-
-       public void windowOpened(java.awt.event.WindowEvent evt){
-
+        public void windowOpened(java.awt.event.WindowEvent evt) {
 
 
             my_windowOpened(evt);
 
 
+        }
 
-       }
 
+        public void windowClosing(java.awt.event.WindowEvent evt) {
 
 
-        public void windowClosing(java.awt.event.WindowEvent evt){
+        }
 
 
+        public void windowClosed(java.awt.event.WindowEvent evt) {
 
-           
 
+            my_windowClosed(evt);
 
 
-       }
+        }
 
 
+        public void windowIconified(java.awt.event.WindowEvent evt) {
 
-        public void windowClosed(java.awt.event.WindowEvent evt){
 
+        }
 
 
-           my_windowClosed( evt);
+        public void windowDeiconified(java.awt.event.WindowEvent evt) {
 
 
+        }
 
-       }
 
+        public void windowActivated(java.awt.event.WindowEvent evt) {
 
 
-        public void windowIconified(java.awt.event.WindowEvent evt){
+        }
 
 
+        public void windowDeactivated(java.awt.event.WindowEvent evt) {
 
-           
 
+        }
 
 
-       }
+    };
 
 
+    public void init(int facture, boolean preview) {
 
-         public void windowDeiconified(java.awt.event.WindowEvent evt){
 
+        // load report from file
 
 
-           
-
-
-
-       }
-
-
-
-           public void windowActivated(java.awt.event.WindowEvent evt){
-
-
-
-           
-
-
-
-       }
-
-
-
-         public void windowDeactivated(java.awt.event.WindowEvent evt){
-
-
-
-           
-
-
-
-       }
-
-
-
-     };
-
-
-
-    public void init(int facture,boolean preview) {	
-
-
-
- // load report from file
-
-
-
-                report=new Report1(m_maman,user,entite,dossier,genprint,dossierInterface,user.getUrcleunik(),serveur,winlistener,facture,preview,mediator,this); 
-                //report.setPDFFile("test.pdf");
-                
-                
-
-                
-
-
-
-		
-
-
-
- }    
-
-
-
-    public void finaliser(boolean pdf)
-    { 
-                
-                if (savepdf.equals(""))
-                    savepdf=report.getPDFFile();
-                
-                
-                if(!pdf)
-                {
-                    savepdf=report.getPDFFile();
-                    
-                    if(savepdf.indexOf("_origin") != -1)
-                        savepdf=savepdf;
-                    else
-                    {
-                        String temp=savepdf;
-                        
-                        temp=temp.replaceAll(".pdf","");
-                        
-                        temp=temp+"_origin.pdf";
-                        
-                        
-                        savepdf=temp;
-                    }    
-                    
-                    report.setPDFFile(savepdf);
-                    //report.setPDFFile("");
-                    
-                }
-                else
-                report.setPDFFile(savepdf);
-                    
-                report.prepare();         
-
-
-
-                report.prepareArea();	 
-
-
-
-                report.endReport();
-
-
-
-                report.hide();
-
-
-
-                report.show();    
-
-
-
-    }
-    
-    public void finaliser()
-    { 
-                
-                    
-                report.prepare();         
-
-
-
-                report.prepareArea();	 
-
-
-
-                report.endReport();
-
-
-
-                report.hide();
-
-
-
-                report.show();    
-
+        report = new Report1(m_maman, user, entite, dossier, genprint, dossierInterface, user.getUrcleunik(), serveur, winlistener, facture, preview, mediator, this);
+        //report.setPDFFile("test.pdf");
 
 
     }
 
-    
 
-    public void finaliser2(){
+    public void finaliser(boolean pdf) {
+
+        if (savepdf.equals(""))
+            savepdf = report.getPDFFile();
 
 
+        if (!pdf) {
+            savepdf = report.getPDFFile();
 
-    
+            if (savepdf.indexOf("_origin") != -1)
+                savepdf = savepdf;
+            else {
+                String temp = savepdf;
 
-                report.prepare();
+                temp = temp.replaceAll(".pdf", "");
 
-                report.printArea(header);
+                temp = temp + "_origin.pdf";
 
-                report.show();              
+
+                savepdf = temp;
+            }
+
+            report.setPDFFile(savepdf);
+            //report.setPDFFile("");
+
+        } else
+            report.setPDFFile(savepdf);
+
+        report.prepare();
+
+
+        report.prepareArea();
+
+
+        report.endReport();
+
+
+        report.hide();
+
+
+        report.show();
+
+
+    }
+
+    public void finaliser() {
+
+
+        report.prepare();
+
+
+        report.prepareArea();
+
+
+        report.endReport();
+
+
+        report.hide();
+
+
+        report.show();
+
 
     }
 
 
-
-    /** This method is called from within the constructor to
-
+    public void finaliser2() {
 
 
+        report.prepare();
+
+        report.printArea(header);
+
+        report.show();
+
+    }
+
+
+    /**
+     * This method is called from within the constructor to
+     * <p>
+     * <p>
+     * <p>
      * initialize the form.
-
-
-
+     * <p>
+     * <p>
+     * <p>
      * WARNING: Do NOT modify this code. The content of this method is
-
-
-
+     * <p>
+     * <p>
+     * <p>
      * always regenerated by the Form Editor.
-
-
-
      */
 
 
-
-    
-
-
-
-    private void addUserToArea(RArea area){
+    private void addUserToArea(RArea area) {
 
 
 
@@ -1262,9 +924,7 @@ init( facture,preview);
         }  */
 
 
-
     }
-
 
 
     private void initComponents() {//GEN-BEGIN:initComponents
@@ -1274,72 +934,34 @@ init( facture,preview);
     }//GEN-END:initComponents
 
 
-
-    /** Getter for property report.
-
-     * @return Value of property report.
-
+    /**
+     * Getter for property report.
      *
-
+     * @return Value of property report.
      */
 
     public srcastra.astra.gui.modules.printing.AbstractReport getReport() {
 
         return report;
 
-    }    
+    }
 
 
-
-    /** Setter for property report.
-
-     * @param report New value of property report.
-
+    /**
+     * Setter for property report.
      *
-
+     * @param report New value of property report.
      */
 
     public void setReport(srcastra.astra.gui.modules.printing.AbstractReport report) {
 
         this.report = report;
 
-    }    
-
-
-
-
-
-    
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-
-
-
-
-
-
-
-    
-
-
-
-
-
 
 
 }

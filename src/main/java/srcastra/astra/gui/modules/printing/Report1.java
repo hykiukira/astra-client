@@ -1406,11 +1406,12 @@ public class Report1 extends AbstractReport{
 
       // toPdf();
 
-        prepare();        
+        if(mediator==null) {
+            prepare();
 
-        prepareArea();
-
-        if(mediator!=null){
+            prepareArea();
+        }
+        else if(mediator!=null){
 
             mediator.setReport(this);
 
@@ -1468,13 +1469,15 @@ public class Report1 extends AbstractReport{
 
        String path=toPdf();
 
-     
-        
-        prepare();        
 
-        prepareArea();
+        if(mediator==null) {
 
-        if(mediator!=null){
+            prepare();
+
+            prepareArea();
+
+        }
+        else if(mediator!=null){
 
             mediator.setReport(this);
 
